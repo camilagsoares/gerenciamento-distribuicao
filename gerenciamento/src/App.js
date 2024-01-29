@@ -1,4 +1,3 @@
-import './App.css';
 import { GlobalStyles } from "./styles/global";
 import Login from './pages/Login/Login';
 import { BrowserRouter as Router, Routes, Route, } from 'react-router-dom';
