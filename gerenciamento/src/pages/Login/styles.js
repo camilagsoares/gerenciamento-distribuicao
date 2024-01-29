@@ -1,7 +1,18 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
+export const ContainerForm = styled.div`
+background-color: white;
+width: 50vw;
+height: 100vh;
+`
+
+export const ContainerImg = styled.div`
+width: 50vw;
+
+`
 
 
-
+export const Separate = styled.div`
+display: flex;
+justify-content: space-between;
 `

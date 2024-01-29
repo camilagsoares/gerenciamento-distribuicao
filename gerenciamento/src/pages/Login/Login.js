@@ -1,19 +1,20 @@
 import React from 'react'
+import { ContainerForm, Separate, ContainerImg } from './styles';
 
 
 const Login = () => {
 
 
     return (
-        <div>
-            <div>
+        <Separate>
+            <ContainerImg>
                 img
-            </div>
+            </ContainerImg>
 
-            <div>
+            <ContainerForm>
                 form
-            </div>
-        </div>
+            </ContainerForm>
+        </Separate>
     )
 }
 
