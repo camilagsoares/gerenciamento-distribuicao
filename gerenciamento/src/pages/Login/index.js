@@ -108,6 +108,18 @@ const Login = () => {
                             Entrar
                             {/* {!loading ? 'Entrar' : <CircularProgress color='success' size={26} />} */}
                         </imports.Button>
+                        <imports.Button
+                            //   disabled={loading}
+                            fullWidth
+                            type='submit'
+                            variant='contained'
+                            // color='#90caf9'
+                            size='large'
+                            sx={{ marginTop: 3, marginBottom: 2 }}
+                        >
+                           Cadastrar
+                            {/* {!loading ? 'Entrar' : <CircularProgress color='success' size={26} />} */}
+                        </imports.Button>
                     </imports.Box>
                 </imports.Box>
             </imports.Grid>
