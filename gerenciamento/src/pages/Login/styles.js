@@ -1,25 +1,10 @@
 import styled from 'styled-components';
 
-export const ContainerForm = styled.div`
+
+export const ContainerLogin= styled.div`
+width: 40%;
+height: 80%;
 background-color: white;
-width: 50vw;
-height: 100vh;
-
-`
-
-export const ContainerImg = styled.div`
-width: 50vw;
-
-`
-
-
-export const Separate = styled.div`
-display: flex;
-justify-content: space-between;
-`
-
-export const AlignCenter = styled.div`
-display: flex;
-align-items: center;
-justify-content: center;
+border-radius: 4px;
+box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 `
