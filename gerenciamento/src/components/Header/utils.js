@@ -31,6 +31,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { toast } from 'react-toastify';
 import CircularProgress from '@mui/material/CircularProgress';
 import LoginIcon from '@mui/icons-material/Login';
+import SettingsIcon from '@mui/icons-material/Settings';
+import PermContactCalendarIcon from '@mui/icons-material/PermContactCalendar';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -127,7 +129,7 @@ export default function Profile() {
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
                     >
-                        <Avatar sx={{ width: 32, height: 32 }}>U</Avatar>
+                        <Avatar sx={{ width: 32, height: 32 }} />
                     </IconButton>
                 </Tooltip>
             </Box>
@@ -168,18 +170,25 @@ export default function Profile() {
             >
                 <Link to="/login" style={{ textDecoration: 'none', color: 'black' }}>
                     <MenuItem onClick={handleClose}>
-                        <Avatar />    Minha conta
+                        <ListItemIcon>
+                            <PermContactCalendarIcon fontSize="small" />
+                        </ListItemIcon>
+                        Minha conta
                     </MenuItem>
                 </Link>
 
                 <MenuItem onClick={handleClickOpenModal}>
-                    <Avatar /> Alterar senha
+                    <ListItemIcon>
+                        <SettingsIcon fontSize="small" />
+                    </ListItemIcon>
+
+                    Alterar senha
                 </MenuItem>
                 <Divider />
                 <Link to="/login" style={{ textDecoration: 'none', color: 'black' }}>
                     <MenuItem onClick={handleClose}>
                         <ListItemIcon>
-                            <LoginIcon fontSize="small"  />
+                            <LoginIcon fontSize="small" />
                         </ListItemIcon>
                         Entrar
                     </MenuItem>
@@ -188,7 +197,7 @@ export default function Profile() {
                 <Link to="/cadastro" style={{ textDecoration: 'none', color: 'black' }}>
                     <MenuItem onClick={handleClose}>
                         <ListItemIcon>
-                        <PersonAdd fontSize="small" />
+                            <PersonAdd fontSize="small" />
                         </ListItemIcon>
                         Cadastro
                     </MenuItem>

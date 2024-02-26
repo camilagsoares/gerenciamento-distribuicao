@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ContainerTitle, AlignTitle } from './style'
+import { ContainerTitle, AlignTitle, BoxForm } from './style'
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { FormControl, FormLabel } from '@mui/material';
@@ -36,7 +36,8 @@ export const Postar = () => {
     );
 
     return (
-        <div>
+        <BoxForm>
+
             <AlignTitle>
                 <ContainerTitle>Poste um bem</ContainerTitle>
             </AlignTitle>
@@ -49,26 +50,29 @@ export const Postar = () => {
                         <TextField fullWidth />
                     </Grid>
                     <Grid item xs={12} sm={12} md={12}>
-                        <FormLabel>Título</FormLabel>
+                        <FormLabel>Observação</FormLabel>
                         <TextField fullWidth />
                     </Grid>
 
-                    <Textarea
+                    <Grid item xs={12} sm={12} md={12}>
+                        <Textarea
                         style={{ resize: 'none' }}
                         maxRows={4}
                         aria-label="maximum height"
-                        placeholder="Maximum 4 rows"
+                        placeholder="Descrição"
                         defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
     ut labore et dolore magna aliqua."
                     />
-                    <Button>Submit</Button>
+                    </Grid>
+               
+
 
                 </Grid>
-
+                <Button variant="contained">Submit</Button>
             </Box>
 
 
 
-        </div>
+        </BoxForm>
     )
 }
