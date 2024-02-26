@@ -17,7 +17,7 @@ import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { mainListItems, secondaryListItems } from './listItems';
+import { mainListItems } from './listItems';
 // import Chart from './Chart';
 // import Deposits from './Deposits';
 // import Orders from './Orders';
@@ -29,18 +29,7 @@ import Profile  from './utils'
 import { NavLink, Outlet } from 'react-router-dom';
 
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+
 
 const drawerWidth = 240;
 
@@ -143,10 +132,8 @@ export default function Header() {
 
   
   return (
-    // <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: 'flex' }}>
-        {/* <CssBaseline /> */}
-        <AppBar position="absolute" open={open}>
+        <AppBar open={open}>
           <Toolbar
             sx={{
               pr: '24px', 
@@ -212,42 +199,26 @@ export default function Header() {
           <Divider />
           <List component="nav">
             {mainListItems}
-            <Divider sx={{ my: 1 }} />
-            {secondaryListItems}
+            {/* <Divider sx={{ my: 1 }} /> */}
+        
           </List>
         </Drawer>
         <Box
           component="main"
           sx={{
-            backgroundColor: (theme) =>
-              theme.palette.mode === 'light'
-                ? theme.palette.grey[100]
-                : theme.palette.grey[900],
+            // backgroundColor: (theme) =>
+            //   theme.palette.mode === 'light'
+            //     ? theme.palette.grey[100]
+            //     : theme.palette.grey[900],
             flexGrow: 1,
             height: '100vh',
             overflow: 'auto',
           }}
         >
-          <Toolbar />
+          {/* <Toolbar /> */}
         
         </Box>
-        <Box
-        component='main'
-        sx={{
-          backgroundColor: (theme) =>
-            theme.palette.mode === 'light' ? theme.palette.grey[100] : theme.palette.grey[900],
-          flexGrow: 1,
-          height: '100vh',
-          overflow: 'auto',
-        }}
-      >
-        <Container maxWidth='100%' sx={{ paddingY: 1, marginTop: 10 }}>
-          <Box>
-            <Outlet />
-          </Box>
-        </Container>
+       
       </Box>
-      </Box>
-    // </ThemeProvider>
   );
 }
