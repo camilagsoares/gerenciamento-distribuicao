@@ -8,20 +8,113 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
+import Save from '@mui/icons-material/SaveAltOutlined';
+import Close from '@mui/icons-material/CloseOutlined';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { Link } from 'react-router-dom';
+import Button from '@mui/material/Button';
+import Modal from '@mui/material/Modal';
+import { useState } from 'react';
+import { styled } from '@mui/material/styles';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import CloseIcon from '@mui/icons-material/Close';
+import { useForm } from 'react-hook-form';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { toast } from 'react-toastify';
+import CircularProgress from '@mui/material/CircularProgress';
+import LoginIcon from '@mui/icons-material/Login';
+
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+    '& .MuiDialogContent-root': {
+        padding: theme.spacing(2),
+    },
+    '& .MuiDialogActions-root': {
+        padding: theme.spacing(1),
+    },
+}));
+
 
 export default function Profile() {
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const open = Boolean(anchorEl);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [open, setOpen] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [loading, setLoading] = useState(false);
+
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
+        setOpen(true);
     };
+
     const handleClose = () => {
         setAnchorEl(null);
+        setOpen(false);
     };
+
+    const handleClickOpenModal = () => {
+        setModalOpen(true);
+        handleClose();
+    };
+
+    const handleCloseModal = () => {
+        setModalOpen(false);
+    };
+
+
+    //
+    const schema = yup
+        .object({
+            senha: yup.string().required('Campo obrigatorio').min(5, 'Mínimo 5 caracteres').max(32, 'Máximo 32 caracteres'),
+            // confirmarSenha: yup.string().required('Campo obrigatorio').min(5, 'Mínimo 5 caracteres').max(32, 'Máximo 32 caracteres').oneOf([yup.ref('senha'), null], 'Senhas não coicidem'),
+        }).required();
+
+
+    const { register, handleSubmit, formState, reset } = useForm({
+        resolver: yupResolver(schema),
+        defaultValues: { senha: '', confirmarSenha: '' },
+    });
+
+    const handleConfirmarAlteracaoSenha = (data) => {
+        // setLoading(true);
+        // const { senha, confirmarSenha } = data;
+        // if (senha !== confirmarSenha) {
+        //   // Senha e confirmação de senha não coincidem, exiba um erro
+        //   toast('A confirmação de senha não coincide com a senha.', {
+        //     type: 'error',
+        //   });
+        //   setLoading(false);
+        //   return;
+        // }
+        // axiosApi
+        //   .put(`/auth/usuario-senha/${session.id}`, { senha })
+        //   .then(() => {
+        //      toast('Senha alterada com sucesso', {
+        //      type: 'success',
+        //      });
+
+        //     reset();
+        //     // handleFecharModalForm();
+        //   }) 
+        //   .catch((error) => {
+        //      toast(error.message, {
+        //        type: 'error',
+        //     });
+        //   })
+        //   .finally(() => {
+        //     setLoading(false);
+        //   });
+
+
+    };
+    const { errors } = formState;
+
     return (
         <React.Fragment>
             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
@@ -79,28 +172,106 @@ export default function Profile() {
                     </MenuItem>
                 </Link>
 
-                <MenuItem onClick={handleClose}>
+                <MenuItem onClick={handleClickOpenModal}>
                     <Avatar /> Alterar senha
                 </MenuItem>
                 <Divider />
                 <Link to="/login" style={{ textDecoration: 'none', color: 'black' }}>
-                <MenuItem onClick={handleClose}>
-                    <ListItemIcon>
-                        <PersonAdd fontSize="small" />
-                    </ListItemIcon>
-                    Entrar
-                </MenuItem>
-            </Link>
+                    <MenuItem onClick={handleClose}>
+                        <ListItemIcon>
+                            <LoginIcon fontSize="small"  />
+                        </ListItemIcon>
+                        Entrar
+                    </MenuItem>
+                </Link>
 
-            <Link to="/cadastro" style={{ textDecoration: 'none', color: 'black' }}>
-            <MenuItem onClick={handleClose}>
-                <ListItemIcon>
-                    <Settings fontSize="small" />
-                </ListItemIcon>
-                Cadastro
-            </MenuItem>
-            </Link>
-        </Menu>
+                <Link to="/cadastro" style={{ textDecoration: 'none', color: 'black' }}>
+                    <MenuItem onClick={handleClose}>
+                        <ListItemIcon>
+                        <PersonAdd fontSize="small" />
+                        </ListItemIcon>
+                        Cadastro
+                    </MenuItem>
+                </Link>
+            </Menu>
+
+            <BootstrapDialog
+                onClose={handleCloseModal}
+                aria-labelledby="customized-dialog-title"
+                open={modalOpen}            >
+                <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
+                    Alterar senha
+                </DialogTitle>
+                <IconButton
+                    aria-label="close"
+                    onClick={handleCloseModal}
+                    sx={{
+                        position: 'absolute',
+                        right: 8,
+                        top: 8,
+                        color: (theme) => theme.palette.grey[500],
+                    }}
+                >
+                    <CloseIcon />
+                </IconButton>
+
+                <Box component='form' noValidate onSubmit={handleSubmit(handleConfirmarAlteracaoSenha)}>
+                    <DialogContent dividers sx={{ paddingTop: 1 }}>
+                        <Grid container columnSpacing={2} rowSpacing={2} paddingTop={2}>
+                            <Grid item xs={12} sm={12} md={12}>
+                                <TextField
+                                    {...register('senha')}
+                                    autoFocus
+                                    fullWidth
+                                    required
+                                    label='Senha'
+                                    type='password'
+                                    error={!!errors.senha}
+                                    helperText={errors.senha?.message}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={12}>
+                                <TextField
+                                    {...register('confirmarSenha')}
+                                    fullWidth
+                                    required
+                                    label='Confirmação senha'
+                                    type='password'
+                                    error={!!errors.confirmarSenha}
+                                    helperText={errors.confirmarSenha?.message}
+                                />
+                                {/* {isAlertVisible && <Alert severity='success'>Senha alterada com sucesso!</Alert>} */}
+                            </Grid>
+                        </Grid>
+                        {/* {error && (
+              <Box display='flex' flexDirection='row' gap={4} color='red' fontSize={14}>
+                <pre>{JSON.stringify(error, null, 2)}</pre>
+              </Box>
+            )} */}
+                    </DialogContent>
+                    <DialogActions>
+                        <Button
+                            disabled={loading}
+                            startIcon={<Close />}
+                            variant='outlined'
+                            color='info'
+                            onClick={handleCloseModal}
+                        //   onClick={handleFecharModalForm}
+                        >
+                            Cancelar
+                        </Button>
+                        <Button
+                            startIcon={<Save />}
+                            disabled={loading}
+                            type='submit' variant='outlined' color='success'>
+                            {!loading ? 'Salvar' : <CircularProgress color='success' size={26} />}
+                        </Button>
+                    </DialogActions>
+                </Box>
+                <DialogActions>
+
+                </DialogActions>
+            </BootstrapDialog>
         </React.Fragment >
     );
 }

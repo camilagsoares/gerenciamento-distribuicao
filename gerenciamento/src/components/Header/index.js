@@ -26,6 +26,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import Profile  from './utils'
+import { NavLink, Outlet } from 'react-router-dom';
+
 
 function Copyright(props) {
   return (
@@ -104,7 +106,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-export default function Dashboard() {
+export default function Header() {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -229,6 +231,22 @@ export default function Dashboard() {
           <Toolbar />
         
         </Box>
+        <Box
+        component='main'
+        sx={{
+          backgroundColor: (theme) =>
+            theme.palette.mode === 'light' ? theme.palette.grey[100] : theme.palette.grey[900],
+          flexGrow: 1,
+          height: '100vh',
+          overflow: 'auto',
+        }}
+      >
+        <Container maxWidth='100%' sx={{ paddingY: 1, marginTop: 10 }}>
+          <Box>
+            <Outlet />
+          </Box>
+        </Container>
+      </Box>
       </Box>
     // </ThemeProvider>
   );

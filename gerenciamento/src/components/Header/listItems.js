@@ -9,21 +9,30 @@ import PeopleIcon from '@mui/icons-material/People';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import LayersIcon from '@mui/icons-material/Layers';
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import { NavLink } from 'react-router-dom';
 
 export const mainListItems = (
   <React.Fragment>
-    <ListItemButton>
-      <ListItemIcon>
-        <DashboardIcon />
-      </ListItemIcon>
-      <ListItemText primary="Dashboard" />
-    </ListItemButton>
-    <ListItemButton>
-      <ListItemIcon>
-        <ShoppingCartIcon />
-      </ListItemIcon>
-      <ListItemText primary="Orders" />
-    </ListItemButton>
+
+    <NavLink to='/' style={{ textDecoration: 'none', color: 'black' }}>
+      <ListItemButton>
+        <ListItemIcon>
+          <DashboardIcon />
+        </ListItemIcon>
+        <ListItemText primary="Início" />
+      </ListItemButton>
+    </NavLink>
+
+    <NavLink to='/postar' style={{ textDecoration: 'none', color: 'black' }}>
+      <ListItemButton>
+        <ListItemIcon>
+          <ShoppingCartIcon />
+        </ListItemIcon>
+        <ListItemText primary="Postar" />
+      </ListItemButton>
+    </NavLink>
+
+
     <ListItemButton>
       <ListItemIcon>
         <PeopleIcon />
