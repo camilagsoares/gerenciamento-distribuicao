@@ -6,7 +6,7 @@ import { Cadastro } from './pages/Cadastro/index'
 import Layout from './components/Layout/index'
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Error from "./pages/Error/index"
-import { Postar } from "./pages/Postar";
+import  Postar  from "./pages/Postar";
 import AuthLayout from './components/AuthLayout/AuthLayout';
 
 function App() {

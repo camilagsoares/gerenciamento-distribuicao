@@ -1,78 +1,163 @@
-import * as React from "react"
-import { ContainerTitle, AlignTitle, BoxForm } from './style'
-import TextField from '@mui/material/TextField';
+import React from 'react';
+import EditIcon from '@mui/icons-material/Edit';
+import { Person, ArrowDropDown } from '@mui/icons-material';
+import { Select, MenuItem, InputLabel, InputAdornment } from '@mui/material';
+import { Container, Card, ArrowIcon, Title, InputField, Input, ContainerButton, ContainerSelect, TextArea, CardInput } from './style'
 import Button from '@mui/material/Button';
-import { FormControl, FormLabel } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import styled from 'styled-components';
-import { useState } from "react";
-import { TextareaAutosize as BaseTextareaAutosize } from '@mui/base/TextareaAutosize';
+import FeaturedPlayListIcon from '@mui/icons-material/FeaturedPlayList';
+import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
+import InboxIcon from '@mui/icons-material/Inbox';
+import DateRangeIcon from '@mui/icons-material/DateRange';
 
+const Postar = () => {
+    const handleToggleClick = () => {
+    };
 
-export const Postar = () => {
-
-
-
-    const Textarea = styled(BaseTextareaAutosize)(
-        ({ theme }) => `
-        box-sizing: border-box;
-        width: 520px;
-        font-family: 'IBM Plex Sans', sans-serif;
-        font-size: 0.875rem;
-        font-weight: 400;
-        line-height: 1.5;
-        padding: 8px 12px;
-        border-radius: 8px;
-    
-     
-
-    
-        // firefox
-        &:focus-visible {
-          outline: 0;
-        }
-      `,
-    );
 
     return (
-        <BoxForm>
+        <Container>
+            <Card>
+                <ArrowIcon>
+                    <EditIcon style={{ color: 'white' }} />
+                </ArrowIcon>
+                <Title color="#1976D2">Poste um bem</Title>
 
-            <AlignTitle>
-                <ContainerTitle>Poste um bem</ContainerTitle>
-            </AlignTitle>
+                <form>
+                    <Grid container spacing={1}>
+                        <Grid item xs={6}>
+                            <InputField>
+                                <Input
+                                    type="email"
+                                    name="email"
+                                    label="Nome"
+                                    required
+                                    fullWidth
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <FeaturedPlayListIcon />
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                            </InputField>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <InputField>
+                                <Input
+                                    type="text"
+                                    name="password"
+                                    label="N° do Patrimônio"
+                                    required
+                                    fullWidth
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <ConfirmationNumberIcon />
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                            </InputField>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <InputField>
+                                <Input
+                                    type="text"
+                                    name="password"
+                                    label="Modelo"
+                                    required
+                                    fullWidth
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <InboxIcon />
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                            </InputField>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <InputField>
+                                <Input
+                                    type="text"
+                                    name="name"
+                                    label="Data disponibilidade"
+                                    fullWidth
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <DateRangeIcon />
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                            </InputField>
+                        </Grid>
 
 
-            <Box component='form' noValidate>
-                <Grid container columnSpacing={2} rowSpacing={2} paddingTop={2}>
-                    <Grid item xs={12} sm={12} md={12}>
-                        <FormLabel>Título</FormLabel>
-                        <TextField fullWidth />
                     </Grid>
-                    <Grid item xs={12} sm={12} md={12}>
-                        <FormLabel>Observação</FormLabel>
-                        <TextField fullWidth />
+
+                    <InputField>
+                        <TextArea
+                            name="description"
+                            placeholder="Descrição"
+                            rows={9}
+                        />
+                    </InputField>
+
+                    <Grid container spacing={1}>
+                        <Grid item xs={6}>
+                            <ContainerSelect>
+                                <InputLabel id="select-country">Tipo</InputLabel>
+                                <Select
+                                    labelId="select-country"
+                                    label="Select a country"
+                                    IconComponent={ArrowDropDown}
+                                    fullWidth
+                                >
+                                    <MenuItem value="">
+                                        <em>None</em>
+                                    </MenuItem>
+                                    <MenuItem value={10}>Eletrodoméstico</MenuItem>
+                                    <MenuItem value={20}>Hospitalar</MenuItem>
+                                </Select>
+                            </ContainerSelect>
+
+
+                        </Grid>
+
+                        <Grid item xs={6}>
+                            <ContainerSelect>
+                                <InputLabel id="select-photo">Foto</InputLabel>
+
+                                <CardInput>
+                                    <input
+                                        accept="image/*"
+                                        id="select-photo"
+                                        type="file"
+                                        style={{ width: '100%' }}
+                                    />
+                                </CardInput>
+                            </ContainerSelect>
+
+                        </Grid>
+
                     </Grid>
 
-                    <Grid item xs={12} sm={12} md={12}>
-                        <Textarea
-                        style={{ resize: 'none' }}
-                        maxRows={4}
-                        aria-label="maximum height"
-                        placeholder="Descrição"
-                        defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-    ut labore et dolore magna aliqua."
-                    />
-                    </Grid>
-               
-
-
-                </Grid>
-                <Button variant="contained">Submit</Button>
-            </Box>
 
 
 
-        </BoxForm>
-    )
-}
+                    <ContainerButton>
+                        <Button variant="outlined" type="submit" fullWidth>Postar</Button>
+                    </ContainerButton>
+                </form>
+            </Card>
+
+        </Container>
+    );
+};
+
+export default Postar;
