@@ -14,8 +14,8 @@ background-color: #fff;
 border-radius: 8px;
 box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 max-height: 500px;
-width: 70%;
-height: 460px;
+width: 60%;
+height: 480px;
 
 h1 {
     font-family: 'Poppins';

@@ -182,11 +182,11 @@ export default function Header() {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
-            <IconButton color="inherit">
+            {/* <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <NotificationsIcon />
               </Badge>
-            </IconButton>
+            </IconButton> */}
          
          {/* PARTE PERFIL */}
          <Profile />

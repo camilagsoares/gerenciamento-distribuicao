@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Grid, Pagination } from '@mui/material';
 import Stack from '@mui/material/Stack';
+import { ContainerCards } from './style'
 
 
 export const Cartao = () => {
@@ -24,7 +25,7 @@ export const Cartao = () => {
     // #FAFAFA
     return (
 
-        <div>
+        <ContainerCards>
             <Grid container spacing={2}>
                 {[...Array(30)].slice(startIndex, endIndex).map((_, index) => (
                     <Grid item key={index} xs={12} sm={6} md={3}>
@@ -35,7 +36,7 @@ export const Cartao = () => {
                                 title="green iguana"
                             />
                             <CardContent sx={{ backgroundColor: 'white' }}>
-                                <Typography gutterBottom variant="h5" component="div">
+                                <Typography gutterBottom variant="h5" component="div"> 
                                     Título
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary">
@@ -54,6 +55,6 @@ export const Cartao = () => {
                 <Pagination   color="primary" count={Math.ceil(30 / cardsPerPage)} page={page} onChange={handleChangePage} variant="outlined" shape="rounded" />
             </Stack>
 
-        </div>
+        </ContainerCards>
     )
 }
