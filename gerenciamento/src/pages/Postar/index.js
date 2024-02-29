@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 import { Person, ArrowDropDown } from '@mui/icons-material';
 import { Select, MenuItem, InputLabel, InputAdornment } from '@mui/material';
@@ -11,6 +11,8 @@ import InboxIcon from '@mui/icons-material/Inbox';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 
 const Postar = () => {
+
+
     const handleToggleClick = () => {
     };
 
@@ -33,6 +35,7 @@ const Postar = () => {
                                     label="Nome"
                                     required
                                     fullWidth
+
                                     InputProps={{
                                         startAdornment: (
                                             <InputAdornment position="start">
@@ -51,6 +54,7 @@ const Postar = () => {
                                     label="N° do Patrimônio"
                                     required
                                     fullWidth
+
                                     InputProps={{
                                         startAdornment: (
                                             <InputAdornment position="start">
@@ -68,6 +72,7 @@ const Postar = () => {
                                     name="password"
                                     label="Modelo"
                                     required
+
                                     fullWidth
                                     InputProps={{
                                         startAdornment: (
@@ -85,6 +90,7 @@ const Postar = () => {
                                     type="text"
                                     name="name"
                                     label="Data disponibilidade"
+
                                     fullWidth
                                     InputProps={{
                                         startAdornment: (
@@ -147,11 +153,8 @@ const Postar = () => {
 
                     </Grid>
 
-
-
-
                     <ContainerButton>
-                        <Button variant="outlined" type="submit" fullWidth>Postar</Button>
+                        <Button variant="outlined" type="submit" fullWidth style={{ height: '50px' }}>Postar</Button>
                     </ContainerButton>
                 </form>
             </Card>

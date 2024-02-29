@@ -77,6 +77,14 @@ export const InputField = styled.div`
   margin-right: 20px; 
   margin-left: 20px;
 
+  .icon {
+    color: #757575; 
+  }
+
+  .icon.clicked {
+    color: #5ea8f2; 
+  }
+
 `;
 
 export const Input = styled(TextField)`
