@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 
 export const Button = styled.button`
-  width: 100%;
-  padding: 10px;
+  width: 93%;
   background-color: #007bff;
   color: #fff;
   border: none;
@@ -14,7 +13,8 @@ export const Button = styled.button`
   line-height: 1;
   font-weight: 400;
   transition: background-color 1s;
-  
+  height: 50px;
+
   &:hover{
     background-color: #0059B8;
   }
@@ -38,21 +38,27 @@ export const RightPanel = styled.div`
 `;
 
 export const LoginForm = styled.div`
-  padding: 85px;
+  /* padding: 50px; */
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  /* width: 60%; */
+  height: 320px;
+  width: 70%;
+
 
   h1 {
     font-family: 'Poppins';
     font-weight: 500;
+    padding: 0 20px;
   }
 `;
 
 export const InputData = styled.div`
   width: 100%;
   height: 40px;
-  margin: 0 20px;
+  padding: 0 20px;
+  /* margin: 0 20px; */
   position: relative;
   font-family: 'Poppins';
 `;
@@ -97,3 +103,9 @@ export const FormRow = styled.div`
   flex-direction: column;
   margin: 32px 0;
 `;
+
+export const BoxButton = styled.div`
+display: flex;
+align-items: center;
+justify-content: center;
+`

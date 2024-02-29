@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, LeftPanel, Container, RightPanel, LoginForm, FormRow, InputData, Input, Underline, Label } from './styles';
+import { Button, LeftPanel, Container, RightPanel, LoginForm, FormRow, InputData, Input, Underline, Label,BoxButton } from './styles';
 
 
 
@@ -18,12 +18,14 @@ const Login = () => {
             </InputData>
             <br /> <br />
             <InputData>
-              <Input type="text" required />
+              <Input type="password" required />
               <Underline />
               <Label>Senha</Label>
             </InputData>
           </FormRow>
+          <BoxButton>
           <Button>Entrar</Button>
+          </BoxButton>
 
         </LoginForm>
       </RightPanel>
