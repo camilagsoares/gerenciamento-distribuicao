@@ -28,6 +28,13 @@ import AccountCircle from '@mui/icons-material/AccountCircle'
 import Profile  from './utils'
 import { NavLink, Outlet } from 'react-router-dom';
 
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#0058B8', 
+    },
+  },
+});
 
 
 
@@ -132,6 +139,8 @@ export default function Header() {
 
   
   return (
+    <ThemeProvider theme={theme}>
+  <CssBaseline />
       <Box sx={{ display: 'flex' }}>
         <AppBar open={open}>
           <Toolbar
@@ -220,5 +229,6 @@ export default function Header() {
         </Box>
        
       </Box>
+      </ThemeProvider>
   );
 }

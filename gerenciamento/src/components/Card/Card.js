@@ -1,41 +1,59 @@
-import React from "react";
-import { Container, CardItem } from './style'
+import React, { useState } from "react";
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { Grid, Pagination } from '@mui/material';
+import Stack from '@mui/material/Stack';
 
 
 export const Cartao = () => {
 
+    const [page, setPage] = useState(1);
+    const cardsPerPage = 12;
 
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
 
+    const startIndex = (page - 1) * cardsPerPage;
+    const endIndex = startIndex + cardsPerPage;
+
+    // #FAFAFA
     return (
-        <div>
-         
-            <Container >
-                <Card sx={{ width: 345 }} display="flex" alignItems="center" justifyContent="center">
-                    <CardMedia
-                        sx={{ height: 140 }}
-                        image="https://qvim.itajuba.mg.gov.br/_next/static/media/logo-itajuba.1b07fad3.png"
-                        title="green iguana"
-                    />
-                    <CardContent >
-                        <Typography gutterBottom variant="h5" component="div">
-                            Título
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                            Descrição
-                        </Typography>
-                    </CardContent>
-                    <CardActions>
-                        <Button size="small" variant="outlined">Reservar</Button>
-                    </CardActions>
-                </Card>
 
-            </Container>
+        <div>
+            <Grid container spacing={2}>
+                {[...Array(30)].slice(startIndex, endIndex).map((_, index) => (
+                    <Grid item key={index} xs={12} sm={6} md={3}>
+                        <Card sx={{ width: '100%' }} display="flex" alignItems="center" justifyContent="center">
+                            <CardMedia
+                                sx={{ height: 140 }}
+                                image="https://www.metalfrio.com.br/portal/Principal/arquivos/galeriaProdutos/8/DA550_LATERAL-VAZIO.jpg"
+                                title="green iguana"
+                            />
+                            <CardContent sx={{ backgroundColor: 'white' }}>
+                                <Typography gutterBottom variant="h5" component="div">
+                                    Título
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    Descrição
+                                </Typography>
+                            </CardContent>
+                            <CardActions sx={{ backgroundColor: 'white' }}>
+                                <Button size="small" variant="outlined">Reservar</Button>
+                            </CardActions>
+                        </Card>
+                    </Grid>
+                ))}
+            </Grid>
+
+            <Stack spacing={2} display="flex" alignItems="flex-end" marginTop="20px">
+                <Pagination   color="primary" count={Math.ceil(30 / cardsPerPage)} page={page} onChange={handleChangePage} variant="outlined" shape="rounded" />
+            </Stack>
+
         </div>
     )
 }
