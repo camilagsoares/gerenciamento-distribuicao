@@ -28,6 +28,14 @@ export const Container = styled.div`
 export const LeftPanel = styled.div`
   flex: 1;
   background: linear-gradient(to right, #007bff, #0056b3);
+
+  @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+  display: none;
+}
+
+@media only screen and (min-device-width : 280px) and (max-device-width : 653px) {
+  display: none;
+}
 `;
 
 export const RightPanel = styled.div`
