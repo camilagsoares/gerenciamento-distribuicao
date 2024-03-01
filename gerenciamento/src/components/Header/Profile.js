@@ -23,8 +23,10 @@ export default function Profile() {
     const [anchorEl, setAnchorEl] = useState(null);
     const [open, setOpen] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
+    const [modalOpenProfile, setModalOpenProfile] = useState(false)
     const [loading, setLoading] = useState(false);
 
+    
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
         setOpen(true);
@@ -44,13 +46,17 @@ export default function Profile() {
         setModalOpen(false);
     };
 
-
-
-
-    const handleConfirmarAlteracaoSenha = (data) => {
-
-
+    const handleCloseModalProfile = () => {
+        setModalOpenProfile(false);
     };
+
+    const handleClickOpenModalProfile = () => {
+        setModalOpenProfile(true);
+        handleClose();
+    };
+
+
+   
 
 
 
@@ -105,7 +111,7 @@ export default function Profile() {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-                <MenuItem >
+                <MenuItem onClick={handleClickOpenModalProfile}>
                     <ListItemIcon>
                         <PermContactCalendarIcon fontSize="small" />
                     </ListItemIcon>
@@ -138,7 +144,9 @@ export default function Profile() {
                 </Link>
             </Menu>
 
-            {modalOpen && <ModalAlterarSenha open={modalOpen} onClose={handleCloseModal}  />}
+            {modalOpen && <ModalAlterarSenha open={modalOpen} onClose={handleCloseModal} />}
+
+            {modalOpenProfile && <ModalPerfilUsuario open={modalOpenProfile} onClose={handleCloseModalProfile} />}
 
         </React.Fragment >
     );

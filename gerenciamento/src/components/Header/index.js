@@ -12,17 +12,17 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { mainListItems } from './listItems';
-import {  alpha } from '@mui/material/styles';
+import { alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import AccountCircle from '@mui/icons-material/AccountCircle'
-import Profile  from './Profile'
+import Profile from './Profile'
 import { NavLink, Outlet } from 'react-router-dom';
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#0058B8', 
+      main: '#0058B8',
     },
   },
 });
@@ -112,7 +112,7 @@ export default function Header() {
       width: 'auto',
     },
   }));
-  
+
   const SearchIconWrapper = styled('div')(({ theme }) => ({
     padding: theme.spacing(0, 2),
     height: '100%',
@@ -123,18 +123,18 @@ export default function Header() {
     justifyContent: 'center',
   }));
 
- 
 
 
-  
+
+
   return (
     <ThemeProvider theme={theme}>
-  <CssBaseline />
+      <CssBaseline />
       <Box sx={{ display: 'flex' }}>
         <AppBar open={open}>
           <Toolbar
             sx={{
-              pr: '24px', 
+              pr: '24px',
             }}
           >
             <IconButton
@@ -156,31 +156,31 @@ export default function Header() {
               fontSize="20px"
               fontFamily="Roboto"
               fontWeight="200"
-          
+
               noWrap
               sx={{ flexGrow: 1 }}
             >
-             Gerenciamento
+              Gerenciamento
             </Typography>
 
             <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Search…"
+                inputProps={{ 'aria-label': 'search' }}
+              />
+            </Search>
 
             {/* <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <NotificationsIcon />
               </Badge>
             </IconButton> */}
-         
-         {/* PARTE PERFIL */}
-         <Profile />
+
+            {/* PARTE PERFIL */}
+            <Profile />
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
@@ -200,7 +200,7 @@ export default function Header() {
           <List component="nav">
             {mainListItems}
             {/* <Divider sx={{ my: 1 }} /> */}
-        
+
           </List>
         </Drawer>
         <Box
@@ -216,10 +216,10 @@ export default function Header() {
           }}
         >
           {/* <Toolbar /> */}
-        
+
         </Box>
-       
+
       </Box>
-      </ThemeProvider>
+    </ThemeProvider>
   );
 }
