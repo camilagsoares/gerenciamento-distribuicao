@@ -22,7 +22,7 @@ export const Cartao = () => {
     const startIndex = (page - 1) * cardsPerPage;
     const endIndex = startIndex + cardsPerPage;
 
-    // #FAFAFA
+
     return (
 
         <ContainerCards>
