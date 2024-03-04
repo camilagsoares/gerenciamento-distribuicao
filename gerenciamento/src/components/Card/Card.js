@@ -23,6 +23,8 @@ export const Cartao = () => {
     const startIndex = (page - 1) * cardsPerPage;
     const endIndex = startIndex + cardsPerPage;
 
+    const title = ""
+
 
     return (
 
@@ -35,15 +37,17 @@ export const Cartao = () => {
                                 <CardMedia
                                     sx={{ height: 140 }}
                                     image="https://www.metalfrio.com.br/portal/Principal/arquivos/galeriaProdutos/8/DA550_LATERAL-VAZIO.jpg"
-                                    title="green iguana"
+                                    title={title}
                                 />
                                 <CardContent sx={{ backgroundColor: 'white' }}>
+
                                     <Typography gutterBottom variant="h5" component="div">
                                         Título
                                     </Typography>
                                     <Typography variant="body2" color="text.secondary">
                                         Descrição
                                     </Typography>
+
                                 </CardContent>
                                 <CardActions sx={{ backgroundColor: 'white' }}>
                                     <Button size="small" variant="outlined" sx={{ fontFamily: 'Poppins' }}>Detalhes</Button>
