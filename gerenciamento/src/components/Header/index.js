@@ -34,7 +34,6 @@ const drawerWidth = 240;
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme, open }) => ({
-  // position: 'fixed', 
   zIndex: theme.zIndex.drawer + 1,
   transition: theme.transitions.create(['width', 'margin'], {
     easing: theme.transitions.easing.sharp,
@@ -179,7 +178,7 @@ export default function Header() {
                 <NotificationsIcon />
               </Badge>
             </IconButton> */}
- 
+
             <Profile />
           </Toolbar>
         </AppBar>
@@ -205,6 +204,10 @@ export default function Header() {
         <Box
           component="main"
           sx={{
+         backgroundColor: (theme) =>
+              theme.palette.mode === 'light'
+                ? theme.palette.grey[100]   
+                : theme.palette.grey[900],
             flexGrow: 1,
             height: '100vh',
             overflow: 'auto',
