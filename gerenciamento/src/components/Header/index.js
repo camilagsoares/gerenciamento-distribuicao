@@ -92,7 +92,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const defaultTheme = createTheme();
 
 export default function Header() {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -204,10 +204,6 @@ export default function Header() {
         <Box
           component="main"
           sx={{
-         backgroundColor: (theme) =>
-              theme.palette.mode === 'light'
-                ? theme.palette.grey[100]   
-                : theme.palette.grey[900],
             flexGrow: 1,
             height: '100vh',
             overflow: 'auto',

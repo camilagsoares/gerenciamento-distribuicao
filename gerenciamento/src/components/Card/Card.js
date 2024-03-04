@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom';
 export const Cartao = () => {
 
     const [page, setPage] = useState(1);
+
     const cardsPerPage = 12;
 
     const handleChangePage = (event, newPage) => {
@@ -33,9 +34,10 @@ export const Cartao = () => {
                 {[...Array(30)].slice(startIndex, endIndex).map((_, index) => (
                     <Grid item key={index} xs={12} sm={6} md={3}>
                         <Link to={`/detalhes`} style={{ textDecoration: 'none' }}>
-                            <Card sx={{ width: '100%', height: '370px' }} display="flex" alignItems="center" justifyContent="center">
+                            <Card sx={{ width: '100%', height: '370px', '&:hover': { boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)' } }} display="flex" alignItems="center" justifyContent="center">
                                 <CardMedia
                                     sx={{ width: '100%', height: 180, objectFit: 'cover' }}
+
                                     image="https://www.metalfrio.com.br/portal/Principal/arquivos/galeriaProdutos/8/DA550_LATERAL-VAZIO.jpg"
                                     title={title}
                                 />
