@@ -33,9 +33,9 @@ export const Cartao = () => {
                 {[...Array(30)].slice(startIndex, endIndex).map((_, index) => (
                     <Grid item key={index} xs={12} sm={6} md={3}>
                         <Link to={`/detalhes`} style={{ textDecoration: 'none' }}>
-                            <Card sx={{ width: '100%' }} display="flex" alignItems="center" justifyContent="center">
+                            <Card sx={{ width: '100%', height: '370px' }} display="flex" alignItems="center" justifyContent="center">
                                 <CardMedia
-                                    sx={{ height: 140 }}
+                                    sx={{ width: '100%', height: 180, objectFit: 'cover' }}
                                     image="https://www.metalfrio.com.br/portal/Principal/arquivos/galeriaProdutos/8/DA550_LATERAL-VAZIO.jpg"
                                     title={title}
                                 />
@@ -49,7 +49,7 @@ export const Cartao = () => {
                                     </Typography>
 
                                 </CardContent>
-                                <CardActions sx={{ backgroundColor: 'white' }}>
+                                <CardActions sx={{ backgroundColor: 'white', marginTop: '60px' }}>
                                     <Button size="small" variant="outlined" sx={{ fontFamily: 'Poppins' }}>Detalhes</Button>
                                 </CardActions>
 
