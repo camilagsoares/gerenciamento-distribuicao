@@ -11,7 +11,7 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import { mainListItems } from './listItems';
+import { MainListItems } from './MainListItems';
 import { alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
@@ -34,6 +34,7 @@ const drawerWidth = 240;
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme, open }) => ({
+  // position: 'fixed', 
   zIndex: theme.zIndex.drawer + 1,
   transition: theme.transitions.create(['width', 'margin'], {
     easing: theme.transitions.easing.sharp,
@@ -178,8 +179,7 @@ export default function Header() {
                 <NotificationsIcon />
               </Badge>
             </IconButton> */}
-
-            {/* PARTE PERFIL */}
+ 
             <Profile />
           </Toolbar>
         </AppBar>
@@ -198,18 +198,13 @@ export default function Header() {
           </Toolbar>
           <Divider />
           <List component="nav">
-            {mainListItems}
-            {/* <Divider sx={{ my: 1 }} /> */}
+            <MainListItems open={open} />
 
           </List>
         </Drawer>
         <Box
           component="main"
           sx={{
-            // backgroundColor: (theme) =>
-            //   theme.palette.mode === 'light'
-            //     ? theme.palette.grey[100]
-            //     : theme.palette.grey[900],
             flexGrow: 1,
             height: '100vh',
             overflow: 'auto',
