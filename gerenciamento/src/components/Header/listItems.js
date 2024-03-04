@@ -10,19 +10,23 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 import LayersIcon from '@mui/icons-material/Layers';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import { NavLink } from 'react-router-dom';
+import { Tooltip } from "@mui/material"
 
 export const mainListItems = (
   <React.Fragment>
 
-    <NavLink to='/' style={{ textDecoration: 'none', color: 'black' }}>
-      <ListItemButton>
-        <ListItemIcon>
-          <DashboardIcon />
-        </ListItemIcon>
-        <ListItemText primary="Início" />
-      </ListItemButton>
-    </NavLink>
+    <Tooltip title="Início" placement="right-start">
+      <NavLink to='/' style={{ textDecoration: 'none', color: 'black' }}>
+        <ListItemButton>
+          <ListItemIcon>
+            <DashboardIcon />
+          </ListItemIcon>
+          <ListItemText primary="Início" />
+        </ListItemButton>
+      </NavLink>
+    </Tooltip>
 
+    <Tooltip title="Postar" placement="right-start">
     <NavLink to='/postar' style={{ textDecoration: 'none', color: 'black' }}>
       <ListItemButton>
         <ListItemIcon>
@@ -31,6 +35,7 @@ export const mainListItems = (
         <ListItemText primary="Postar" />
       </ListItemButton>
     </NavLink>
+    </Tooltip>
 
 
     <ListItemButton>
