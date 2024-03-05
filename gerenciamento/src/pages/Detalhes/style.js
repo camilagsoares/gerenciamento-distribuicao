@@ -1,25 +1,57 @@
 import styled from "styled-components";
 
-export const ContainerDetails = styled.div`
+
+export const Product = styled.div`
+width: 1148px;
+margin: 0 auto;
+margin-top: 48px;
 display: flex;
-align-items: center;
-justify-content: center;
+`;
 
+export const ProductImages = styled.div`
+flex-grow: 2;
+position: relative;
+overflow: hidden;
+`;
+
+export const ImageOverlay = styled.div`
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: #e1e1e1;
+`;
+
+export const ProductImageWrapper = styled.div`
+width: 100%;
+height: 100%;
+overflow: hidden;
+`;
+
+export const ProductImage = styled.img`
+width: 100%;
+height: 100%;
+object-fit: contain;
+`;
+
+export const ProductDetails = styled.div`
+flex-grow: 1; 
+padding-left: 28px;
+`;
+
+export const BtnPrimary = styled.button`
+background-color: #0058b8;
+color: #ffffff;
+padding: 20px 60px;
+margin-top: 170px;
+&:hover {
+  background-color: #0077f7;
+}
 `
 
-export const Box = styled.div`
-
- background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  height: 320px;
-  width: 70%;
-
-
-`
-
-export const Separete = styled.div`
+export const Cta = styled.div`
 display: flex;
-justify-content: space-between;
-
-`
+width: 100%;
+margin: 40px 0;
+`;
