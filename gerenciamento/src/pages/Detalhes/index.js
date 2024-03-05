@@ -1,40 +1,71 @@
-import * as React from 'react'
-import { Button } from '@mui/material'
+import * as React from 'react';
+import { Button } from '@mui/material';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { Link } from 'react-router-dom';
-import { ContainerDetails, Box, Separete } from './style'
+import { Product, ProductDetails, ProductImages, Cta, BtnPrimary, } from './style';
+import styled from 'styled-components';
+import { useParams } from 'react-router-dom';
+import { useApiRequestGet } from "../../services/api";
+
 
 export const Detalhes = () => {
+
+    let { id } = useParams();
+
+    const { data } = useApiRequestGet(`/listar-produto/${id}`);
+
+
     return (
         <div>
+
             <Link to="/">
                 <Button
                     variant="outlined"
                     startIcon={<ChevronLeftIcon />}
-                    sx={{marginLeft: '1vw'}}
-
+                    sx={{ marginLeft: '1vw' }}
                 >
                     Voltar para página inicial
                 </Button>
             </Link>
 
-            <ContainerDetails>
-                {/* <Box>
-            Pagina detalhes
-            </Box> */}
+            <Product>
+                <ProductImages>
+                    {data && (
+                        <img src={data.imagem} alt={data.nome} style={{ height: '200px', objectFit: 'cover' }} />
+                    )}
+                </ProductImages>
+                <ProductDetails>
+                    {data && (
+                        <>
+                            <h2>{data.nome}</h2>
+                            <div className="about">
+                                <p>Criado em: {data.criadoEm ? `${data.criadoEm.slice(8, 10)}/${data.criadoEm.slice(5, 7)}/${data.criadoEm.slice(0, 4)}` : ''}
+                                </p>
 
+                                <p>Tipo de Produto: {data.tipoProduto.nome}</p>
+                                <p> <p>Número de Patrimônio: {data.numeroPatrimonio}</p></p>
+                            </div>
+                            <p>{data.descricao}</p>
+                            <ul>
+                                <li>Tipo</li>
+                                <li> Local onde encontrar: {data.localOndeEncontra}</li>
+                                <li> Situação: {data.situacao}
+                                </li>
 
-                <Separete>
-                    <div>
-                        <p>IMAGEM</p>
-                    </div>
+                                <p>Número de Série: {data.numeroSerie}</p>
+                                <p>Status: {data.status.nome}</p>
 
-                    <p>Texto
+                                <p>Usuário: {data.usuario.nome}</p>
+                            </ul>
+                        </>
+                    )}
+                    <Cta>
+                        <BtnPrimary>Reservar</BtnPrimary>
 
-                        <Button>Reservar</Button>
-                    </p>
-                </Separete>
-            </ContainerDetails>
+                    </Cta>
+                </ProductDetails>
+            </Product>
+
         </div>
     )
 }
