@@ -45,6 +45,9 @@ background-color: #0058b8;
 color: #ffffff;
 padding: 20px 60px;
 margin-top: 170px;
+border: none;
+border-radius: 2px;
+
 &:hover {
   background-color: #0077f7;
 }
