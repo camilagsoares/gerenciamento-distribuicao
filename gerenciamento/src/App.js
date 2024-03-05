@@ -32,7 +32,7 @@ function App() {
             <Route index element={<Home />} />
             <Route path="/postar" element={<Postar />} />
             <Route
-            path="/detalhes"
+            path="/detalhes/:id"
             element={
               <AuthLayout>
                 <Detalhes />
