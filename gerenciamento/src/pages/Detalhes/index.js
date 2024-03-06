@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Button } from '@mui/material';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { Link } from 'react-router-dom';
-import { Product, ProductDetails, ProductImages, Cta, BtnPrimary, ProductImageWrapper, ProductImage ,ImageOverlay} from './style';
+import { Product, ProductDetails, ProductImages, Cta, BtnPrimary, ProductImageWrapper, ProductImage, ImageOverlay } from './style';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { useApiRequestGet } from "../../services/api";
@@ -29,15 +29,15 @@ export const Detalhes = () => {
             </Link>
 
             <Product>
-            <ProductImages>
-  <ImageOverlay showOverlay={!data}>
-    {data && (
-      <ProductImageWrapper>
-        <ProductImage src={data.imagem} alt={data.nome} />
-      </ProductImageWrapper>
-    )}
-  </ImageOverlay>
-</ProductImages>
+                <ProductImages>
+                    <ImageOverlay  $showoverlay={String(!data)}>
+                        {data && (
+                            <ProductImageWrapper>
+                                <ProductImage src={data.imagem} alt={data.nome} />
+                            </ProductImageWrapper>
+                        )}
+                    </ImageOverlay>
+                </ProductImages>
                 <ProductDetails>
                     {data && (
                         <>
