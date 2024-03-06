@@ -63,7 +63,7 @@ export default function Profile() {
     return (
         <React.Fragment>
             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-                <Tooltip title="Account settings">
+                <Tooltip title="Configurações de Conta">
                     <IconButton
                         onClick={handleClick}
                         size="small"
