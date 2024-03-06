@@ -78,38 +78,38 @@ const useApiRequestGet = (path, payload) => {
     return { data, error, loading, refetchData: fetchData };
   };
 
-//   const useApiRequestSubmit = (method = 'post' | 'delete' | 'put', path, callback) => {
-//     const [data, setData] = useState(null);
-//     const [error, setError] = useState(null);
-//     const [loading, setLoading] = useState(false);
+  const useApiRequestSubmit = (method = 'post' | 'delete' | 'put', path, callback) => {
+    const [data, setData] = useState(null);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
   
-//     const submit = async () => {
-//       try {
-//         setLoading(true);
-//         const response = await axios({
-//           method,
-//           url: `http://10.1.0.187:4001/api${path}`,
-//         });
+    const submit = async () => {
+      try {
+        setLoading(true);
+        const response = await axios({
+          method,
+          url: `http://10.1.0.187:4002/api${path}`,
+        });
   
-//         setData(response.data);
-//         // window.location.reload()
+        setData(response.data);
+        // window.location.reload()
   
-//         // Chame o callback após a conclusão bem-sucedida do POST ou PUT
-//         if (callback) {
-//           callback(response.data);
-//         }
-//       } catch (error) {
-//         toast(error.response.data.message, {
-//           type: 'error',
-//         });
-//         setError(error.message);
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
+        // Chame o callback após a conclusão bem-sucedida do POST ou PUT
+        if (callback) {
+          callback(response.data);
+        }
+      } catch (error) {
+        toast(error.response.data.message, {
+          type: 'error',
+        });
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
   
-//     return { data, error, loading, handleSubmitData: () => submit() };
-// };
+    return { data, error, loading, handleSubmitData: () => submit() };
+};
   
 
-  export { axiosApi, useApiRequestGet };
+  export { axiosApi, useApiRequestGet, useApiRequestSubmit };

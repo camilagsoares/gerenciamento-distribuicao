@@ -26,8 +26,6 @@ export const Cartao = ({ searchTerm }) => {
 
     const startIndex = (page - 1) * cardsPerPage;
     const endIndex = startIndex + cardsPerPage;
- 
-
     return (
 
         <ContainerCards>
@@ -35,7 +33,7 @@ export const Cartao = ({ searchTerm }) => {
                 {data && data.slice(startIndex, endIndex).map((produto, index) => (
                     <Grid item key={index} xs={12} sm={6} md={3}>
                         <Link to={`/detalhes/${produto.id}`} style={{ textDecoration: 'none' }}>
-                            <Card sx={{ width: '100%', height: '480px', '&:hover': { boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)' } }}>
+                            <Card sx={{ width: '100%', height: '400px', '&:hover': { boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)' } }}>
 
                                 <img src={produto.imagem}
                                     alt={produto.nome}
@@ -54,7 +52,7 @@ export const Cartao = ({ searchTerm }) => {
                                     </Typography>
 
                                 </CardContent>
-                                <CardActions sx={{ backgroundColor: 'white', marginTop: '120px' }}>
+                                <CardActions sx={{ backgroundColor: 'white', marginTop: '60px' }}>
                                     <Button size="small" variant="outlined" sx={{ fontFamily: 'Poppins' }}>Detalhes</Button>
                                 </CardActions>
 
