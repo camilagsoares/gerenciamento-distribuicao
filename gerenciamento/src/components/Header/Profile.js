@@ -124,7 +124,9 @@ export default function Profile() {
                     </ListItemIcon>
                     Alterar senha
                 </MenuItem>
+
                 <Divider />
+                
                 <Link to="/login" style={{ textDecoration: 'none', color: 'black' }}>
                     <MenuItem onClick={handleClose}>
                         <ListItemIcon>
