@@ -9,9 +9,12 @@ import { Grid, Pagination } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import { ContainerCards } from './style'
 import { Link } from 'react-router-dom';
+import { useApiRequestGet } from "../../services/api";
 
 
-export const Cartao = () => {
+export const Cartao = ({ searchTerm }) => {
+
+    const { data } = useApiRequestGet("/listar-produtos");
 
     const [page, setPage] = useState(1);
 
@@ -23,35 +26,35 @@ export const Cartao = () => {
 
     const startIndex = (page - 1) * cardsPerPage;
     const endIndex = startIndex + cardsPerPage;
-
-    const title = ""
-
+ 
 
     return (
 
         <ContainerCards>
             <Grid container spacing={2}>
-                {[...Array(30)].slice(startIndex, endIndex).map((_, index) => (
+                {data && data.slice(startIndex, endIndex).map((produto, index) => (
                     <Grid item key={index} xs={12} sm={6} md={3}>
-                        <Link to={`/detalhes`} style={{ textDecoration: 'none' }}>
-                            <Card sx={{ width: '100%', height: '370px', '&:hover': { boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)' } }} display="flex" alignItems="center" justifyContent="center">
-                                <CardMedia
-                                    sx={{ width: '100%', height: 180, objectFit: 'cover' }}
+                        <Link to={`/detalhes/${produto.id}`} style={{ textDecoration: 'none' }}>
+                            <Card sx={{ width: '100%', height: '480px', '&:hover': { boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)' } }}>
 
-                                    image="https://www.metalfrio.com.br/portal/Principal/arquivos/galeriaProdutos/8/DA550_LATERAL-VAZIO.jpg"
-                                    title={title}
+                                <img src={produto.imagem}
+                                    alt={produto.nome}
+                                    style={{ height: '200px', objectFit: 'cover' }}
+
                                 />
-                                <CardContent sx={{ backgroundColor: 'white' }}>
+
+                                <CardContent sx={{ backgroundColor: 'white', maxHeight: '300px', overflowY: 'auto' }}>
 
                                     <Typography gutterBottom variant="h5" component="div">
-                                        Título
+                                        {produto.nome}
                                     </Typography>
+
                                     <Typography variant="body2" color="text.secondary">
-                                        Descrição
+                                        {produto.descricao}
                                     </Typography>
 
                                 </CardContent>
-                                <CardActions sx={{ backgroundColor: 'white', marginTop: '60px' }}>
+                                <CardActions sx={{ backgroundColor: 'white', marginTop: '120px' }}>
                                     <Button size="small" variant="outlined" sx={{ fontFamily: 'Poppins' }}>Detalhes</Button>
                                 </CardActions>
 
