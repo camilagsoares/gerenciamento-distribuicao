@@ -1,24 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { Grid, Pagination } from '@mui/material';
+import { Grid, Pagination,TextField } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import { ContainerCards } from './style'
 import { Link } from 'react-router-dom';
 import { useApiRequestGet } from "../../services/api";
+import SearchIcon from '@mui/icons-material/Search';
 
-
-export const Cartao = ({ searchTerm }) => {
+export const Cartao = () => {
 
     const { data } = useApiRequestGet("/listar-produtos");
 
     const [page, setPage] = useState(1);
+    const [searchTerm, setSearchTerm] = useState('');
 
     const cardsPerPage = 12;
+
+    useEffect(() => {
+        setPage(1);
+    }, [searchTerm]);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -26,11 +30,31 @@ export const Cartao = ({ searchTerm }) => {
 
     const startIndex = (page - 1) * cardsPerPage;
     const endIndex = startIndex + cardsPerPage;
+
+    const filteredData = data ? data.filter(produto =>
+        produto.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        produto.descricao.toLowerCase().includes(searchTerm.toLowerCase())
+    ) : [];
+
     return (
 
         <ContainerCards>
+              <TextField
+            
+                label="Buscar Produto"
+                variant="outlined"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                size="small" 
+                margin="normal"
+                InputProps={{
+                    startAdornment: (
+                        <SearchIcon color="action" />
+                    )
+                }}
+            />
             <Grid container spacing={2}>
-                {data && data.slice(startIndex, endIndex).map((produto, index) => (
+                {filteredData && filteredData.slice(startIndex, endIndex).map((produto, index) => (
                     <Grid item key={index} xs={12} sm={6} md={3}>
                         <Link to={`/detalhes/${produto.id}`} style={{ textDecoration: 'none' }}>
                             <Card sx={{ width: '100%', height: '400px', '&:hover': { boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)' } }}>
@@ -63,7 +87,7 @@ export const Cartao = ({ searchTerm }) => {
             </Grid>
 
             <Stack spacing={2} display="flex" alignItems="flex-end" marginTop="20px">
-                <Pagination color="primary" count={Math.ceil(30 / cardsPerPage)} page={page} onChange={handleChangePage} variant="outlined" shape="rounded" />
+            <Pagination color="primary" count={Math.ceil(filteredData.length / cardsPerPage)} page={page} onChange={handleChangePage} variant="outlined" shape="rounded" />
             </Stack>
 
         </ContainerCards>
