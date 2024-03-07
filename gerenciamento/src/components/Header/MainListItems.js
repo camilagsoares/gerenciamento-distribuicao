@@ -14,7 +14,7 @@ export const MainListItems = ({open}) => {
   return (
     <React.Fragment>
 
-      <Tooltip placement="right-start" title={!open ? "Início" : ""}>
+      <Tooltip title={!open ? "Início" : ""} placement="right-start">
         <NavLink to='/' style={{ textDecoration: 'none', color: 'black' }}>
           <ListItemButton>
             <ListItemIcon>
