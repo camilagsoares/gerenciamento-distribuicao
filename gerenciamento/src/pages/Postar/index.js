@@ -1,166 +1,112 @@
-import React, { useState } from 'react';
-import EditIcon from '@mui/icons-material/Edit';
-import { Person, ArrowDropDown } from '@mui/icons-material';
-import { Select, MenuItem, InputLabel, InputAdornment } from '@mui/material';
-import { Container, Card, ArrowIcon, Title, InputField, Input, ContainerButton, ContainerSelect, TextArea, CardInput } from './style'
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
-import FeaturedPlayListIcon from '@mui/icons-material/FeaturedPlayList';
-import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
-import InboxIcon from '@mui/icons-material/Inbox';
-import DateRangeIcon from '@mui/icons-material/DateRange';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useApiRequestGet } from '../../services/api'; 
 
-const Postar = () => {
+function Postar() {
 
-    const handleToggleClick = () => {
+  const { data } = useApiRequestGet("/listar-status");
+  const { data: dataProduto } = useApiRequestGet("/listar-tipoproduto");
 
-    };
+  const [formData, setFormData] = useState({
+    nome: '',
+    descricao: '',
+    localOndeEncontra: '',
+    tipoProdutoId: null, 
+    statusId: null, 
+    numeroPatrimonio: '',
+    usuarioId: null, 
+    imagem: null,
+  });
 
+  useEffect(() => {
+    if (data && dataProduto) {
+      setFormData(prevState => ({
+        ...prevState,
+        tipoProdutoId: dataProduto[0].id,
+        statusId: data[0].id,
+      }));
+    }
+  }, [data, dataProduto]);
 
-    return (
-        <Container>
-            <Card>
-                <ArrowIcon>
-                    <EditIcon style={{ color: 'white' }} />
-                </ArrowIcon>
-                <Title color="#1976D2">Poste um bem</Title>
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
-                <form>
-                    <Grid container spacing={1}>
-                        <Grid item xs={6}>
-                            <InputField>
-                                <Input
-                                    type="email"
-                                    name="email"
-                                    label="Nome"
-                                    required
-                                    fullWidth
+  const handleFileChange = (event) => {
+    setFormData({ ...formData, imagem: event.target.files[0] });
+  };
 
-                                    InputProps={{
-                                        startAdornment: (
-                                            <InputAdornment position="start">
-                                                <FeaturedPlayListIcon />
-                                            </InputAdornment>
-                                        ),
-                                    }}
-                                />
-                            </InputField>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <InputField>
-                                <Input
-                                    type="text"
-                                    name="password"
-                                    label="N° do Patrimônio"
-                                    required
-                                    fullWidth
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-                                    InputProps={{
-                                        startAdornment: (
-                                            <InputAdornment position="start">
-                                                <ConfirmationNumberIcon />
-                                            </InputAdornment>
-                                        ),
-                                    }}
-                                />
-                            </InputField>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <InputField>
-                                <Input
-                                    type="text"
-                                    name="password"
-                                    label="Modelo"
-                                    required
+    const formPayload = new FormData();
+    Object.entries(formData).forEach(([key, value]) => {
+      formPayload.append(key, value);
+    });
 
-                                    fullWidth
-                                    InputProps={{
-                                        startAdornment: (
-                                            <InputAdornment position="start">
-                                                <InboxIcon />
-                                            </InputAdornment>
-                                        ),
-                                    }}
-                                />
-                            </InputField>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <InputField>
-                                <Input
-                                    type="text"
-                                    name="name"
-                                    label="Data disponibilidade"
+    try {
+      await axios.post('http://10.1.0.187:4002/api/criar-produto', formPayload, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log('Produto criado com sucesso');
+    } catch (error) {
+      console.error('Erro ao criar o produto:', error); 
+    }
+  };
 
-                                    fullWidth
-                                    InputProps={{
-                                        startAdornment: (
-                                            <InputAdornment position="start">
-                                                <DateRangeIcon />
-                                            </InputAdornment>
-                                        ),
-                                    }}
-                                />
-                            </InputField>
-                        </Grid>
-
-
-                    </Grid>
-
-                    <InputField>
-                        <TextArea
-                            name="description"
-                            placeholder="Descrição"
-                            rows={9}
-                        />
-                    </InputField>
-
-                    <Grid container spacing={1}>
-                        <Grid item xs={6}>
-                            <ContainerSelect>
-                                <InputLabel id="select-country">Tipo</InputLabel>
-                                <Select
-                                    labelId="select-country"
-                                    label="Select a country"
-                                    IconComponent={ArrowDropDown}
-                                    fullWidth
-                                >
-                                    <MenuItem value="">
-                                        <em>None</em>
-                                    </MenuItem>
-                                    <MenuItem value={10}>Eletrodoméstico</MenuItem>
-                                    <MenuItem value={20}>Hospitalar</MenuItem>
-                                </Select>
-                            </ContainerSelect>
-
-
-                        </Grid>
-
-                        <Grid item xs={6}>
-                            <ContainerSelect>
-                                <InputLabel id="select-photo">Foto</InputLabel>
-
-                                <CardInput>
-                                    <input
-                                        accept="image/*"
-                                        id="select-photo"
-                                        type="file"
-                                        style={{ width: '100%' }}
-                                    />
-                                </CardInput>
-                            </ContainerSelect>
-
-                        </Grid>
-
-                    </Grid>
-
-                    <ContainerButton>
-                        <Button variant="outlined" type="submit" fullWidth style={{ height: '50px' }}>Postar</Button>
-                    </ContainerButton>
-                </form>
-            </Card>
-
-        </Container>
-    );
-};
+  return (
+    <div>
+      <h1>Criar Produto</h1>
+      {data && dataProduto && (
+        <form onSubmit={handleSubmit} encType="multipart/form-data">
+          <label>
+            Nome:
+            <input type="text" name="nome" value={formData.nome} onChange={handleChange} />
+          </label>
+          <br />
+          <label>
+            Descrição:
+            <textarea name="descricao" value={formData.descricao} onChange={handleChange} />
+          </label>
+          <br />
+          <label>
+            Local onde encontra:
+            <input type="text" name="localOndeEncontra" value={formData.localOndeEncontra} onChange={handleChange} />
+          </label>
+          <br />
+          <label>
+            Tipo de Produto ID:
+            <input type="text" name="tipoProdutoId" value={formData.tipoProdutoId} onChange={handleChange} />
+          </label>
+          <br />
+          <label>
+            Status ID:
+            <input type="text" name="statusId" value={formData.statusId} onChange={handleChange} />
+          </label>
+          <br />
+          <label>
+            Número de Patrimônio:
+            <input type="text" name="numeroPatrimonio" value={formData.numeroPatrimonio} onChange={handleChange} />
+          </label>
+          <br />
+          <label>
+            Usuário ID:
+            <input type="text" name="usuarioId" value={formData.usuarioId} onChange={handleChange} />
+          </label>
+          <br />
+          <label>
+            Imagem:
+            <input type="file" name="imagem" onChange={handleFileChange} />
+          </label>
+          <br />
+          <button type="submit">Criar Produto</button>
+        </form>
+      )}
+    </div>
+  );
+}
 
 export default Postar;
