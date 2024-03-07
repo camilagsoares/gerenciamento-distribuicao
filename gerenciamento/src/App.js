@@ -22,10 +22,10 @@ function App() {
     },
   });
 
-
   return (
     <ThemeProvider theme={theme}>
       <Router>
+
         <GlobalStyles />
         <Routes>
           <Route path="/" element={<Layout />}>
@@ -59,6 +59,7 @@ function App() {
       
           <Route path="*" element={<Error />} />
         </Routes>
+        
       </Router>
     </ThemeProvider>
   );
