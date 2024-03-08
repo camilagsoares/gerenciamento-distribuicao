@@ -5,8 +5,8 @@ import ListItemText from '@mui/material/ListItemText';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PeopleIcon from '@mui/icons-material/People';
-import BarChartIcon from '@mui/icons-material/BarChart';
-import LayersIcon from '@mui/icons-material/Layers';
+// import BarChartIcon from '@mui/icons-material/BarChart';
+// import LayersIcon from '@mui/icons-material/Layers';
 import { NavLink } from 'react-router-dom';
 import { Tooltip } from "@mui/material"
 
@@ -42,20 +42,6 @@ export const MainListItems = ({open}) => {
           <PeopleIcon />
         </ListItemIcon>
         <ListItemText primary="Customers" />
-      </ListItemButton>
-
-      <ListItemButton>
-        <ListItemIcon>
-          <BarChartIcon />
-        </ListItemIcon>
-        <ListItemText primary="Reports" />
-      </ListItemButton>
-
-      <ListItemButton>
-        <ListItemIcon>
-          <LayersIcon />
-        </ListItemIcon>
-        <ListItemText primary="Integrations" />
       </ListItemButton>
 
     </React.Fragment>
