@@ -7,21 +7,24 @@ align-items: center;
 justify-content: center;
 height: 100vh; 
 `
-
-
 export const ContainerSignUp = styled.div`
 background-color: #fff;
 border-radius: 8px;
 box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-max-height: 500px;
-width: 60%;
-height: 480px;
 
-h1 {
+@media only screen and (min-width : 768px) {
+  width: 60%;
+}
+
+@media only screen and (min-width:320px) and (max-width: 767px) {
+  width: 80%;
+}
+
+h1  {
     font-family: 'Poppins';
     font-weight: 500;
     padding: 0 20px;
-  }
+  } 
 `
 
 
@@ -102,4 +105,3 @@ display: flex;
 align-items: center;
 justify-content: center;
 `
-

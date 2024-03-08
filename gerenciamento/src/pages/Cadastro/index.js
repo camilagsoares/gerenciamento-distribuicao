@@ -5,14 +5,13 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { ContainerSignUp, AlignContainer } from './style'
-import { Button, FormRow, InputData, Input, Underline, Label, BoxButton, } from './style';
+import { Button, FormRow, InputData, Input, Underline, Label, BoxButton} from './style';
 
 
 export const Cadastro = () => {
 
 
   return (
-    <div style={{ background: 'linear-gradient(to right, #007bff, #0056b3)', minHeight: '100vh' }}>
       <AlignContainer>
         <ContainerSignUp>
 
@@ -82,8 +81,7 @@ export const Cadastro = () => {
                 </InputData>
               </Grid>
 
-              <Grid item xs={12} sm={6}>
-
+             <Grid item xs={12} sm={6}>
                 <InputData>
                   <Input type="text" required />
                   <Underline />
@@ -114,6 +112,5 @@ export const Cadastro = () => {
         </ContainerSignUp>
 
       </AlignContainer>
-    </div>
   )
 }
