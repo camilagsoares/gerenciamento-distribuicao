@@ -14,6 +14,7 @@ import SearchIcon from '@mui/icons-material/Search';
 export const Cartao = () => {
 
     const { data } = useApiRequestGet("/listar-produtos");
+    console.log(data)
 
     const [page, setPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
@@ -32,8 +33,8 @@ export const Cartao = () => {
     const endIndex = startIndex + cardsPerPage;
 
     const filteredData = data ? data.filter(produto =>
-        produto.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        produto.descricao.toLowerCase().includes(searchTerm.toLowerCase())
+        produto.nome.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
+            produto.descricao.toLowerCase().includes(searchTerm.trim().toLowerCase())
     ) : [];
 
     return (
