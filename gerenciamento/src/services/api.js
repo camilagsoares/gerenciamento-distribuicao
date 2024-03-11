@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 // const tokenInStorage = localStorage.getItem('token');
 
 const axiosApi = axios.create({
-    baseURL: `http://10.1.0.187:4002/api`,
+    baseURL: `http://10.1.0.187:3000/api`,
     headers: {
         // Authorization: `Bearer ${tokenInStorage}`,
         'Content-Type': 'application/json',
@@ -28,7 +28,7 @@ const useApiLogin = (path) => {
     setError(null);
     setLoading(true);
     try {
-      const response = await axios.post(`http://10.1.0.187:4002/api${path}`, payload, {
+      const response = await axios.post(`http://10.1.0.187:3000/api${path}`, payload, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -59,7 +59,7 @@ const useApiRequestGet = (path, payload) => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`http://10.1.0.187:4002/api${path}`, {
+        const response = await axios.get(`http://10.1.0.187:3000/api${path}`, {
           data: payload,
           headers: configHeaders(),
         });
@@ -88,7 +88,7 @@ const useApiRequestGet = (path, payload) => {
         setLoading(true);
         const response = await axios({
           method,
-          url: `http://10.1.0.187:4002/api${path}`,
+          url: `http://10.1.0.187:3000/api${path}`,
         });
   
         setData(response.data);

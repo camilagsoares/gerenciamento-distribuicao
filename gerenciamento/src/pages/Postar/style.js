@@ -5,10 +5,12 @@ import { TextField } from '@mui/material';
 export const Container = styled.div`
   position: relative;
   width: 90%; 
-  margin: 0 auto 100px;
+  margin: auto ;
+  
 `;
 
 export const Card = styled.div`
+  height: 800px;
   position: relative;
   background: ${props => props.alt ? 'none' : '#ffffff'};
   border-radius: 5px;
@@ -47,8 +49,6 @@ export const Label = styled.label`
 
 
 
-
-
 export const ArrowIcon = styled.div`
   position: absolute;
   top: 90px;
@@ -62,9 +62,6 @@ export const ArrowIcon = styled.div`
   align-items: center;
   justify-content: center;
 `;
-
-
-
 
 export const TitleContainer = styled.div`
   text-align: center;
@@ -103,30 +100,30 @@ margin-right: 20px;
  margin-left: 20px;
 `
 
-export const ContainerSelect = styled.div`
-margin-top: 10px;
-margin-bottom: 20px;
-margin-right: 20px; 
-margin-left: 20px;
-`
+// export const ContainerSelect = styled.div`
+// margin-top: 10px;
+// margin-bottom: 20px;
+// margin-right: 20px; 
+// margin-left: 20px;
+// `
 
-export const TextArea = styled.textarea`
-  width: 100%;
-  max-height: 400px; 
-  resize: none;
-  overflow-y: auto; 
-  font-family: 'Poppins';
-  color: #757575;
-  border: 1px solid #BDBDBD;
-  border-radius: 5px; 
-  padding: 10px; 
+// export const TextArea = styled.textarea`
+//   width: 100%;
+//   max-height: 400px; 
+//   resize: none;
+//   overflow-y: auto; 
+//   font-family: 'Poppins';
+//   color: #757575;
+//   border: 1px solid #BDBDBD;
+//   border-radius: 5px; 
+//   padding: 10px; 
 
-  outline: none; 
+//   outline: none; 
 
-  &:focus {
-    outline: none; 
-  }
-`;
+//   &:focus {
+//     outline: none; 
+//   }
+// `;
 
 export const CardInput = styled.div`
 margin-top: 10px;

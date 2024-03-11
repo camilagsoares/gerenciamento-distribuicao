@@ -7,7 +7,11 @@ export const AuthContext = createContext();
 export const AuthContextProvider = ({ children }) => {
   const navigate = useNavigate();
   const [token, setToken] = useState(localStorage.getItem('token'));
-  const [session, setSession] = useState(JSON.parse(localStorage.getItem('session')) || null);
+  // const [session, setSession] = useState(JSON.parse(localStorage.getItem('session')) || null);
+  const storedSession = localStorage.getItem('session');
+  const initialSession = storedSession ? JSON.parse(storedSession) : null;
+  const [session, setSession] = useState(initialSession);
+  console.log("TOKEN",token)
   const [profileLoaded, setProfileLoaded] = useState(false);
 
   const criarPerfil = (objectUser) => {
@@ -21,7 +25,7 @@ export const AuthContextProvider = ({ children }) => {
     localStorage.setItem('token', content?.token);
     localStorage.setItem('session', JSON.stringify(content?.session));
     setSession(content?.session);
-    setToken(content?.token); 
+    setToken(content?.token);
     setProfileLoaded(true);
     navigate('/');
     window.location.reload(); // Força a recarga da página
@@ -30,7 +34,7 @@ export const AuthContextProvider = ({ children }) => {
 
   const encerrarSessao = () => {
     localStorage.removeItem('token');
-    localStorage.removeItem('session'); 
+    localStorage.removeItem('session');
     setToken(null);
     setSession(null);
     navigate('/login');
