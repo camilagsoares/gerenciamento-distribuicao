@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import TextField from '@mui/material/TextField';
 
 
 export const AlignContainer = styled.div`
@@ -29,10 +30,11 @@ h1  {
 
 
 export const Button = styled.button`
-  width: 93%;
+  width: 97%;
   background-color: #007bff;
   color: #fff;
   border: none;
+  margin-left: 13px;
   border-radius: 4px;
   height: 44px;
   cursor: pointer;
@@ -105,3 +107,22 @@ display: flex;
 align-items: center;
 justify-content: center;
 `
+export const StyledTextField = styled(TextField)`
+  width: 100%;
+
+  .MuiInputBase-root {
+    font-family: 'Poppins';
+  }
+
+  .MuiInputLabel-root {
+    font-family: 'Poppins';
+  }
+
+  .MuiInput-underline:before {
+    border-bottom: 2px solid rgba(0, 0, 0, 0.12);
+  }
+
+  .MuiInput-underline:after {
+    border-bottom: 2px solid #3498db;
+  }
+`;
