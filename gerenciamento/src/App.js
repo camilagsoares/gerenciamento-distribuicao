@@ -9,6 +9,7 @@ import Error from "./pages/Error/index"
 import Postar from "./pages/Postar";
 import AuthLayout from './components/AuthLayout/AuthLayout';
 import { Detalhes } from './pages/Detalhes/index'
+import { AuthContextProvider } from './contexts/auth.content'
 
 function App() {
 
@@ -27,6 +28,8 @@ function App() {
       <Router>
 
         <GlobalStyles />
+        
+    <AuthContextProvider>
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
@@ -60,7 +63,9 @@ function App() {
           <Route path="*" element={<Error />} />
         </Routes>
         
+    </AuthContextProvider>
       </Router>
+      
     </ThemeProvider>
   );
 }
