@@ -13,7 +13,7 @@ import { Tooltip } from "@mui/material"
 export const MainListItems = ({open}) => {
   return (
     <React.Fragment>
-
+    
       <Tooltip title={!open ? "Início" : ""} placement="right-start">
         <NavLink to='/' style={{ textDecoration: 'none', color: 'black' }}>
           <ListItemButton>

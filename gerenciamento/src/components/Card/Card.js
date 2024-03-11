@@ -51,7 +51,7 @@ export const Cartao = () => {
                 InputProps={{
                     startAdornment: (
                         <SearchIcon color="action" />
-                    )
+                    ), 
                 }}
             />
             <Grid container spacing={2}>

@@ -19,37 +19,37 @@ const configHeaders = () => ({
 });
 
 
-// const useApiLogin = (path) => {
-//   const [loginData, setLoginData] = useState(null);
-//   const [error, setError] = useState(null);
-//   const [loading, setLoading] = useState(false);
+const useApiLogin = (path) => {
+  const [loginData, setLoginData] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-//   const login = async (payload) => {
-//     setError(null);
-//     setLoading(true);
-//     try {
-//       const response = await axios.post(`http://10.1.0.187:4001/api${path}`, payload, {
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//       });
+  const login = async (payload) => {
+    setError(null);
+    setLoading(true);
+    try {
+      const response = await axios.post(`http://10.1.0.187:4002/api${path}`, payload, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
-//       setLoginData(response.data);
-//       toast('Login efetuado com sucesso!', {
-//         type: 'success',
-//       });
-//     } catch (error) {
-//       toast(error.response, {
-//         type: 'error',
-//       });
-//       setError(error);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
+      setLoginData(response.data);
+      toast('Login efetuado com sucesso!', {
+        type: 'success',
+      });
+    } catch (error) {
+      toast(error.response, {
+        type: 'error',
+      });
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-//   return { loginData, error, loading, handlerSubmitLogin: (payload) => login(payload) };
-// };
+  return { loginData, error, loading, handlerSubmitLogin: (payload) => login(payload) };
+};
 
 const useApiRequestGet = (path, payload) => {
     const [data, setData] = useState(null);
@@ -112,4 +112,4 @@ const useApiRequestGet = (path, payload) => {
 };
   
 
-  export { axiosApi, useApiRequestGet, useApiRequestSubmit };
+  export { axiosApi, useApiRequestGet, useApiRequestSubmit , useApiLogin};
