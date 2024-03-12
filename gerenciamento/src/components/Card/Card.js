@@ -14,7 +14,6 @@ import SearchIcon from '@mui/icons-material/Search';
 export const Cartao = () => {
 
     const { data } = useApiRequestGet("/listar-produtos");
-    console.log(data)
 
     const [page, setPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
