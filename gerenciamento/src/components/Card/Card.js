@@ -4,7 +4,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { Grid, Pagination,TextField } from '@mui/material';
+import { Grid, Pagination, TextField } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import { ContainerCards } from './style'
 import { Link } from 'react-router-dom';
@@ -34,24 +34,24 @@ export const Cartao = () => {
 
     const filteredData = data ? data.filter(produto =>
         produto.nome.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
-            produto.descricao.toLowerCase().includes(searchTerm.trim().toLowerCase())
+        produto.descricao.toLowerCase().includes(searchTerm.trim().toLowerCase())
     ) : [];
 
     return (
 
         <ContainerCards>
-              <TextField
-            
+            <TextField
+
                 label="Buscar Produto"
                 variant="outlined"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                size="small" 
+                size="small"
                 margin="normal"
                 InputProps={{
                     startAdornment: (
                         <SearchIcon color="action" />
-                    ), 
+                    ),
                 }}
             />
             <Grid container spacing={2}>
@@ -62,10 +62,10 @@ export const Cartao = () => {
 
                                 <img src={produto.imagem}
                                     alt={produto.nome}
-                                    style={{ height: '200px', objectFit: 'cover' }}
+                                    style={{ height: '200px',width: '100%' }}
 
                                 />
-
+                                
                                 <CardContent sx={{ backgroundColor: 'white', maxHeight: '300px', overflowY: 'auto' }}>
 
                                     <Typography gutterBottom variant="h5" component="div">
@@ -88,7 +88,7 @@ export const Cartao = () => {
             </Grid>
 
             <Stack spacing={2} display="flex" alignItems="flex-end" marginTop="20px">
-            <Pagination color="primary" count={Math.ceil(filteredData.length / cardsPerPage)} page={page} onChange={handleChangePage} variant="outlined" shape="rounded" />
+                <Pagination color="primary" count={Math.ceil(filteredData.length / cardsPerPage)} page={page} onChange={handleChangePage} variant="outlined" shape="rounded" />
             </Stack>
 
         </ContainerCards>
