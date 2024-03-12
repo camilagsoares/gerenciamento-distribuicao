@@ -32,8 +32,8 @@ export const Cadastro = () => {
       email: yup.string().required('Campo obrigatorio'),
       senha: yup.string().required('Campo obrigatorio').min(5, 'Mínimo 5 caracteres'),
       telefone: yup.string().required('Campo obrigatorio').min(5, 'Mínimo 5 caracteres'),
-      permissaoId: yup.number().required('Campo obrigatorio'),
-      departamentoId: yup.number().required('Campo obrigatorio'),
+      permissaoId: yup.string().required('Campo obrigatorio'),
+      departamentoId: yup.string().required('Campo obrigatorio'),
     })
     .required();
 

@@ -9,7 +9,7 @@ import Error from "./pages/Error/index"
 import Postar from "./pages/Postar";
 import AuthLayout from './components/AuthLayout/AuthLayout';
 import { Detalhes } from './pages/Detalhes/index'
-import { AuthContextProvider } from './contexts/auth.content'
+import { AuthContextProvider } from "./contexts/auth.context";
 
 function App() {
 
@@ -28,44 +28,42 @@ function App() {
       <Router>
 
         <GlobalStyles />
-        
-    <AuthContextProvider>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
-            <Route path="/postar" element={<Postar />} />
+
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Home />} />
+              <Route path="/postar" element={<Postar />} />
+              <Route
+                path="/detalhes/:id"
+                element={
+                  <AuthLayout>
+                    <Detalhes />
+                  </AuthLayout>
+                }
+              />
+            </Route>
             <Route
-            path="/detalhes/:id"
-            element={
-              <AuthLayout>
-                <Detalhes />
-              </AuthLayout>
-            }
-          />
-          </Route>
-          <Route
-            path="/login"
-            element={
-              <AuthLayout>
-                <Login />
-              </AuthLayout>
-            }
-          />
-          <Route
-            path="/cadastro"
-            element={
-              <AuthLayout>
-                <Cadastro />
-              </AuthLayout>
-            }
-          />
-      
-          <Route path="*" element={<Error />} />
-        </Routes>
-        
-    </AuthContextProvider>
+              path="/login"
+              element={
+                <AuthLayout>
+                  <Login />
+                </AuthLayout>
+              }
+            />
+            <Route
+              path="/cadastro"
+              element={
+                <AuthLayout>
+                  <Cadastro />
+                </AuthLayout>
+              }
+            />
+
+            <Route path="*" element={<Error />} />
+          </Routes>
+
       </Router>
-      
+
     </ThemeProvider>
   );
 }
