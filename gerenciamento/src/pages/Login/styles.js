@@ -106,7 +106,7 @@ export const Label = styled.label`
 
 
 
-export const FormRow = styled.div`
+export const FormRow = styled.form`
   display: flex;
   flex-direction: column;
   margin: 32px 0;
