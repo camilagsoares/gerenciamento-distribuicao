@@ -15,11 +15,37 @@ import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& .MuiInputBase-input': {
+      color: 'black',
+      fontFamily: 'Poppins, sans-serif',
+    },
+    '& .MuiFormLabel-root': {
+      color: 'black',
+      fontFamily: 'Poppins, sans-serif',
+    },
+    '& .MuiMenuItem-root': {
+      fontFamily: 'Poppins, sans-serif',
+      fontSize: '14px',
+    },
+    '& .MuiInput-underline:before': {
+      borderBottomColor: '#E0E0E0',
+      borderBottomWidth: '2px',
+    },
+    '& .MuiInput-underline:after': {
+      borderBottomColor: '#E0E0E0',
+      borderBottomWidth: '2px',
+    },
+  },
+}));
 
 
 export const Cadastro = () => {
 
-
+  const classes = useStyles();
 
   const [loading, setLoading] = React.useState(false);
   const { data: listaDptos } = useApiRequestGet("/listar-departamentos");
@@ -148,9 +174,7 @@ export const Cadastro = () => {
 
               <Grid item xs={12} sm={6}>
                 <InputData>
-                  {/* <Input type="text" required />
-      <Underline />
-      <Label>Departamento</Label> */}
+
                   <Controller
                     name='departamentoId'
                     control={control}
@@ -160,7 +184,7 @@ export const Cadastro = () => {
                         <Autocomplete
                           fullWidth
                           options={listaDptos || []}
-
+                          className={classes.root}
                           getOptionLabel={(departamento) => departamento.nome}
                           value={
                             listaDptos &&
@@ -176,7 +200,7 @@ export const Cadastro = () => {
                           renderInput={(params) => (
                             <TextField
                               {...params}
-
+                              className={classes.root}
                               label='Departamento'
                               variant='standard'
                               name={name}
@@ -192,7 +216,7 @@ export const Cadastro = () => {
                 </InputData>
               </Grid>
 
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={5.5} sx={{ marginLeft: '20.6px' }}>
                 <Controller
                   name='permissaoId'
                   control={control}
@@ -213,14 +237,7 @@ export const Cadastro = () => {
                         value={value}
                         onChange={onChange}
                         error={!!errors.permissaoId}
-                        style={{ color: 'blue', fontFamily: 'Poppins, sans-serif' }}
-                        InputProps={{
-                          style: {
-                            color: 'blue',
-                            fontFamily: 'Poppins, sans-serif',
-                          },
-                        }}
-               
+                        className={classes.root}
                         helperText={errors.permissaoId?.message}
                       >
                         <MenuItem disabled value=''
@@ -247,7 +264,7 @@ export const Cadastro = () => {
 
             </Grid>
 
-            
+
           </FormRow>
 
 
