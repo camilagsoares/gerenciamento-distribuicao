@@ -28,7 +28,6 @@ h1  {
   } 
 `
 
-
 export const Button = styled.button`
   width: 97%;
   background-color: #007bff;
