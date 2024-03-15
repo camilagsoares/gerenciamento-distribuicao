@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-
 export const Product = styled.div`
 width: 1148px;
 margin: 0 auto;
