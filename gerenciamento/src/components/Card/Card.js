@@ -10,6 +10,8 @@ import { ContainerCards } from './style'
 import { Link } from 'react-router-dom';
 import { useApiRequestGet } from "../../services/api";
 import SearchIcon from '@mui/icons-material/Search';
+import CardMedia from '@mui/material/CardMedia';
+
 
 export const Cartao = () => {
 
@@ -59,12 +61,13 @@ export const Cartao = () => {
                         <Link to={`/detalhes/${produto.id}`} style={{ textDecoration: 'none' }}>
                             <Card sx={{ width: '100%', height: '400px', '&:hover': { boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)' } }}>
 
-                                <img src={produto.imagem}
-                                    alt={produto.nome}
-                                    style={{ height: '200px',width: '100%' }}
-
+                                <CardMedia
+                                    component="img"
+                                    height="140"
+                                    image={produto.imagem}
+                                    alt="green iguana"
                                 />
-                                
+
                                 <CardContent sx={{ backgroundColor: 'white', maxHeight: '300px', overflowY: 'auto' }}>
 
                                     <Typography gutterBottom variant="h5" component="div">
@@ -76,7 +79,7 @@ export const Cartao = () => {
                                     </Typography>
 
                                 </CardContent>
-                                <CardActions sx={{ backgroundColor: 'white', marginTop: '60px' }}>
+                                <CardActions sx={{ backgroundColor: 'white', marginTop: '130px' }}>
                                     <Button size="small" variant="outlined" sx={{ fontFamily: 'Poppins' }}>Detalhes</Button>
                                 </CardActions>
 
