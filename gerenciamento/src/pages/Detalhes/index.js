@@ -58,9 +58,11 @@ export const Detalhes = () => {
                             </ul>
                         </>
                     )}
+
                     <Cta>
                         <BtnPrimary>Reservar</BtnPrimary>
                     </Cta>
+                    
                 </ProductDetails>
             </Product>
 
