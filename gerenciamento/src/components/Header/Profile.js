@@ -26,7 +26,8 @@ export default function Profile() {
     const [modalOpenProfile, setModalOpenProfile] = useState(false)
     const [loading, setLoading] = useState(false);
 
-    
+    const token = localStorage.getItem('token');
+
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
         setOpen(true);
@@ -56,7 +57,7 @@ export default function Profile() {
     };
 
 
-   
+
 
 
 
@@ -127,14 +128,14 @@ export default function Profile() {
 
                 <Divider />
                 
-                <Link to="/login" style={{ textDecoration: 'none', color: 'black' }}>
+                {!token && <Link to="/login" style={{ textDecoration: 'none', color: 'black' }}>
                     <MenuItem onClick={handleClose}>
                         <ListItemIcon>
                             <LoginIcon fontSize="small" />
                         </ListItemIcon>
                         Entrar
                     </MenuItem>
-                </Link>
+                </Link>}
 
                 <Link to="/cadastro" style={{ textDecoration: 'none', color: 'black' }}>
                     <MenuItem onClick={handleClose}>
