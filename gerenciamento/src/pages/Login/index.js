@@ -25,10 +25,9 @@ const Login = () => {
         senha: senha
       });
 
-      const { token } = response.data;
+      const { content } = response?.data;
 
-
-      localStorage.setItem('token', token);
+      localStorage.setItem('session', JSON.stringify(content));
 
       setEmail('');
       setSenha('');
@@ -40,6 +39,7 @@ const Login = () => {
       setTimeout(() => {
         navigate("/")
       }, 3000);
+
     } catch (error) {
       console.error('Erro ao fazer login:', error);
     }

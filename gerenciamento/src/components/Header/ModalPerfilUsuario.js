@@ -25,20 +25,22 @@ export default function ModalPerfilUsuario(props) {
 
   const [loading, setLoading] = React.useState(false);
 
+  const [session, setSession] = React.useState(JSON.parse(localStorage.getItem('session')) || null);
+  console.log("session", session.email)
 
   return (
     <React.Fragment  >
-    
+
       <BootstrapDialog
-         open={props.open}
-         onClose={props.onClose}
+        open={props.open}
+        onClose={props.onClose}
         aria-labelledby="customized-dialog-title"
         PaperProps={{
           sx: {
-              width: '500px' ,
-              height: '340px'
+            width: '500px',
+            height: '340px'
           }
-      }}
+        }}
       >
         <IconButton
           aria-label="close"
@@ -52,30 +54,30 @@ export default function ModalPerfilUsuario(props) {
         >
           <CloseIcon />
         </IconButton>
-        <DialogContent sx={{ paddingTop: 1, marginTop: 9 }}>
-        <Box marginBottom={3}>
+        <DialogContent sx={{ paddingTop: 1, marginTop: 7 }}>
+          <Box marginBottom={3}>
 
-          <Stack direction='column' spacing={1} alignItems='center'>
-            <Avatar alt='Foto Perfil' src='*' sx={{ width: 64, height: 64, bgcolor: 'ButtonShadow' }}>
-              {loading ? (
-                <Skeleton variant='circular' width={40} height={40} />
-              ) : (
-                <AccountCircle sx={{ width: 64, height: 64 }} color='primary' />
-              )}
-            </Avatar>
-            <Typography gutterBottom variant='h4' component='div'>
-              {loading ? <Skeleton variant='text' sx={{ fontSize: '2.65rem', width: 272 }} /> : 'Nome'}
-            </Typography>
-            <Typography variant='h5' color='text.secondary'>
-              {loading ? <Skeleton variant='text' sx={{ fontSize: '2rem', width: 272 }} /> : 'email'}
-            </Typography>
-            <Typography variant='body2' color='text.secondary'>
-              {loading ? <Skeleton variant='text' sx={{ fontSize: '1.375rem', width: 272 }} /> : 'telefone'}
-            </Typography>
-          </Stack>
-        </Box>
-      </DialogContent>
-     
+            <Stack direction='column' spacing={1} alignItems='center'>
+              <Avatar alt='Foto Perfil' src='*' sx={{ width: 64, height: 64, bgcolor: 'ButtonShadow' }}>
+                {loading ? (
+                  <Skeleton variant='circular' width={40} height={40} />
+                ) : (
+                  <AccountCircle sx={{ width: 64, height: 64 }} color='primary' />
+                )}
+              </Avatar>
+              <Typography gutterBottom variant='h4' component='div' sx={{ fontSize: '2.5rem' }}>
+                {loading ? <Skeleton variant='text' sx={{ fontSize: '2.65rem', width: 272 }} /> : `${session.nome}`}
+              </Typography>
+              <Typography variant='h5' color='text.secondary' sx={{ fontSize: '2rem'}} >
+                {loading ? <Skeleton variant='text' sx={{ fontSize: '2rem', width: 272 }} /> : `${session.email}`}
+              </Typography>
+              <Typography variant='body2' color='text.secondary' sx={{ fontSize: '1.375rem'}}>
+                {loading ? <Skeleton variant='text' sx={{ fontSize: '1.375rem', width: 272 }} /> : `${session.telefone}`}
+              </Typography>
+            </Stack>
+          </Box>
+        </DialogContent>
+
       </BootstrapDialog>
     </React.Fragment>
   );
