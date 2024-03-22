@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styled, useTheme, createTheme, ThemeProvider } from '@mui/material/styles';
+import { styled, useTheme} from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
@@ -16,15 +16,6 @@ import Profile from './Profile'
 
 import { MainListItems } from './MainListItems';
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#0D0D0D',
-    },
-  },
-});
-
-const defaultTheme = createTheme();
 
 const drawerWidth = 240;
 
@@ -66,6 +57,7 @@ const AppBar = styled(MuiAppBar, {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
+  backgroundColor: '#318CE7',
   ...(open && {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
@@ -105,14 +97,8 @@ export default function MiniDrawer() {
     setOpen(false);
   };
 
-  // onClick={handleDrawerOpen}
-  /**
-   *    <Typography variant="h6" noWrap component="div" >
-            Gerenciamento
-          </Typography>
-   */
+
   return (
-    <ThemeProvider theme={theme}>
 
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
@@ -158,7 +144,5 @@ export default function MiniDrawer() {
 
         </Box>
       </Box>
-    </ThemeProvider>
-
   );
 }
