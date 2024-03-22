@@ -16,7 +16,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import PermContactCalendarIcon from '@mui/icons-material/PermContactCalendar';
 import ModalPerfilUsuario from "./ModalPerfilUsuario"
 import ModalAlterarSenha from './ModalAlterarSenha';
-
+import { useNavigate } from 'react-router-dom';
 
 
 export default function Profile() {
@@ -26,7 +26,10 @@ export default function Profile() {
     const [modalOpenProfile, setModalOpenProfile] = useState(false)
     const [loading, setLoading] = useState(false);
 
-    const token = localStorage.getItem('token');
+    const [session, setSession] = React.useState(JSON.parse(localStorage.getItem('session')) || null);
+
+    const navigate = useNavigate()
+
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -58,7 +61,10 @@ export default function Profile() {
 
 
 
-
+    const closeSession = () => {
+        localStorage.removeItem('session')
+        navigate('/login');
+    }
 
 
     return (
@@ -127,13 +133,23 @@ export default function Profile() {
                 </MenuItem>
 
                 <Divider />
-                
-                {!token && <Link to="/login" style={{ textDecoration: 'none', color: 'black' }}>
+
+                {!session && <Link to="/login" style={{ textDecoration: 'none', color: 'black' }}>
                     <MenuItem onClick={handleClose}>
                         <ListItemIcon>
                             <LoginIcon fontSize="small" />
                         </ListItemIcon>
                         Entrar
+                    </MenuItem>
+                </Link>}
+
+
+                {session && <Link to="/login" style={{ textDecoration: 'none', color: 'black' }}>
+                    <MenuItem onClick={closeSession}>
+                        <ListItemIcon>
+                            <LoginIcon fontSize="small" />
+                        </ListItemIcon>
+                        Sair
                     </MenuItem>
                 </Link>}
 

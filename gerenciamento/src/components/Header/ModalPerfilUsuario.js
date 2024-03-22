@@ -26,7 +26,6 @@ export default function ModalPerfilUsuario(props) {
   const [loading, setLoading] = React.useState(false);
 
   const [session, setSession] = React.useState(JSON.parse(localStorage.getItem('session')) || null);
-  console.log("session", session.email)
 
   return (
     <React.Fragment  >
