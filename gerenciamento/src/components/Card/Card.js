@@ -14,8 +14,18 @@ import CardMedia from '@mui/material/CardMedia';
 
 
 export const Cartao = () => {
+    const sessionUser = JSON.parse(localStorage.getItem('session'))
+    console.log(sessionUser)
+    const { data } = useApiRequestGet(sessionUser ? "/listar-produtos-permissao" : "/listar-produtos");
+    console.log(data)
+    // const { data } = useApiRequestGet("/listar-produtos");
 
-    const { data } = useApiRequestGet("/listar-produtos");
+    // const { data: dataProduto } = useApiRequestGet("/listar-produtos-permissao");
+
+
+    // const { data } = useApiRequestGet("/listar-produtos-permissao");
+
+
 
     const [page, setPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
@@ -72,7 +82,6 @@ export const Cartao = () => {
                                     component="img"
                                     height="140"
                                     image={produto.imagem}
-                                    alt="green iguana"
                                 />
 
                                 <CardContent sx={{ backgroundColor: 'white', maxHeight: '300px', overflowY: 'auto' }}>

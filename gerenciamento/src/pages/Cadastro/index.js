@@ -182,7 +182,6 @@ export const Cadastro = () => {
                       const { onChange, name, onBlur, value, ref } = field;
                       return (
                         <Autocomplete
-                          fullWidth
                           options={listaDptos || []}
                           className={classes.root}
                           getOptionLabel={(departamento) => departamento.nome}
@@ -228,7 +227,7 @@ export const Cadastro = () => {
                         ref={ref}
 
                         select
-                        fullWidth
+                        fullWidth={true}
                         key='permissao'
                         variant='standard'
                         onBlur={onBlur}
@@ -272,7 +271,7 @@ export const Cadastro = () => {
           <Button
             disabled={loading}
             type="submit"
-            fullWidth
+            // fullWidth
             variant="contained"
           >
             Cadastrar

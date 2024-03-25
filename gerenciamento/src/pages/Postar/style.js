@@ -2,6 +2,10 @@ import React from "react";
 import styled from 'styled-components'
 import { TextField } from '@mui/material';
 
+export const TesteContainer = styled.div`
+padding: 30px;
+`
+
 export const Container = styled.div`
   position: relative;
   width: 90%; 
@@ -100,30 +104,30 @@ margin-right: 20px;
  margin-left: 20px;
 `
 
-// export const ContainerSelect = styled.div`
-// margin-top: 10px;
-// margin-bottom: 20px;
-// margin-right: 20px; 
-// margin-left: 20px;
-// `
+export const ContainerSelect = styled.div`
+margin-top: 10px;
+margin-bottom: 20px;
+margin-right: 20px; 
+margin-left: 20px;
+`
 
-// export const TextArea = styled.textarea`
-//   width: 100%;
-//   max-height: 400px; 
-//   resize: none;
-//   overflow-y: auto; 
-//   font-family: 'Poppins';
-//   color: #757575;
-//   border: 1px solid #BDBDBD;
-//   border-radius: 5px; 
-//   padding: 10px; 
+export const TextArea = styled.textarea`
+  width: 100%;
+  max-height: 400px; 
+  resize: none;
+  overflow-y: auto; 
+  font-family: 'Poppins';
+  color: #757575;
+  border: 1px solid #BDBDBD;
+  border-radius: 5px; 
+  padding: 10px; 
 
-//   outline: none; 
+  outline: none; 
 
-//   &:focus {
-//     outline: none; 
-//   }
-// `;
+  &:focus {
+    outline: none; 
+  }
+`;
 
 export const CardInput = styled.div`
 margin-top: 10px;

@@ -11,100 +11,88 @@ function Postar() {
     nome: '',
     descricao: '',
     localOndeEncontra: '',
-    tipoProdutoId: null, 
-    statusId: null, 
+    tipoProdutoId: '1d8cdc9b-ee76-4cc4-94ed-5e5c13912e0a', 
+    statusId: 'dd5c799d-5166-4db2-bf49-bb854db59704', 
     numeroPatrimonio: '',
     usuarioId: null, 
     imagem: null,
   });
 
-  useEffect(() => {
-    if (data && dataProduto) {
-      setFormData(prevState => ({
-        ...prevState,
-        tipoProdutoId: dataProduto[0].id,
-        statusId: data[0].id,
-      }));
+  const handleChange = (e) => {
+    if (e.target.name === 'image') {
+      setFormData({
+        ...formData,
+        [e.target.name]: e.target.files[0]
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [e.target.name]: e.target.value
+      });
     }
-  }, [data, dataProduto]);
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
   };
 
-  const handleFileChange = (event) => {
-    setFormData({ ...formData, imagem: event.target.files[0] });
-  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+    const data = new FormData();
+    data.append('name', formData.name);
+    data.append('descricao', formData.descricao);
+    data.append('localOndeEncontra', formData.localOndeEncontra);
+    data.append('tipoProdutoId', formData.tipoProdutoId);
+    data.append('statusId', formData.statusId);
+    data.append('numeroPatrimonio', formDatsa.numeroPatrimonio);
+    data.append('usuarioId', formData.usuarioId);
 
-    const formPayload = new FormData();
-    Object.entries(formData).forEach(([key, value]) => {
-      formPayload.append(key, value);
-    });
+    data.append('image', formData.imagem);
+    console.log("data",data )
 
     try {
-      await axios.post('http://10.1.0.187:4002/api/criar-produto', formPayload, {
+      await axios.post('http://10.1.0.187:3000/api/criar-produto', data, {
         headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+          'Content-Type': 'multipart/form-data'
+        }
       });
-      console.log('Produto criado com sucesso');
+      console.log('Produto criado com sucesso!');
     } catch (error) {
-      console.error('Erro ao criar o produto:', error); 
+      console.error('Erro ao criar produto:', error);
     }
   };
 
   return (
     <div>
       <h1>Criar Produto</h1>
-      {data && dataProduto && (
-        <form onSubmit={handleSubmit} encType="multipart/form-data">
-          <label>
-            Nome:
-            <input type="text" name="nome" value={formData.nome} onChange={handleChange} />
-          </label>
-          <br />
-          <label>
-            Descrição:
-            <textarea name="descricao" value={formData.descricao} onChange={handleChange} />
-          </label>
-          <br />
-          <label>
-            Local onde encontra:
-            <input type="text" name="localOndeEncontra" value={formData.localOndeEncontra} onChange={handleChange} />
-          </label>
-          <br />
-          <label>
-            Tipo de Produto ID:
-            <input type="text" name="tipoProdutoId" value={formData.tipoProdutoId} onChange={handleChange} />
-          </label>
-          <br />
-          <label>
-            Status ID:
-            <input type="text" name="statusId" value={formData.statusId} onChange={handleChange} />
-          </label>
-          <br />
-          <label>
-            Número de Patrimônio:
-            <input type="text" name="numeroPatrimonio" value={formData.numeroPatrimonio} onChange={handleChange} />
-          </label>
-          <br />
-          <label>
-            Usuário ID:
-            <input type="text" name="usuarioId" value={formData.usuarioId} onChange={handleChange} />
-          </label>
-          <br />
-          <label>
-            Imagem:
-            <input type="file" name="imagem" onChange={handleFileChange} />
-          </label>
-          <br />
-          <button type="submit">Criar Produto</button>
-        </form>
-      )}
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Nome:</label>
+          <input type="text" name="name" value={formData.name} onChange={handleChange} required />
+        </div>
+        <div>
+          <label>descricao:</label>
+          <input type="text" name="descricao" value={formData.descricao} onChange={handleChange} required />
+        </div>
+        <div>
+          <label>localOndeEncontra:</label>
+          <input type="text" name="localOndeEncontra" value={formData.localOndeEncontra} onChange={handleChange} required />
+        </div>
+        <div>
+          <label>numeroPatrimonio:</label>
+          <input type="text" name="numeroPatrimonio" value={formData.numeroPatrimonio} onChange={handleChange} required />
+        </div>
+        <div>
+          <label>StatusId:</label>
+          <textarea name="description" value={formData.statusId} onChange={handleChange} required />
+        </div>
+        <div>
+          <label>tipoProdutoId:</label>
+          <textarea name="description" value={formData.tipoProdutoId} onChange={handleChange} required />
+        </div>
+        <div>
+          <label>Imagem:</label>
+          <input type="file" name="image" onChange={handleChange} required />
+        </div>
+        <button type="submit">Criar Produto</button>
+      </form>
     </div>
   );
 }
