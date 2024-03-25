@@ -4,7 +4,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { Grid, Pagination, TextField } from '@mui/material';
+import { Box, Grid, Pagination, TextField } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import { ContainerCards } from './style'
 import { Link } from 'react-router-dom';
@@ -41,20 +41,27 @@ export const Cartao = () => {
     return (
 
         <ContainerCards>
-            <TextField
 
-                label="Buscar Produto"
-                variant="outlined"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                size="small"
-                margin="normal"
-                InputProps={{
-                    startAdornment: (
-                        <SearchIcon color="action" />
-                    ),
-                }}
-            />
+            <Box sx={{
+                display: 'flex',
+                justifyContent: 'flex-end'
+            }}>
+                <TextField
+
+                    label="Buscar Produto"
+                    variant="outlined"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    size="small"
+                    margin="normal"
+                    InputProps={{
+                        startAdornment: (
+                            <SearchIcon color="action" />
+                        ),
+                    }}
+                />
+            </Box>
+
             <Grid container spacing={2}>
                 {filteredData && filteredData.slice(startIndex, endIndex).map((produto, index) => (
                     <Grid item key={index} xs={12} sm={6} md={3}>
