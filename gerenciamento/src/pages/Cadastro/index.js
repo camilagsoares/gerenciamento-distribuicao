@@ -16,6 +16,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { makeStyles } from '@material-ui/core/styles';
+import { useNavigate } from 'react-router-dom'; 
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,11 +47,10 @@ const useStyles = makeStyles((theme) => ({
 export const Cadastro = () => {
 
   const classes = useStyles();
+  const navigate = useNavigate()
 
   const [loading, setLoading] = React.useState(false);
   const { data: listaDptos } = useApiRequestGet("/listar-departamentos");
-  const { data: listaPermissao, loading: loadingPermissao } = useApiRequestGet("/listar-permissao");
-  // console.log(listaPermissao)
 
   const schema = yup
     .object({
@@ -70,7 +70,7 @@ export const Cadastro = () => {
       email: '',
       senha: '',
       telefone: '',
-      permissaoId: '',
+      permissaoId: '2076f00d-1b51-4645-9533-388b52d3bbab',
       departamentoId: '',
     },
   });
@@ -83,7 +83,14 @@ export const Cadastro = () => {
       setLoading(true);
       await axiosApi.post('/auth/criar-usuario', data);
       reset();
-      toast.success('Usuário criado com sucesso');
+      toast.success('Usuário criado com sucesso!', {
+        autoClose: 2000
+      });
+
+      setTimeout(() => {
+        navigate("/login")
+      }, 2000);
+
 
     } catch (error) {
       console.error('Erro ao criar usuário:', error.response.data.message);
@@ -172,7 +179,7 @@ export const Cadastro = () => {
                 </InputData>
               </Grid>
 
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} sm={12}>
                 <InputData>
 
                   <Controller
@@ -180,23 +187,20 @@ export const Cadastro = () => {
                     control={control}
                     render={({ field }) => {
                       const { onChange, name, onBlur, value, ref } = field;
+                      // Verificar se listaDptos é uma matriz válida antes de usar o método find
+                      const selectedDepartamento = listaDptos && listaDptos.find(item => item.id === value);
                       return (
                         <Autocomplete
-                          fullWidth
                           options={listaDptos || []}
                           className={classes.root}
                           getOptionLabel={(departamento) => departamento.nome}
-                          value={
-                            listaDptos &&
-                            listaDptos.find((item) => item.id === value)
-                          }
+                          value={selectedDepartamento || null} // Define como null se não houver correspondência
                           onChange={(event, newValue) => {
                             const selectedValue = newValue ? newValue.id : '';
                             onChange(selectedValue);
                           }}
                           onBlur={onBlur}
                           isOptionEqualToValue={(option, value) => option.id === value}
-
                           renderInput={(params) => (
                             <TextField
                               {...params}
@@ -206,62 +210,15 @@ export const Cadastro = () => {
                               name={name}
                               error={!!errors.departamentoId}
                               helperText={errors.departamentoId?.message}
-
                             />
                           )}
                         />
                       );
                     }}
                   />
+
                 </InputData>
               </Grid>
-
-              <Grid item xs={12} sm={5.5} sx={{ marginLeft: '20.6px' }}>
-                <Controller
-                  name='permissaoId'
-                  control={control}
-                  render={({ field }) => {
-                    const { onChange, name, onBlur, value, ref } = field;
-                    return (
-                      <TextField
-                        required
-                        ref={ref}
-
-                        select
-                        fullWidth
-                        key='permissao'
-                        variant='standard'
-                        onBlur={onBlur}
-                        name={name}
-                        label='Permissão'
-                        value={value}
-                        onChange={onChange}
-                        error={!!errors.permissaoId}
-                        className={classes.root}
-                        helperText={errors.permissaoId?.message}
-                      >
-                        <MenuItem disabled value=''
-                          style={{ fontFamily: 'Poppins, sans-serif', fontSize: '14px' }}
-                        >
-                          <em>Nenhuma</em>
-                        </MenuItem>
-                        {!loadingPermissao &&
-                          listaPermissao &&
-                          listaPermissao.length &&
-                          listaPermissao.map((permissao) => (
-                            <MenuItem key={permissao.id} value={permissao.id}
-                              style={{ fontFamily: 'Poppins, sans-serif', fontSize: '14px' }}
-                            >
-                              {permissao.nome}
-                            </MenuItem>
-                          ))}
-                      </TextField>
-                    );
-                  }}
-                />
-
-              </Grid>
-
             </Grid>
 
 
@@ -272,8 +229,6 @@ export const Cadastro = () => {
           <Button
             disabled={loading}
             type="submit"
-            fullWidth
-            variant="contained"
           >
             Cadastrar
             {/* {!loading ? 'Entrar' : <imports.CircularProgress color='success' size={26} />} */}
