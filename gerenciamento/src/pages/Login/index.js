@@ -33,12 +33,12 @@ const Login = () => {
       setSenha('');
 
       toast.success('Login realizado com sucesso!', {
-        autoClose: 3000
+        autoClose: 2000
       });
 
       setTimeout(() => {
         navigate("/")
-      }, 3000);
+      }, 2000);
 
     } catch (error) {
       console.error('Erro ao fazer login:', error);
