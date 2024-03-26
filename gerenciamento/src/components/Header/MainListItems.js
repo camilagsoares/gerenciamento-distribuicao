@@ -10,10 +10,15 @@ import PeopleIcon from '@mui/icons-material/People';
 import { NavLink } from 'react-router-dom';
 import { Tooltip } from "@mui/material"
 
-export const MainListItems = ({open}) => {
+
+export const MainListItems = ({ open }) => {
+
+  const [session, setSession] = React.useState(JSON.parse(localStorage.getItem('session')) || null);
+
+
   return (
     <React.Fragment>
-    
+
       <Tooltip title={!open ? "Início" : ""} placement="right-start">
         <NavLink to='/' style={{ textDecoration: 'none', color: 'black' }}>
           <ListItemButton>
@@ -25,7 +30,7 @@ export const MainListItems = ({open}) => {
         </NavLink>
       </Tooltip>
 
-      <Tooltip title={!open ? "Postar" : ""} placement="right-start">
+      { session && <Tooltip title={!open ? "Postar" : ""} placement="right-start">
         <NavLink to='/postar' style={{ textDecoration: 'none', color: 'black' }}>
           <ListItemButton>
             <ListItemIcon>
@@ -35,7 +40,7 @@ export const MainListItems = ({open}) => {
           </ListItemButton>
         </NavLink>
       </Tooltip>
-
+      }
 
       <ListItemButton>
         <ListItemIcon>

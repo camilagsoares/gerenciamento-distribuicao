@@ -12,26 +12,38 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useCookies } from "react-cookie"
 
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [, setCookie] = useCookies(['token'])
 
   const handleLogin = async () => {
     try {
       const response = await axios.post('http://10.1.0.187:3000/api/auth/login', {
         email: email,
-        senha: senha
+        senha: senha,
+        withCredentials: true
       });
 
-      const { content } = response?.data;
+      const { token, content } = response?.data;
 
+      console.log(token)
       localStorage.setItem('session', JSON.stringify(content));
 
       setEmail('');
       setSenha('');
 
+      setCookie("token", token, {
+        path: '/',
+        httpOnly: true,
+        sameSite: 'strict',
+        secure: true,
+        maxAge: 15 * 60 * 1000,
+      })
+      
       toast.success('Login realizado com sucesso!', {
         autoClose: 2000
       });
