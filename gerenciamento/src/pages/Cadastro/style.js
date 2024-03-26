@@ -101,27 +101,3 @@ export const FormRow = styled.div`
   margin: 32px 0;
 `;
 
-export const BoxButton = styled.div`
-display: flex;
-align-items: center;
-justify-content: center;
-`
-export const StyledTextField = styled(TextField)`
-  width: 100%;
-
-  .MuiInputBase-root {
-    font-family: 'Poppins';
-  }
-
-  .MuiInputLabel-root {
-    font-family: 'Poppins';
-  }
-
-  .MuiInput-underline:before {
-    border-bottom: 2px solid rgba(0, 0, 0, 0.12);
-  }
-
-  .MuiInput-underline:after {
-    border-bottom: 2px solid #3498db;
-  }
-`;

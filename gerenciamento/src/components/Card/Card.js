@@ -66,30 +66,28 @@ export const Cartao = () => {
                 {filteredData && filteredData.slice(startIndex, endIndex).map((produto, index) => (
                     <Grid item key={index} xs={12} sm={6} md={3}>
                         <Link to={`/detalhes/${produto.id}`} style={{ textDecoration: 'none' }}>
-                            <Card sx={{ width: '100%', height: '400px', '&:hover': { boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)' } }}>
+                            <Card sx={{ width: '100%', height: '460px', '&:hover': { boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)' } }}>
 
                                 <CardMedia
                                     component="img"
                                     height="140"
                                     image={produto.imagem}
-                                    alt="green iguana"
+                                    alt={produto.nome}
                                 />
 
-                                <CardContent sx={{ backgroundColor: 'white', maxHeight: '300px', overflowY: 'auto' }}>
-
-                                    <Typography gutterBottom variant="h5" component="div">
-                                        {produto.nome}
-                                    </Typography>
-
-                                    <Typography variant="body2" color="text.secondary">
-                                        {produto.descricao}
-                                    </Typography>
-
+                                <CardContent sx={{ backgroundColor: 'white', maxHeight: '268px', overflowY: 'scroll', '&::-webkit-scrollbar': { width: '6px' }, '&::-webkit-scrollbar-thumb': { backgroundColor: '#d3d3d3' }, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                                    <div>
+                                        <Typography gutterBottom variant="h5" component="div">
+                                            {produto.nome}
+                                        </Typography>
+                                        <Typography variant="body2" color="text.secondary" sx={{ textAlign: "justify" }}>
+                                            {produto.descricao}
+                                        </Typography>
+                                    </div>
+                                    <CardActions sx={{ backgroundColor: 'white', position: 'absolute', marginLeft: '-10px', marginTop: '255px', }}>
+                                        <Button size="small" variant="outlined" sx={{ fontFamily: 'Poppins' }}>Detalhes</Button>
+                                    </CardActions>
                                 </CardContent>
-                                <CardActions sx={{ backgroundColor: 'white', marginTop: '130px' }}>
-                                    <Button size="small" variant="outlined" sx={{ fontFamily: 'Poppins' }}>Detalhes</Button>
-                                </CardActions>
-
                             </Card>
                         </Link>
                     </Grid>

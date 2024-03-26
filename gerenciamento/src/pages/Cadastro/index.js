@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { ContainerSignUp, AlignContainer } from './style'
-import { Button, FormRow, InputData, Input, Underline, Label, BoxButton, StyledTextField } from './style';
+import { Button, FormRow, InputData, Input, Underline, Label } from './style';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useApiRequestGet, axiosApi } from '../../services/api';
@@ -16,7 +16,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { makeStyles } from '@material-ui/core/styles';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -225,15 +225,16 @@ export const Cadastro = () => {
           </FormRow>
 
 
-
-          <Button
-            disabled={loading}
-            type="submit"
-          >
-            Cadastrar
-            {/* {!loading ? 'Entrar' : <imports.CircularProgress color='success' size={26} />} */}
-
-          </Button>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Button
+              disabled={loading}
+              type="submit"
+            >
+              Cadastrar
+              {/* {!loading ? 'Entrar' : <imports.CircularProgress color='success' size={26} />} */}
+            </Button>
+          </Box>
+          
           <ToastContainer />
 
         </form>
