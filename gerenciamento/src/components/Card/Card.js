@@ -15,7 +15,10 @@ import CardMedia from '@mui/material/CardMedia';
 
 export const Cartao = () => {
 
+    
     const { data } = useApiRequestGet("/listar-produtos");
+    const { data: tipoProduto } = useApiRequestGet("/listar-tipoproduto");
+    console.log(tipoProduto)
 
     const [page, setPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
@@ -66,7 +69,7 @@ export const Cartao = () => {
                 {filteredData && filteredData.slice(startIndex, endIndex).map((produto, index) => (
                     <Grid item key={index} xs={12} sm={6} md={3}>
                         <Link to={`/detalhes/${produto.id}`} style={{ textDecoration: 'none' }}>
-                            <Card sx={{ width: '100%', height: '400px', '&:hover': { boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)' } }}>
+                            <Card sx={{ width: '100%', height: '460px', '&:hover': { boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)' }, }}>
 
                                 <CardMedia
                                     component="img"
