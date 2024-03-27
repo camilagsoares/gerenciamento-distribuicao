@@ -200,7 +200,8 @@ export const Cadastro = () => {
                             onChange(selectedValue);
                           }}
                           onBlur={onBlur}
-                          isOptionEqualToValue={(option, value) => option.id === value}
+                          isOptionEqualToValue={(option, value) => option.id === value} // Personalize a comparação de igualdade aqui
+
                           renderInput={(params) => (
                             <TextField
                               {...params}
