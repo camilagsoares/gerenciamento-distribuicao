@@ -1,111 +1,142 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import axios from 'axios';
-import { useApiRequestGet } from '../../services/api'; 
+import { Container, Card, ArrowIcon, Title, ContainerButton } from './style'
+import EditIcon from '@mui/icons-material/Edit';
+import { Button } from '@mui/base';
 
 function Postar() {
 
-  const { data } = useApiRequestGet("/listar-status");
-  const { data: dataProduto } = useApiRequestGet("/listar-tipoproduto");
+  // const { data } = useApiRequestGet("/listar-status");
+  // const { data: dataProduto } = useApiRequestGet("/const [tipoProdutoId, setTipoProdutoId] = useState('1d8cdc9b-ee76-4cc4-94ed-5e5c13912e0a');
+  // listar-tipoproduto");
+  // const [tipoProdutoId, setTipoProdutoId] = useState('1d8cdc9b-ee76-4cc4-94ed-5e5c13912e0a');
+  // const [statusId, setStatusId] = useState('dd5c799d-5166-4db2-bf49-bb854db59704');
+  // http://10.1.0.187:3000/api/criar-produto
 
-  const [formData, setFormData] = useState({
-    nome: '',
-    descricao: '',
-    localOndeEncontra: '',
-    tipoProdutoId: null, 
-    statusId: null, 
-    numeroPatrimonio: '',
-    usuarioId: null, 
-    imagem: null,
-  });
+  const [session, setSession] = React.useState(JSON.parse(localStorage.getItem('session')) || null);
 
-  useEffect(() => {
-    if (data && dataProduto) {
-      setFormData(prevState => ({
-        ...prevState,
-        tipoProdutoId: dataProduto[0].id,
-        statusId: data[0].id,
-      }));
-    }
-  }, [data, dataProduto]);
+  const [nome, setNome] = useState('');
+  const [descricao, setDescricao] = useState('');
+  const [localOndeEncontra, setLocalOndeEncontra] = useState('');
+  const [numeroPatrimonio, setNumeroPatrimonio] = useState('');
+  const [imagem, setImagem] = useState(null);
+  const [tipoProdutoId, setTipoProdutoId] = useState('1d8cdc9b-ee76-4cc4-94ed-5e5c13912e0a');
+  const [statusId, setStatusId] = useState('dd5c799d-5166-4db2-bf49-bb854db59704');
+  const [usuarioId, setUsuarioId] = useState(session.id)
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handleFileChange = (event) => {
-    setFormData({ ...formData, imagem: event.target.files[0] });
-  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const formPayload = new FormData();
-    Object.entries(formData).forEach(([key, value]) => {
-      formPayload.append(key, value);
-    });
-
+    const formData = new FormData();
+    formData.append('nome', nome);
+    formData.append('descricao', descricao);
+    formData.append('localOndeEncontra', localOndeEncontra);
+    formData.append('tipoProdutoId', tipoProdutoId);
+    formData.append('numeroPatrimonio', numeroPatrimonio);
+    formData.append('statusId', statusId);
+    formData.append('imagem', imagem);
+    formData.append('usuarioId', usuarioId);
     try {
-      await axios.post('http://10.1.0.187:4002/api/criar-produto', formPayload, {
+      await axios.post('http://10.1.0.187:3000/api/criar-produto', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
-      console.log('Produto criado com sucesso');
+      console.log('Produto criado com sucesso!');
+      // Adicione aqui qualquer lógica adicional após a criação do produto
     } catch (error) {
-      console.error('Erro ao criar o produto:', error); 
+      console.error('Erro ao criar produto:', error);
     }
   };
-
   return (
-    <div>
-      <h1>Criar Produto</h1>
-      {data && dataProduto && (
-        <form onSubmit={handleSubmit} encType="multipart/form-data">
-          <label>
-            Nome:
-            <input type="text" name="nome" value={formData.nome} onChange={handleChange} />
-          </label>
-          <br />
-          <label>
-            Descrição:
-            <textarea name="descricao" value={formData.descricao} onChange={handleChange} />
-          </label>
-          <br />
-          <label>
-            Local onde encontra:
-            <input type="text" name="localOndeEncontra" value={formData.localOndeEncontra} onChange={handleChange} />
-          </label>
-          <br />
-          <label>
-            Tipo de Produto ID:
-            <input type="text" name="tipoProdutoId" value={formData.tipoProdutoId} onChange={handleChange} />
-          </label>
-          <br />
-          <label>
-            Status ID:
-            <input type="text" name="statusId" value={formData.statusId} onChange={handleChange} />
-          </label>
-          <br />
-          <label>
-            Número de Patrimônio:
-            <input type="text" name="numeroPatrimonio" value={formData.numeroPatrimonio} onChange={handleChange} />
-          </label>
-          <br />
-          <label>
-            Usuário ID:
-            <input type="text" name="usuarioId" value={formData.usuarioId} onChange={handleChange} />
-          </label>
-          <br />
-          <label>
-            Imagem:
-            <input type="file" name="imagem" onChange={handleFileChange} />
-          </label>
-          <br />
-          <button type="submit">Criar Produto</button>
+    <Container>
+      <Card>
+        <ArrowIcon>
+          <EditIcon style={{ color: 'white' }} />
+        </ArrowIcon>
+        <Title color="#1976D2">Poste um bem</Title>
+
+        <form onSubmit={handleSubmit}>
+
+          <label>Nome</label>
+          <input type="text"
+            placeholder="Nome"
+            value={nome}
+            onChange={(e) => setNome(e.target.value)}
+          />
+
+          <br /> <br />
+
+          <label>Descrição</label>
+          <input
+            type="text"
+            placeholder="Descrição"
+            value={descricao}
+            onChange={(e) => setDescricao(e.target.value)}
+          />
+          <br /> <br />
+
+          <label>Local onde encontra</label>
+          <input
+            type="text"
+            placeholder="Local onde Encontra"
+            value={localOndeEncontra}
+            onChange={(e) => setLocalOndeEncontra(e.target.value)}
+          />
+          <br /> <br />
+
+          <label>Tipo de produto ID</label>
+          <input
+            type="text"
+            placeholder="Tipo de Produto ID"
+            value={tipoProdutoId}
+            onChange={(e) => setTipoProdutoId(e.target.value)}
+          />
+          <br /> <br />
+          <label>Número de Patrimônio</label>
+
+          <input
+            type="text"
+            placeholder="Número de Patrimônio"
+            value={numeroPatrimonio}
+            onChange={(e) => setNumeroPatrimonio(e.target.value)}
+          />
+
+          <br /> <br />
+
+          <label>Status ID</label>
+          <input
+            type="text"
+            placeholder="Status ID"
+            value={statusId}
+            onChange={(e) => setStatusId(e.target.value)}
+          />
+
+          <br /> <br />
+          <label>Usuario ID</label>
+          <input
+            type="text"
+            placeholder="Usuario ID"
+            value={statusId}
+            onChange={(e) => setUsuarioId(e.target.value)}
+          />
+
+          <br /> <br />
+          <input
+            type="file"
+            onChange={(e) => setImagem(e.target.files[0])}
+          />
+
+          <br /> <br />
+          
+          <ContainerButton>
+            <Button type="submit" fullWidth style={{ height: '50px' }}>Criar Produto</Button>
+          </ContainerButton>
         </form>
-      )}
-    </div>
+
+      </Card>
+    </Container>
   );
 }
 

@@ -12,13 +12,11 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useCookies } from "react-cookie"
 
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  const [, setCookie] = useCookies(['token'])
 
   const handleLogin = async () => {
     try {
@@ -28,21 +26,13 @@ const Login = () => {
         withCredentials: true
       });
 
-      const { token, content } = response?.data;
+      const { token, session } = response?.data;
 
       console.log(token)
-      localStorage.setItem('session', JSON.stringify(content));
+      localStorage.setItem('session', JSON.stringify(session));
 
       setEmail('');
       setSenha('');
-
-      setCookie("token", token, {
-        path: '/',
-        httpOnly: true,
-        sameSite: 'strict',
-        secure: true,
-        maxAge: 15 * 60 * 1000,
-      })
       
       toast.success('Login realizado com sucesso!', {
         autoClose: 2000
