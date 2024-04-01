@@ -22,6 +22,8 @@ export const Cartao = () => {
 
     const [filteredData, setFilteredData] = useState([]);
     const [statusFilter, setStatusFilter] = useState('todos');
+    const [tipoProdutoFilter, setTipoProdutoFilter] = useState('todos');
+    const [tipoProdutos, setTipoProdutos] = useState([]);
 
     // const { data } = useApiRequestGet("/listar-produtos");
 
@@ -67,10 +69,30 @@ export const Cartao = () => {
         setStatusFilter(e.target.value);
     };
 
-    const handleSearchTermChange = (e) => {
-        setSearchTerm(e.target.value);
-    };
+    useEffect(() => {
+        if (data) {
+            setFilteredData(data);
+            const tiposUnicos = [...new Set(data.map(produto => produto.tipoProduto.nome))];
+            setTipoProdutos(tiposUnicos);
+        }
+    }, [data]);
 
+    useEffect(() => {
+        if (data) {
+            const newData = data.filter(produto =>
+                (produto.nome.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
+                    produto.descricao.toLowerCase().includes(searchTerm.trim().toLowerCase())) &&
+                (statusFilter === 'todos' || produto.status.nome.toLowerCase() === statusFilter.toLowerCase()) &&
+                (tipoProdutoFilter === 'todos' || produto.tipoProduto.nome.toLowerCase() === tipoProdutoFilter.toLowerCase())
+            );
+            setFilteredData(newData);
+        }
+    }, [data, searchTerm, statusFilter, tipoProdutoFilter]);
+
+
+    const handleTipoProdutoFilterChange = (e) => {
+        setTipoProdutoFilter(e.target.value);
+    };
 
     return (
 
@@ -81,9 +103,24 @@ export const Cartao = () => {
                 justifyContent: 'flex-end'
             }}>
 
-                
-<TextField
-                    sx={{ marginRight: '10px' }}
+                <TextField
+                    select
+                    label="Tipo de produto"
+                    value={tipoProdutoFilter}
+                    variant="outlined"
+                    size="small"
+                    margin="normal"
+                    onChange={handleTipoProdutoFilterChange}
+                    sx={{ width: '200px'}}
+                >
+                    <MenuItem value="todos">Todos</MenuItem>
+                    {tipoProdutos.map(tipo => (
+                        <MenuItem key={tipo} value={tipo}>{tipo}</MenuItem>
+                    ))}
+                </TextField>
+
+                <TextField
+                    sx={{ marginRight: '10px', marginLeft: '10px',  width: '200px' }}
                     select
                     label="Filtrar por status"
                     value={statusFilter}
@@ -96,7 +133,7 @@ export const Cartao = () => {
                     <MenuItem value="disponível">Disponível</MenuItem>
                     <MenuItem value="reservado">Reservado</MenuItem>
                 </TextField>
-                
+
                 <TextField
 
                     label="Buscar Produto"
