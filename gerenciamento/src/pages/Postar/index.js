@@ -7,6 +7,8 @@ function Postar() {
   const { data } = useApiRequestGet("/listar-status");
   const { data: dataProduto } = useApiRequestGet("/listar-tipoproduto");
 
+  // const [session, setSession] = React.useState(JSON.parse(localStorage.getItem('session')) || null);
+  // console.log(session)
   const [formData, setFormData] = useState({
     nome: '',
     descricao: '',
@@ -41,7 +43,7 @@ function Postar() {
     data.append('localOndeEncontra', formData.localOndeEncontra);
     data.append('tipoProdutoId', formData.tipoProdutoId);
     data.append('statusId', formData.statusId);
-    data.append('numeroPatrimonio', formDatsa.numeroPatrimonio);
+    data.append('numeroPatrimonio', formData.numeroPatrimonio);
     data.append('usuarioId', formData.usuarioId);
 
     data.append('image', formData.imagem);
@@ -50,12 +52,13 @@ function Postar() {
     try {
       await axios.post('http://10.1.0.187:3000/api/criar-produto', data, {
         headers: {
-          'Content-Type': 'multipart/form-data'
+          'Content-Type': 'multipart/form-data',
+
         }
       });
       console.log('Produto criado com sucesso!');
     } catch (error) {
-      console.error('Erro ao criar produto:', error);
+      console.error(error);
     }
   };
 
