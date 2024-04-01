@@ -116,6 +116,7 @@ export const Cadastro = () => {
             </Avatar>
 
             <h1>Cadastro</h1>
+            
           </Box>
 
 
