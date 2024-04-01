@@ -25,14 +25,6 @@ export const Cartao = () => {
     const [tipoProdutoFilter, setTipoProdutoFilter] = useState('todos');
     const [tipoProdutos, setTipoProdutos] = useState([]);
 
-    // const { data } = useApiRequestGet("/listar-produtos");
-
-    // const { data: dataProduto } = useApiRequestGet("/listar-produtos-permissao");
-
-
-    // const { data } = useApiRequestGet("/listar-produtos-permissao");
-
-
     const [page, setPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
 
