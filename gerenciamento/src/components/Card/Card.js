@@ -17,7 +17,8 @@ import { MenuItem } from '@mui/material';
 export const Cartao = () => {
     const sessionUser = JSON.parse(localStorage.getItem('session'))
     console.log(sessionUser)
-    const { data } = useApiRequestGet(sessionUser ? "/listar-produtos-permissao" : "/listar-produtos");
+    // const { data } = useApiRequestGet(sessionUser ? "/listar-produtos-permissao" : "/listar-produtos");
+    const { data } = useApiRequestGet( "/listar-produtos");
     console.log(data)
 
     const [filteredData, setFilteredData] = useState([]);
@@ -156,7 +157,7 @@ export const Cartao = () => {
                                     image={produto.imagem}
                                 />
 
-                                <CardContent sx={{ backgroundColor: 'white', maxHeight: '300px', overflowY: 'auto' }}>
+                                <CardContent sx={{ backgroundColor: 'white', maxHeight: '200px', overflowY: 'auto' }}>
 
                                     <Typography gutterBottom variant="h5" component="div">
                                         {produto.nome}
@@ -167,7 +168,7 @@ export const Cartao = () => {
                                     </Typography>
 
                                 </CardContent>
-                                <CardActions sx={{ backgroundColor: 'white', marginTop: '130px' }}>
+                                <CardActions sx={{  backgroundColor: 'white', marginTop: '10px'}}>
                                     <Button size="small" variant="outlined" sx={{ fontFamily: 'Poppins' }}>Detalhes</Button>
                                 </CardActions>
 
