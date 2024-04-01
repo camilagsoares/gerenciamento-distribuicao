@@ -11,11 +11,25 @@ import { Link } from 'react-router-dom';
 import { useApiRequestGet } from "../../services/api";
 import SearchIcon from '@mui/icons-material/Search';
 import CardMedia from '@mui/material/CardMedia';
+import { MenuItem } from '@mui/material';
 
 
 export const Cartao = () => {
+    const sessionUser = JSON.parse(localStorage.getItem('session'))
+    console.log(sessionUser)
+    const { data } = useApiRequestGet(sessionUser ? "/listar-produtos-permissao" : "/listar-produtos");
+    console.log(data)
 
-    const { data } = useApiRequestGet("/listar-produtos");
+    const [filteredData, setFilteredData] = useState([]);
+    const [statusFilter, setStatusFilter] = useState('todos');
+
+    // const { data } = useApiRequestGet("/listar-produtos");
+
+    // const { data: dataProduto } = useApiRequestGet("/listar-produtos-permissao");
+
+
+    // const { data } = useApiRequestGet("/listar-produtos-permissao");
+
 
     const [page, setPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
@@ -33,10 +47,30 @@ export const Cartao = () => {
     const startIndex = (page - 1) * cardsPerPage;
     const endIndex = startIndex + cardsPerPage;
 
-    const filteredData = data ? data.filter(produto =>
-        produto.nome.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
-        produto.descricao.toLowerCase().includes(searchTerm.trim().toLowerCase())
-    ) : [];
+    // const filteredData = data ? data.filter(produto =>
+    //     produto.nome.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
+    //     produto.descricao.toLowerCase().includes(searchTerm.trim().toLowerCase())
+    // ) : [];
+
+    useEffect(() => {
+        if (data) {
+            const newData = data.filter(produto =>
+                (produto.nome.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
+                    produto.descricao.toLowerCase().includes(searchTerm.trim().toLowerCase())) &&
+                (statusFilter === 'todos' || produto.status.nome.toLowerCase() === statusFilter.toLowerCase())
+            );
+            setFilteredData(newData);
+        }
+    }, [data, searchTerm, statusFilter]);
+
+    const handleStatusFilterChange = (e) => {
+        setStatusFilter(e.target.value);
+    };
+
+    const handleSearchTermChange = (e) => {
+        setSearchTerm(e.target.value);
+    };
+
 
     return (
 
@@ -46,6 +80,23 @@ export const Cartao = () => {
                 display: 'flex',
                 justifyContent: 'flex-end'
             }}>
+
+                
+<TextField
+                    sx={{ marginRight: '10px' }}
+                    select
+                    label="Filtrar por status"
+                    value={statusFilter}
+                    onChange={handleStatusFilterChange}
+                    variant="outlined"
+                    size="small"
+                    margin="normal"
+                >
+                    <MenuItem value="todos">Todos</MenuItem>
+                    <MenuItem value="disponível">Disponível</MenuItem>
+                    <MenuItem value="reservado">Reservado</MenuItem>
+                </TextField>
+                
                 <TextField
 
                     label="Buscar Produto"
@@ -60,34 +111,37 @@ export const Cartao = () => {
                         ),
                     }}
                 />
+
+
             </Box>
 
             <Grid container spacing={2}>
                 {filteredData && filteredData.slice(startIndex, endIndex).map((produto, index) => (
                     <Grid item key={index} xs={12} sm={6} md={3}>
                         <Link to={`/detalhes/${produto.id}`} style={{ textDecoration: 'none' }}>
-                            <Card sx={{ width: '100%', height: '460px', '&:hover': { boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)' } }}>
+                            <Card sx={{ width: '100%', height: '400px', '&:hover': { boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)' } }}>
 
                                 <CardMedia
                                     component="img"
                                     height="140"
                                     image={produto.imagem}
-                                    alt={produto.nome}
                                 />
 
-                                <CardContent sx={{ backgroundColor: 'white', maxHeight: '268px', overflowY: 'scroll', '&::-webkit-scrollbar': { width: '6px' }, '&::-webkit-scrollbar-thumb': { backgroundColor: '#d3d3d3' }, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                                    <div>
-                                        <Typography gutterBottom variant="h5" component="div">
-                                            {produto.nome}
-                                        </Typography>
-                                        <Typography variant="body2" color="text.secondary" sx={{ textAlign: "justify" }}>
-                                            {produto.descricao}
-                                        </Typography>
-                                    </div>
-                                    <CardActions sx={{ backgroundColor: 'white', position: 'absolute', marginLeft: '-10px', marginTop: '255px', }}>
-                                        <Button size="small" variant="outlined" sx={{ fontFamily: 'Poppins' }}>Detalhes</Button>
-                                    </CardActions>
+                                <CardContent sx={{ backgroundColor: 'white', maxHeight: '300px', overflowY: 'auto' }}>
+
+                                    <Typography gutterBottom variant="h5" component="div">
+                                        {produto.nome}
+                                    </Typography>
+
+                                    <Typography variant="body2" color="text.secondary">
+                                        {produto.descricao}
+                                    </Typography>
+
                                 </CardContent>
+                                <CardActions sx={{ backgroundColor: 'white', marginTop: '130px' }}>
+                                    <Button size="small" variant="outlined" sx={{ fontFamily: 'Poppins' }}>Detalhes</Button>
+                                </CardActions>
+
                             </Card>
                         </Link>
                     </Grid>
