@@ -18,7 +18,9 @@ export const Cartao = () => {
     const sessionUser = JSON.parse(localStorage.getItem('session'))
     console.log(sessionUser)
     // const { data } = useApiRequestGet(sessionUser ? "/listar-produtos-permissao" : "/listar-produtos");
+
     const { data } = useApiRequestGet("/listar-produtos");
+
     console.log(data)
 
     const [filteredData, setFilteredData] = useState([]);
@@ -146,6 +148,7 @@ export const Cartao = () => {
             </Box>
 
             <Grid container spacing={2}>
+
                 {filteredData && filteredData.slice(startIndex, endIndex).map((produto, index) => {
                     return (
                         <Grid item key={index} xs={12} sm={6} md={3}>
@@ -184,6 +187,7 @@ export const Cartao = () => {
                         </Grid>
                     );
                 })}
+
             </Grid>
 
             <Stack spacing={2} display="flex" alignItems="flex-end" marginTop="20px">
