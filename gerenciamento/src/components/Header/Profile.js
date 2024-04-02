@@ -25,11 +25,9 @@ export default function Profile() {
     const [modalOpen, setModalOpen] = useState(false);
     const [modalOpenProfile, setModalOpenProfile] = useState(false)
     const [loading, setLoading] = useState(false);
-
     const [session, setSession] = React.useState(JSON.parse(localStorage.getItem('session')) || null);
 
     const navigate = useNavigate()
-
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
