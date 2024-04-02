@@ -18,7 +18,9 @@ export const Cartao = () => {
     const sessionUser = JSON.parse(localStorage.getItem('session'))
     console.log(sessionUser)
     // const { data } = useApiRequestGet(sessionUser ? "/listar-produtos-permissao" : "/listar-produtos");
-    const { data } = useApiRequestGet( "/listar-produtos");
+
+    const { data } = useApiRequestGet("/listar-produtos");
+
     console.log(data)
 
     const [filteredData, setFilteredData] = useState([]);
@@ -104,7 +106,7 @@ export const Cartao = () => {
                     size="small"
                     margin="normal"
                     onChange={handleTipoProdutoFilterChange}
-                    sx={{ width: '200px'}}
+                    sx={{ width: '200px' }}
                 >
                     <MenuItem value="todos">Todos</MenuItem>
                     {tipoProdutos.map(tipo => (
@@ -113,7 +115,7 @@ export const Cartao = () => {
                 </TextField>
 
                 <TextField
-                    sx={{ marginRight: '10px', marginLeft: '10px',  width: '200px' }}
+                    sx={{ marginRight: '10px', marginLeft: '10px', width: '200px' }}
                     select
                     label="Filtrar por status"
                     value={statusFilter}
@@ -146,36 +148,46 @@ export const Cartao = () => {
             </Box>
 
             <Grid container spacing={2}>
-                {filteredData && filteredData.slice(startIndex, endIndex).map((produto, index) => (
-                    <Grid item key={index} xs={12} sm={6} md={3}>
-                        <Link to={`/detalhes/${produto.id}`} style={{ textDecoration: 'none' }}>
-                            <Card sx={{ width: '100%', height: '400px', '&:hover': { boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)' } }}>
 
-                                <CardMedia
-                                    component="img"
-                                    height="140"
-                                    image={produto.imagem}
-                                />
+                {filteredData && filteredData.slice(startIndex, endIndex).map((produto, index) => {
+                    return (
+                        <Grid item key={index} xs={12} sm={6} md={3}>
+                            <Link to={`/detalhes/${produto.id}`} style={{ textDecoration: 'none' }}>
+                                <Card sx={{ width: '100%', height: '400px', '&:hover': { boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)' } }}>
 
-                                <CardContent sx={{ backgroundColor: 'white', maxHeight: '200px', overflowY: 'auto' }}>
+                                    <CardMedia
+                                        component="img"
+                                        height="140"
+                                        image={produto.imagem} />
 
-                                    <Typography gutterBottom variant="h5" component="div">
-                                        {produto.nome}
-                                    </Typography>
+                                    <CardContent sx={{ backgroundColor: 'white', maxHeight: '200px', overflowY: 'auto' }}>
 
-                                    <Typography variant="body2" color="text.secondary">
-                                        {produto.descricao}
-                                    </Typography>
+                                        <Typography gutterBottom variant="h5" component="div">
+                                            {produto.nome}
+                                        </Typography>
 
-                                </CardContent>
-                                <CardActions sx={{  backgroundColor: 'white', marginTop: '10px'}}>
-                                    <Button size="small" variant="outlined" sx={{ fontFamily: 'Poppins' }}>Detalhes</Button>
-                                </CardActions>
+                                        <Typography variant="body2" color="text.secondary">
+                                            {produto.descricao}
+                                        </Typography>
 
-                            </Card>
-                        </Link>
-                    </Grid>
-                ))}
+                                    </CardContent>
+                                </Card>
+                            </Link>
+
+
+                            <Box sx={{
+                                backgroundColor: 'transparent',
+                                marginTop: '-64px',
+                            }}>
+
+                                <Link to={`/detalhes/${produto.id}`} >
+                                    <Button size="small" variant="outlined" sx={{ fontFamily: 'Poppins', margin: '20px' }}>Detalhes</Button>
+                                </Link>
+                            </Box>
+                        </Grid>
+                    );
+                })}
+
             </Grid>
 
             <Stack spacing={2} display="flex" alignItems="flex-end" marginTop="20px">
