@@ -13,8 +13,9 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import Profile from './Profile'
-
+import { useApiRequestGet } from "../../services/api";
 import { MainListItems } from './MainListItems';
+import MenuItem from '@mui/material/MenuItem';
 
 
 const drawerWidth = 240;
@@ -85,9 +86,19 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   }),
 );
 
+
 export default function MiniDrawer() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+
+
+  const { data } = useApiRequestGet("/listar-tipoproduto");
+  // console.log('Teste filtro header', data)
+  const tiposUnicos = data ? data.map(produto => produto.nome) : [];
+  // console.log('Teste Tipo Unico', tiposUnicos);
+
+
+
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -136,12 +147,18 @@ export default function MiniDrawer() {
           <Divider />
           <List>
             <MainListItems open={open} />
-
           </List>
-
+          <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}>
+        {/* Adicione a exibição dos itens aqui */}
+        {/* <ul>
+          {tiposUnicos.map((tipo, index) => (
+            <li key={index}>{tipo}</li>
+          ))}
+        </ul> */}
+      </Box>
         </Drawer>
         <Box component="main" >
-
+            
         </Box>
       </Box>
   );

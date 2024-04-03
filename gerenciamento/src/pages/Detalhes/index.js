@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Button, Modal, Dialog, DialogContent, } from '@mui/material';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { Link } from 'react-router-dom';
-// import { Product, ProductDetails, ProductImages, Cta, BtnPrimary, ProductImageWrapper, ProductImage, ImageOverlay } from './style';
+import { Container, InnerContainer, ImgBox, Image, Details, Content, Title, Subtitle, Description, ButtonStyle } from './style';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { useApiRequestGet, api } from "../../services/api";
@@ -104,98 +104,6 @@ export const Detalhes = () => {
         setLoading(false);
       })
   };
-
-
-
-  const Container = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Poppins', sans-serif;
-    margin: 0 auto;
-    margin-top: 48px;
-`;
-
-  const InnerContainer = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    width: 900px;
-    height: 600px;
-    background: #fff;
-    margin: 20px;
-`;
-
-  const ImgBox = styled.div`
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 50%;
-    height: 100%;
-    background: ${props => props.backgroundColor};
-    transition: .3s linear;
-`;
-
-  const Image = styled.img`
-    position: relative;
-   max-width:100%;
-`;
-
-  const Details = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 50%;
-    height: 100%;
-    box-sizing: border-box;
-    padding: 40px;
-`;
-
-  const Content = styled.div``;
-
-  const Title = styled.h2`
-    margin: 0;
-    padding: 0;
-    font-size: 2.4em;
-    line-height: 1em;
-    color: ${props => props.color};
-`;
-
-  const Subtitle = styled.span`
-    font-size: 0.4em;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: #999;
-`;
-
-  const Description = styled.p`
-    max-width: 85%;
-    margin-left: 15%;
-    color: #333;
-    font-size: 15px;
-    margin-bottom: 36px;
-`;
-
-  const ButtonStyle = styled.button`
-    background: #318CE7;
-    color: #fff;
-    border: none;
-    outline: none;
-    padding: 15px 20px;
-    margin-top: 5px;
-    font-size: 16px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    font-weight: 300;
-    border-radius: 40px;
-    float: right;
-    transition: background-color 1s;
-    
-    &:hover{
-      background-color: #0058B8;
-    }
-`;
 
 
 
