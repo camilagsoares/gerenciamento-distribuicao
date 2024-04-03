@@ -25,7 +25,8 @@ export default function ModalPerfilUsuario(props) {
 
   const [loading, setLoading] = React.useState(false);
 
-  const [session, setSession] = React.useState(JSON.parse(localStorage.getItem('session')) || null);
+  const sessionUser = JSON.parse(localStorage.getItem('session'))
+  console.log("sessionUser",sessionUser)
 
   return (
     <React.Fragment  >
@@ -65,13 +66,13 @@ export default function ModalPerfilUsuario(props) {
                 )}
               </Avatar>
               <Typography gutterBottom variant='h4' component='div' sx={{ fontSize: '2.5rem' }}>
-                {loading ? <Skeleton variant='text' sx={{ fontSize: '2.65rem', width: 272 }} /> : `${session.nome}`}
+                {loading ? <Skeleton variant='text' sx={{ fontSize: '2.65rem', width: 272 }} /> : `${sessionUser.nome}`}
               </Typography>
               <Typography variant='h5' color='text.secondary' sx={{ fontSize: '2rem'}} >
-                {loading ? <Skeleton variant='text' sx={{ fontSize: '2rem', width: 272 }} /> : `${session.email}`}
+                {loading ? <Skeleton variant='text' sx={{ fontSize: '2rem', width: 272 }} /> : `${sessionUser.email}`}
               </Typography>
               <Typography variant='body2' color='text.secondary' sx={{ fontSize: '1.375rem'}}>
-                {loading ? <Skeleton variant='text' sx={{ fontSize: '1.375rem', width: 272 }} /> : `${session.telefone}`}
+                {loading ? <Skeleton variant='text' sx={{ fontSize: '1.375rem', width: 272 }} /> : `${sessionUser.telefone}`}
               </Typography>
             </Stack>
           </Box>

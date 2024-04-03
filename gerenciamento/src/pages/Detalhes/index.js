@@ -1,29 +1,111 @@
 import * as React from 'react';
-import { Button } from '@mui/material';
+import { Button, Modal, Dialog, DialogContent, } from '@mui/material';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { Link } from 'react-router-dom';
-import { Product, ProductDetails, ProductImages, Cta, BtnPrimary, ProductImageWrapper, ProductImage, ImageOverlay } from './style';
+// import { Product, ProductDetails, ProductImages, Cta, BtnPrimary, ProductImageWrapper, ProductImage, ImageOverlay } from './style';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { useApiRequestGet, api } from "../../services/api";
 import { toast, ToastContainer } from 'react-toastify';
 import Alert from '@mui/material/Alert';
+import EditIcon from '@mui/icons-material/Edit';
+import Tooltip from '@mui/material/Tooltip';
+import DialogActions from '@mui/material/DialogActions';
+import Close from '@mui/icons-material/CloseOutlined';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+import { Box } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 export const Detalhes = () => {
 
   let { id } = useParams();
 
-  const { data } = useApiRequestGet(`/listar-produto/${id}`);
+  const [loading, setLoading] = React.useState(false);
+  const [nome, setNome] = React.useState('');
+  const [descricao, setDescricao] = React.useState('');
+  const [numeroPatrimonio, setNumeroPatrimonio] = React.useState('');
+  const [status, setStatus] = React.useState('');
+  const [tipoProduto, setTipoProduto] = React.useState('');
+  const [numeroSerie, setNumeroSerie] = React.useState('')
+
+  const { data, loadingData, refetchData } = useApiRequestGet(`/listar-produto/${id}`);
   console.log(data)
+
+
+  // React.useEffect(() => {
+  //   if (id) {
+  //     refetchData();
+  //   }
+  // }, [id]);
+
+
+
+  React.useEffect(() => {
+    if (!loadingData && data) {
+      setDescricao(data?.descricao || '');
+      setNome(data?.nome || '');
+      setNumeroPatrimonio(data?.numeroPatrimonio || '')
+      setStatus(data?.status.nome || '')
+      setTipoProduto(data?.tipoProduto.nome || '')
+      setNumeroSerie(data?.numeroSerie || '')
+    }
+  }, [loadingData, data]);
 
   const CustomAlertError = styled(Alert)(({ theme }) => ({
     backgroundColor: '#ffada4',
   }));
 
+  const [modalOpen, setModalOpen] = React.useState(false);
 
-  const status = data?.situacao || '';
-  const inativo = status === 'INATIVO';
+  const handleModalOpen = () => {
+    setModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setModalOpen(false);
+  };
+  const statusBem = data?.situacao || '';
+  const inativo = statusBem === 'INATIVO';
+
+
+  const editaTelefone = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    const data = {
+      nome: nome,
+      descricao: descricao,
+      numeroPatrimonio: numeroPatrimonio,
+      status: status,
+      tipoProduto: tipoProduto,
+      numeroSerie: numeroSerie
+      // cargoId:  parseInt(cargoId,10),
+    };
+
+    api
+      .put(`/telefone/atualizar-telefone/${id}`, data)
+      .then(() => {
+        toast('Bem atualizado com sucesso', {
+          type: 'success',
+          autoClose: 3000,
+        });
+
+        setTimeout(() => {
+          setLoading(false);
+          window.location.reload();
+        }, 3000);
+      })
+      .catch((error) => {
+        toast(error.message, {
+          type: 'error',
+        });
+        setLoading(false);
+      })
+  };
+
+
 
   const Container = styled.div`
     display: flex;
@@ -122,7 +204,7 @@ export const Detalhes = () => {
 
   const reserva = () => {
 
-    //id od usuario
+    //id do usuario
     //produtoId
 
     api
@@ -131,13 +213,10 @@ export const Detalhes = () => {
         toast.success('Bem reservado com sucesso!', {
           autoClose: 2000
         });
-        console.log("deu certo")
       })
       .catch((error) => {
-        console.log("deu certo")
-
+        console.log(error)
       });
-
   }
 
   return (
@@ -160,9 +239,15 @@ export const Detalhes = () => {
           </ImgBox>
           <Details>
             <Content>
-              <Title color={currentColor}>{data.nome} <br /><Subtitle>
-                {data.criadoEm.slice(8, 10)}-{data.criadoEm.slice(5, 7)}-{data.criadoEm.slice(0, 4)}
-              </Subtitle>
+              <Title color={currentColor}>
+                {data.nome}
+                <Tooltip title='Editar' arrow>
+                  <Button variant='outlined' sx={{ marginLeft: '100px' }} onClick={handleModalOpen}> <EditIcon fontSize='20' /> </Button>
+                </Tooltip>
+                <br />
+                <Subtitle>
+                  {data.criadoEm.slice(8, 10)}-{data.criadoEm.slice(5, 7)}-{data.criadoEm.slice(0, 4)}
+                </Subtitle>
               </Title>
               <Description>
                 {data.descricao}
@@ -181,7 +266,7 @@ export const Detalhes = () => {
                   <li>Usuário: {data.usuario.nome}</li>
                 </ul>
               </div>
-              
+
               {!inativo && (<ButtonStyle onClick={reserva}>Reservar</ButtonStyle>)}
 
               <ToastContainer />
@@ -191,6 +276,103 @@ export const Detalhes = () => {
             </Content>
           </Details>
         </InnerContainer>
+        <Dialog open={modalOpen} onClose={handleModalClose}>
+          <DialogContent dividers style={{ textAlign: 'center', backgroundColor: '#FFFFFF' }}> {/* Conteúdo do modal */}
+            <h2>Editar Bem</h2>
+            <Box component='form' noValidate onSubmit={editaTelefone}>
+              <DialogContent dividers sx={{ paddingTop: 1 }}>
+                <Grid container columnSpacing={2} rowSpacing={2} marginTop={0.5}>
+                  <Grid item xs={12} sm={12} md={12}>
+                    <TextField
+                      value={nome}
+                      onChange={(e) => setNome(e.target.value)}
+                      fullWidth
+                      required
+                      label='Nome'
+                      type='text'
+                    />
+                  </Grid>
+
+
+                  <Grid item xs={12} sm={12} md={12}>
+                    <TextField
+                      value={descricao}
+                      onChange={(e) => setDescricao(e.target.value)}
+                      fullWidth
+                      required
+                      label='Descrição'
+                      type='text'
+                    />
+                  </Grid>
+
+                  <Grid item xs={12} sm={12} md={12}>
+                    <TextField
+                      value={numeroPatrimonio}
+                      onChange={(e) => setNumeroPatrimonio(e.target.value)}
+                      fullWidth
+                      required
+                      label='Número de Patrimônio'
+                      type='number'
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={12}>
+                    <TextField
+                      value={status}
+                      onChange={(e) => setStatus(e.target.value)}
+                      fullWidth
+                      required
+                      label='Status'
+                      type='text'
+
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={12}>
+                    <TextField
+                      value={tipoProduto}
+                      onChange={(e) => setTipoProduto(e.target.value)}
+                      fullWidth
+                      required
+                      label='Tipo produto'
+                      type='text'
+
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={12} md={12}>
+                    <TextField
+                      value={numeroSerie}
+                      onChange={(e) => setNumeroSerie(e.target.value)}
+                      fullWidth
+                      required
+                      label='Número serie'
+                      type='text'
+                    />
+                  </Grid>
+                </Grid>
+              </DialogContent>
+              <DialogActions>
+                <Button
+                  startIcon={<Close width={24} />}
+                  variant='outlined'
+                  color='info'
+                  onClick={handleModalClose}
+                  sx={{ minWidth: 156, height: '100%' }}
+                >
+                  Cancelar
+                </Button>
+                <Button
+                  type='submit'
+                  // disabled={loading || isButtonDisabled}
+                  // startIcon={<Save width={24} />}
+                  variant='outlined'
+                  color='success'
+                  sx={{ minWidth: 156, height: '100%' }}
+                >
+                  {!loading ? 'Editar' : <CircularProgress color='success' size={23} />}
+                </Button>
+              </DialogActions>
+            </Box>
+          </DialogContent>
+        </Dialog>
       </Container>
       }
     </div>
