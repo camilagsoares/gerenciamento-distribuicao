@@ -4,13 +4,13 @@ import { TextField } from '@mui/material';
 
 export const Container = styled.div`
   position: relative;
-  width: 90%; 
+  width: 60%; 
   margin: auto ;
-  
+  margin-top: 100px;
 `;
 
 export const Card = styled.div`
-  height: 800px;
+  /* height: 700px; */
   position: relative;
   background: ${props => props.alt ? 'none' : '#ffffff'};
   border-radius: 5px;
@@ -100,12 +100,12 @@ margin-right: 20px;
  margin-left: 20px;
 `
 
-// export const ContainerSelect = styled.div`
-// margin-top: 10px;
-// margin-bottom: 20px;
-// margin-right: 20px; 
-// margin-left: 20px;
-// `
+export const ContainerSelect = styled.div`
+margin-top: 10px;
+margin-bottom: 20px;
+margin-right: 20px; 
+margin-left: 20px;
+`
 
 // export const TextArea = styled.textarea`
 //   width: 100%;
@@ -128,4 +128,18 @@ margin-right: 20px;
 export const CardInput = styled.div`
 margin-top: 10px;
 
+input[type="file"] {
+    display: none;
+}
+label {
+    padding: 15px 10px;
+    width: 200px;
+    background-color: #333;
+    color: #FFF;
+    text-transform: uppercase;
+    text-align: center;
+    display: block;
+    margin-top: 10px;
+    cursor: pointer;
+}
 `
