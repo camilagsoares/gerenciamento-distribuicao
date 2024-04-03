@@ -61,6 +61,7 @@ export default function Profile() {
 
     const closeSession = () => {
         localStorage.removeItem('session')
+        localStorage.removeItem('token')
         navigate('/login');
     }
 
@@ -123,12 +124,12 @@ export default function Profile() {
                     Minha conta
                 </MenuItem>
 
-                <MenuItem onClick={handleClickOpenModal}>
+                {/* <MenuItem onClick={handleClickOpenModal}>
                     <ListItemIcon>
                         <SettingsIcon fontSize="small" />
                     </ListItemIcon>
                     Alterar senha
-                </MenuItem>
+                </MenuItem> */}
 
                 <Divider />
 
