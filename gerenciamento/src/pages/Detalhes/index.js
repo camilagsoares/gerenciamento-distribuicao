@@ -167,7 +167,7 @@ export const Detalhes = () => {
           </ImgBox>
           <Details>
             <Content>
-              <Title color={currentColor}>
+              {/* <Title color={currentColor}>
                 {data.nome}
                 <Tooltip title='Editar' arrow>
                   <Button variant='outlined' sx={{ marginLeft: '100px' }} onClick={handleModalOpen}> <EditIcon fontSize='20' /> </Button>
@@ -176,10 +176,26 @@ export const Detalhes = () => {
                 <Subtitle>
                   {data.criadoEm.slice(8, 10)}-{data.criadoEm.slice(5, 7)}-{data.criadoEm.slice(0, 4)}
                 </Subtitle>
-              </Title>
+              </Title> */}
+              <Stack direction='row' sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <Title color={currentColor}>
+                  {data.nome}
+                 
+                  <br />
+                  <Subtitle>
+                    {data.criadoEm.slice(8, 10)}-{data.criadoEm.slice(5, 7)}-{data.criadoEm.slice(0, 4)}
+                  </Subtitle>
+                </Title>
+                <Tooltip title='Editar' arrow>
+                    <Button variant='outlined' onClick={handleModalOpen}sx={{marginTop: '-30px'}} > <EditIcon fontSize='20' /> </Button>
+                  </Tooltip>
+              </Stack>
+
+    
               <Description>
                 {data.descricao}
               </Description>
+              
               <div className="product-colors">
                 <p>Tipo de Produto: {data.tipoProduto.nome}</p>
                 <p>Número de Patrimônio: {data.numeroPatrimonio}</p>

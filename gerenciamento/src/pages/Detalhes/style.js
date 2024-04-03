@@ -11,6 +11,8 @@ margin-top: 48px;
 `;
 
 export const InnerContainer = styled.div`
+/* box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+border-radius: 3px; */
 
 @media (max-width:480px){
   display: flex;
@@ -116,7 +118,7 @@ export const Content = styled.div``;
 export const Title = styled.h2`
 margin: 0;
 padding: 0;
-font-size: 2.4em;
+font-size: 2.3em;
 line-height: 1em;
 color: ${props => props.color};
 

@@ -10,6 +10,8 @@ import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { InputData, Underline } from '../Cadastro/style';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
 
 function Postar() {
 
@@ -17,7 +19,7 @@ function Postar() {
   const { data: dataProduto } = useApiRequestGet("/listar-tipoproduto");
 
   const tokenInStorage = localStorage.getItem('token');
-  console.log("tokenInStorage",tokenInStorage)
+  console.log("tokenInStorage", tokenInStorage)
 
   const [formData, setFormData] = useState({
     nome: '',
@@ -83,6 +85,8 @@ function Postar() {
           <Grid container spacing={1}>
             <Grid item xs={6}>
               <InputField>
+                <label>Nome</label> <br />
+
                 <Input type="text" placeholder="Nome" name="nome" value={formData.nome} onChange={handleChange} />
 
               </InputField>
@@ -90,27 +94,33 @@ function Postar() {
 
             <Grid item xs={6}>
               <InputField>
+                <label>Local onde Encontra</label> <br />
+
                 <Input type="text" name="localOndeEncontra" placeholder='Local onde encontra' value={formData.localOndeEncontra} onChange={handleChange} />
 
               </InputField>
             </Grid>
             <Grid item xs={6}>
               <InputField>
+                <label>Descrição</label> <br />
                 <Input name="descricao" placeholder="Descrição" value={formData.descricao} onChange={handleChange} />
 
               </InputField>
             </Grid>
-            
+
             <Grid item xs={6}>
 
               <InputField>
-                <label>tipoProdutoId</label>
+                <label>Tipo Produto</label> <br />
                 <Select name="tipoProdutoId" value={formData.tipoProdutoId} onChange={handleChange}>
                   {dataProduto && dataProduto.map(item => (
                     <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>
                   ))}
                 </Select>
               </InputField>
+
+
+
             </Grid>
 
 
@@ -129,6 +139,8 @@ function Postar() {
           <Grid container spacing={1}>
             <Grid item xs={6}>
               <ContainerSelect>
+                <label>Nome</label> <br />
+
                 <Input type="text" placeholder='Número Patrimônio' name="numeroPatrimonio" value={formData.numeroPatrimonio} onChange={handleChange} />
 
               </ContainerSelect>
@@ -138,8 +150,8 @@ function Postar() {
 
             <Grid item xs={6}>
               <ContainerSelect>
-
-              <input type="file" name="imagem" onChange={handleFileChange} />
+                <br />
+                <input type="file" name="imagem" onChange={handleFileChange} />
 
               </ContainerSelect>
 
