@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Modal, Dialog, DialogContent, } from '@mui/material';
+import { Button, Modal, Dialog, DialogContent, DialogTitle, Stack, IconButton, } from '@mui/material';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { Link } from 'react-router-dom';
 import { Container, InnerContainer, ImgBox, Image, Details, Content, Title, Subtitle, Description, ButtonStyle } from './style';
@@ -32,8 +32,10 @@ export const Detalhes = () => {
   const [numeroSerie, setNumeroSerie] = React.useState('')
 
   const { data, loadingData, refetchData } = useApiRequestGet(`/listar-produto/${id}`);
-  console.log(data)
+  // console.log(data)
 
+  const { data: dataReserva } = useApiRequestGet(`/listar-reserva/${id}`);
+  console.log("dataReserva", dataReserva)
 
   // React.useEffect(() => {
   //   if (id) {
@@ -59,9 +61,18 @@ export const Detalhes = () => {
   }));
 
   const [modalOpen, setModalOpen] = React.useState(false);
+  const [detailsOpen, setDetailsOpen] = React.useState(false)
+
+  const handleModalDetailsOpen = () => {
+    setDetailsOpen(true);
+  };
 
   const handleModalOpen = () => {
     setModalOpen(true);
+  };
+
+  const handleModalDetailsClose = () => {
+    setDetailsOpen(false);
   };
 
   const handleModalClose = () => {
@@ -127,6 +138,15 @@ export const Detalhes = () => {
       });
   }
 
+  const usuarioQueReservou = dataReserva && dataReserva.length && dataReserva.map((data) => (
+    data.usuario.nome
+  ));
+
+
+  const departamentoQueReservou = dataReserva && dataReserva.length && dataReserva.map((data) => (
+    data.usuario.departamento.nome
+  ));
+
   return (
     <div>
 
@@ -179,13 +199,19 @@ export const Detalhes = () => {
 
               <ToastContainer />
               {inativo && (
-                <CustomAlertError severity="error">Bem reservado</CustomAlertError>
+                <div>
+                  <CustomAlertError severity="error">Bem reservado por {usuarioQueReservou}
+                  </CustomAlertError>
+                  <Button sx={{ marginTop: '20px' }} variant="outlined" onClick={handleModalDetailsOpen}>Visualizar Detalhes Reserva</Button>
+
+                </div>
               )}
             </Content>
           </Details>
         </InnerContainer>
         <Dialog open={modalOpen} onClose={handleModalClose}>
-          <DialogContent dividers style={{ textAlign: 'center', backgroundColor: '#FFFFFF' }}> {/* Conteúdo do modal */}
+          <DialogContent dividers style={{ textAlign: 'center', backgroundColor: '#FFFFFF' }}>
+
             <h2>Editar Bem</h2>
             <Box component='form' noValidate onSubmit={editaTelefone}>
               <DialogContent dividers sx={{ paddingTop: 1 }}>
@@ -278,6 +304,36 @@ export const Detalhes = () => {
                   {!loading ? 'Editar' : <CircularProgress color='success' size={23} />}
                 </Button>
               </DialogActions>
+            </Box>
+          </DialogContent>
+        </Dialog>
+
+        <Dialog open={detailsOpen} onClose={handleModalDetailsClose} >
+          <DialogTitle>
+            <Stack direction='row' sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <h2> Visualizar Detalhes</h2>
+              <IconButton
+                edge='start'
+                color='inherit'
+                aria-label='close modal change password'
+                onClick={handleModalDetailsClose}
+              >
+                <Close color='action' />
+              </IconButton>
+            </Stack>
+          </DialogTitle>
+          <DialogContent dividers style={{ textAlign: 'center', backgroundColor: '#FFFFFF' }} sx={{width: '500px'}}>
+
+            <Box component='form' noValidate onSubmit={editaTelefone}>
+              <DialogContent sx={{ paddingTop: 1 }}>
+                <Grid container columnSpacing={2} rowSpacing={2} marginTop={0.5}>
+                  <p>  <b>Departamento</b>: {departamentoQueReservou}</p>
+                </Grid>
+                <Grid container columnSpacing={2} rowSpacing={2} marginTop={0.5}>
+                  <p><b>Usuário</b>: {usuarioQueReservou}</p>
+                </Grid>
+              </DialogContent>
+
             </Box>
           </DialogContent>
         </Dialog>

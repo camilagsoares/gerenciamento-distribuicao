@@ -23,44 +23,50 @@ function App() {
     },
   });
 
+  const sessionUser = JSON.parse(localStorage.getItem('session'))
+
+
   return (
     <ThemeProvider theme={theme}>
       <Router>
 
         <GlobalStyles />
 
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route index element={<Home />} />
-              <Route path="/postar" element={<Postar />} />
-              <Route
-                path="/detalhes/:id"
-                element={
-                  <AuthLayout>
-                    <Detalhes />
-                  </AuthLayout>
-                }
-              />
-            </Route>
-            <Route
-              path="/login"
-              element={
-                <AuthLayout>
-                  <Login />
-                </AuthLayout>
-              }
-            />
-            <Route
-              path="/cadastro"
-              element={
-                <AuthLayout>
-                  <Cadastro />
-                </AuthLayout>
-              }
-            />
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            {/* {sessionUser && <Route index element={<Home />} />} */}
 
-            <Route path="*" element={<Error />} />
-          </Routes>
+             <Route index element={<Home />} />
+
+            <Route path="/postar" element={<Postar />} />
+            <Route
+              path="/detalhes/:id"
+              element={
+                <AuthLayout>
+                  <Detalhes />
+                </AuthLayout>
+              }
+            />
+          </Route>
+          <Route
+            path="/login"
+            element={
+              <AuthLayout>
+                <Login />
+              </AuthLayout>
+            }
+          />
+          <Route
+            path="/cadastro"
+            element={
+              <AuthLayout>
+                <Cadastro />
+              </AuthLayout>
+            }
+          />
+
+          <Route path="*" element={<Error />} />
+        </Routes>
 
       </Router>
     </ThemeProvider>

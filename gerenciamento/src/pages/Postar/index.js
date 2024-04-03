@@ -1,20 +1,31 @@
+// POSTAR
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useApiRequestGet } from '../../services/api'; 
+import { useApiRequestGet } from '../../services/api';
+import { InputField, Input, ContainerSelect, CardInput, ContainerButton, Container, Card, ArrowIcon, Title, Label, } from './style'
+import { Box, Grid, Button } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { InputData, Underline } from '../Cadastro/style';
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 
 function Postar() {
 
   const { data } = useApiRequestGet("/listar-status");
   const { data: dataProduto } = useApiRequestGet("/listar-tipoproduto");
 
+  const tokenInStorage = localStorage.getItem('token');
+  console.log("tokenInStorage",tokenInStorage)
+
   const [formData, setFormData] = useState({
     nome: '',
     descricao: '',
     localOndeEncontra: '',
-    tipoProdutoId: null, 
-    statusId: null, 
+    tipoProdutoId: null,
+    // statusId: null,
     numeroPatrimonio: '',
-    usuarioId: null, 
     imagem: null,
   });
 
@@ -23,7 +34,7 @@ function Postar() {
       setFormData(prevState => ({
         ...prevState,
         tipoProdutoId: dataProduto[0].id,
-        statusId: data[0].id,
+        // statusId: data[0].id,
       }));
     }
   }, [data, dataProduto]);
@@ -46,66 +57,102 @@ function Postar() {
     });
 
     try {
-      await axios.post('http://10.1.0.187:4002/api/criar-produto', formPayload, {
+      await axios.post('http://10.1.0.187:3000/api/criar-produto', formPayload, {
         headers: {
           'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${tokenInStorage}`
         },
       });
       console.log('Produto criado com sucesso');
     } catch (error) {
-      console.error('Erro ao criar o produto:', error); 
+      console.error('Erro ao criar o produto:', error);
     }
+    console.log(formPayload)
   };
 
   return (
-    <div>
-      <h1>Criar Produto</h1>
-      {data && dataProduto && (
-        <form onSubmit={handleSubmit} encType="multipart/form-data">
-          <label>
-            Nome:
-            <input type="text" name="nome" value={formData.nome} onChange={handleChange} />
-          </label>
-          <br />
-          <label>
-            Descrição:
-            <textarea name="descricao" value={formData.descricao} onChange={handleChange} />
-          </label>
-          <br />
-          <label>
-            Local onde encontra:
-            <input type="text" name="localOndeEncontra" value={formData.localOndeEncontra} onChange={handleChange} />
-          </label>
-          <br />
-          <label>
-            Tipo de Produto ID:
-            <input type="text" name="tipoProdutoId" value={formData.tipoProdutoId} onChange={handleChange} />
-          </label>
-          <br />
-          <label>
-            Status ID:
-            <input type="text" name="statusId" value={formData.statusId} onChange={handleChange} />
-          </label>
-          <br />
-          <label>
-            Número de Patrimônio:
-            <input type="text" name="numeroPatrimonio" value={formData.numeroPatrimonio} onChange={handleChange} />
-          </label>
-          <br />
-          <label>
-            Usuário ID:
-            <input type="text" name="usuarioId" value={formData.usuarioId} onChange={handleChange} />
-          </label>
-          <br />
-          <label>
-            Imagem:
-            <input type="file" name="imagem" onChange={handleFileChange} />
-          </label>
-          <br />
-          <button type="submit">Criar Produto</button>
+    <Container>
+      <Card>
+        <ArrowIcon>
+          <EditIcon style={{ color: 'white' }} />
+        </ArrowIcon>
+
+        <Title color="#1976D2">Poste um bem</Title>
+
+        <form component='form' onSubmit={handleSubmit} encType="multipart/form-data">
+          <Grid container spacing={1}>
+            <Grid item xs={6}>
+              <InputField>
+                <Input type="text" placeholder="Nome" name="nome" value={formData.nome} onChange={handleChange} />
+
+              </InputField>
+            </Grid>
+
+            <Grid item xs={6}>
+              <InputField>
+                <Input type="text" name="localOndeEncontra" placeholder='Local onde encontra' value={formData.localOndeEncontra} onChange={handleChange} />
+
+              </InputField>
+            </Grid>
+            <Grid item xs={6}>
+              <InputField>
+                <Input name="descricao" placeholder="Descrição" value={formData.descricao} onChange={handleChange} />
+
+              </InputField>
+            </Grid>
+            
+            <Grid item xs={6}>
+
+              <InputField>
+                <label>tipoProdutoId</label>
+                <Select name="tipoProdutoId" value={formData.tipoProdutoId} onChange={handleChange}>
+                  {dataProduto && dataProduto.map(item => (
+                    <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>
+                  ))}
+                </Select>
+              </InputField>
+            </Grid>
+
+
+          </Grid>
+
+          {/* <InputField>
+
+            <label>Status ID</label>
+            <select name="statusId" value={formData.statusId} onChange={handleChange}>
+              {data && data.map(item => (
+                <option key={item.id} value={item.id}>{item.nome}</option>
+              ))}
+            </select>
+          </InputField> */}
+
+          <Grid container spacing={1}>
+            <Grid item xs={6}>
+              <ContainerSelect>
+                <Input type="text" placeholder='Número Patrimônio' name="numeroPatrimonio" value={formData.numeroPatrimonio} onChange={handleChange} />
+
+              </ContainerSelect>
+
+
+            </Grid>
+
+            <Grid item xs={6}>
+              <ContainerSelect>
+
+              <input type="file" name="imagem" onChange={handleFileChange} />
+
+              </ContainerSelect>
+
+            </Grid>
+
+          </Grid>
+
+          <ContainerButton>
+            <Button variant="outlined" type="submit" fullWidth style={{ height: '50px' }}>Postar</Button>
+          </ContainerButton>
         </form>
-      )}
-    </div>
+      </Card>
+    </Container>
   );
 }
 
