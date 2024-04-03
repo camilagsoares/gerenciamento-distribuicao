@@ -8,7 +8,7 @@ import { ContainerSignUp, AlignContainer } from './style'
 import { Button, FormRow, InputData, Input, Underline, Label } from './style';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useApiRequestGet, axiosApi } from '../../services/api';
+import { useApiRequestGet, api } from '../../services/api';
 import { useForm, Controller } from 'react-hook-form';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
@@ -81,7 +81,7 @@ export const Cadastro = () => {
   const handleCriarUsuario = async (data) => {
     try {
       setLoading(true);
-      await axiosApi.post('/auth/criar-usuario', data);
+      await api.post('/auth/criar-usuario', data);
       reset();
       toast.success('Usuário criado com sucesso!', {
         autoClose: 2000
@@ -124,7 +124,6 @@ export const Cadastro = () => {
 
             <h1>Cadastro</h1>
           </Box>
-
 
         </Box>
         <form component="form" noValidate sx={{ mt: 1 }} onSubmit={handleSubmit(handleCriarUsuario)}>
