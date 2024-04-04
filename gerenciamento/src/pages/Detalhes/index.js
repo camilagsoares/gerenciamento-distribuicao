@@ -27,16 +27,17 @@ export const Detalhes = () => {
   const [nome, setNome] = React.useState('');
   const [descricao, setDescricao] = React.useState('');
   const [numeroPatrimonio, setNumeroPatrimonio] = React.useState('');
-  const [status, setStatus] = React.useState('');
-  const [tipoProduto, setTipoProduto] = React.useState('');
-  const [numeroSerie, setNumeroSerie] = React.useState('')
+  const [tipoProdutoId, setTipoProdutoId] = React.useState('');
+  const [localOndeEncontra, setLocalOndeEncontra] = React.useState('')
   const [token, setToken] = React.useState(localStorage.getItem('token') || null);
+  // const [numeroSerie, setNumeroSerie] = React.useState('')
+  // const [status, setStatus] = React.useState('');
 
   const { data, loadingData, refetchData } = useApiRequestGet(`/listar-produto/${id}`);
-  // console.log(data)
+  console.log(data)
 
   const { data: dataReserva } = useApiRequestGet(`/listar-reserva/${id}`);
-  console.log("dataReserva", dataReserva)
+  // console.log("dataReserva", dataReserva)
 
   // React.useEffect(() => {
   //   if (id) {
@@ -51,9 +52,10 @@ export const Detalhes = () => {
       setDescricao(data?.descricao || '');
       setNome(data?.nome || '');
       setNumeroPatrimonio(data?.numeroPatrimonio || '')
-      setStatus(data?.status.nome || '')
-      setTipoProduto(data?.tipoProduto.nome || '')
-      setNumeroSerie(data?.numeroSerie || '')
+      setTipoProdutoId(data?.tipoProdutoId || '')
+      setLocalOndeEncontra(data?.localOndeEncontra || '')
+      // setNumeroSerie(data?.numeroSerie || '')
+      // setStatus(data?.status.nome || '')
     }
   }, [loadingData, data]);
 
@@ -90,32 +92,43 @@ export const Detalhes = () => {
       nome: nome,
       descricao: descricao,
       numeroPatrimonio: numeroPatrimonio,
-      status: status,
-      tipoProduto: tipoProduto,
-      numeroSerie: numeroSerie
+     
+      tipoProdutoId: tipoProdutoId,
+      localOndeEncontra: localOndeEncontra
+      // numeroSerie: numeroSerie
+      // status: status,
+      //imagem
       // cargoId:  parseInt(cargoId,10),
     };
 
     api
-      .put(`/telefone/atualizar-telefone/${id}`, data)
+      .put(`/atualizar-produto/${id}`, data)
       .then(() => {
         toast('Bem atualizado com sucesso', {
           type: 'success',
           autoClose: 3000,
         });
-
+        // console.log("data", JSON.stringify(data))
         setTimeout(() => {
           setLoading(false);
           window.location.reload();
         }, 3000);
       })
+      // .catch((error) => {
+      //   // toast(error.message, {
+      //   //   type: 'error',
+      //   // });
+      //   setLoading(false);
+      // })
       .catch((error) => {
-        toast(error.message, {
-          type: 'error',
-        });
+        console.log(error); 
+      
         setLoading(false);
-      })
+      });
+      console.log(data)
+
   };
+
 
 
 
@@ -260,21 +273,11 @@ export const Detalhes = () => {
                       type='number'
                     />
                   </Grid>
+                
                   <Grid item xs={12} sm={12} md={12}>
                     <TextField
-                      value={status}
-                      onChange={(e) => setStatus(e.target.value)}
-                      fullWidth
-                      required
-                      label='Status'
-                      type='text'
-
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={12}>
-                    <TextField
-                      value={tipoProduto}
-                      onChange={(e) => setTipoProduto(e.target.value)}
+                      value={tipoProdutoId}
+                      onChange={(e) => setTipoProdutoId(e.target.value)}
                       fullWidth
                       required
                       label='Tipo produto'
@@ -284,11 +287,11 @@ export const Detalhes = () => {
                   </Grid>
                   <Grid item xs={12} sm={12} md={12}>
                     <TextField
-                      value={numeroSerie}
-                      onChange={(e) => setNumeroSerie(e.target.value)}
+                      value={localOndeEncontra}
+                      onChange={(e) => setLocalOndeEncontra(e.target.value)}
                       fullWidth
                       required
-                      label='Número serie'
+                      label='Local onde encontra'
                       type='text'
                     />
                   </Grid>
