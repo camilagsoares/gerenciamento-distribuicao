@@ -19,7 +19,6 @@ function Postar() {
   const { data: dataProduto } = useApiRequestGet("/listar-tipoproduto");
 
   const tokenInStorage = localStorage.getItem('token');
-  console.log("tokenInStorage", tokenInStorage)
 
   const [formData, setFormData] = useState({
     nome: '',
@@ -74,6 +73,7 @@ function Postar() {
 
   return (
     <Container>
+
       <Card>
         <ArrowIcon>
           <EditIcon style={{ color: 'white' }} />
@@ -134,7 +134,8 @@ function Postar() {
                 <option key={item.id} value={item.id}>{item.nome}</option>
               ))}
             </select>
-          </InputField> */}
+          </InputField> 
+ */}
 
           <Grid container spacing={1}>
             <Grid item xs={6}>
