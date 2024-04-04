@@ -16,12 +16,12 @@ import { MenuItem } from '@mui/material';
 
 export const Cartao = () => {
     const sessionUser = JSON.parse(localStorage.getItem('session'))
-    console.log(sessionUser)
+    // console.log(sessionUser)
     // const { data } = useApiRequestGet(sessionUser ? "/listar-produtos-permissao" : "/listar-produtos");
 
     const { data } = useApiRequestGet("/listar-produtos");
 
-    console.log(data)
+    // console.log(data)
 
     const [filteredData, setFilteredData] = useState([]);
     const [statusFilter, setStatusFilter] = useState('todos');
