@@ -30,6 +30,7 @@ export const Detalhes = () => {
   const [status, setStatus] = React.useState('');
   const [tipoProduto, setTipoProduto] = React.useState('');
   const [numeroSerie, setNumeroSerie] = React.useState('')
+  const [token, setToken] = React.useState(localStorage.getItem('token') || null);
 
   const { data, loadingData, refetchData } = useApiRequestGet(`/listar-produto/${id}`);
   // console.log(data)
@@ -137,16 +138,9 @@ export const Detalhes = () => {
         console.log(error)
       });
   }
-
-  const usuarioQueReservou = dataReserva && dataReserva.length && dataReserva.map((data) => (
-    data.usuario.nome
+  const usuarioQueReservou = dataReserva && dataReserva.length && dataReserva.map(reserva => (
+    reserva.usuario.nome
   ));
-
-
-  const departamentoQueReservou = dataReserva && dataReserva.length && dataReserva.map((data) => (
-    data.usuario.departamento.nome
-  ));
-
   return (
     <div>
 
@@ -180,22 +174,23 @@ export const Detalhes = () => {
               <Stack direction='row' sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <Title color={currentColor}>
                   {data.nome}
-                 
+
                   <br />
                   <Subtitle>
                     {data.criadoEm.slice(8, 10)}-{data.criadoEm.slice(5, 7)}-{data.criadoEm.slice(0, 4)}
                   </Subtitle>
                 </Title>
+                {/* {} */}
                 <Tooltip title='Editar' arrow>
-                    <Button variant='outlined' onClick={handleModalOpen}sx={{marginTop: '-30px'}} > <EditIcon fontSize='20' /> </Button>
-                  </Tooltip>
+                  <Button variant='outlined' onClick={handleModalOpen} sx={{ marginTop: '-30px' }} disabled={!token}> <EditIcon fontSize='20' /> </Button>
+                </Tooltip>
               </Stack>
 
-    
+
               <Description>
                 {data.descricao}
               </Description>
-              
+
               <div className="product-colors">
                 <p>Tipo de Produto: {data.tipoProduto.nome}</p>
                 <p>Número de Patrimônio: {data.numeroPatrimonio}</p>
@@ -211,7 +206,7 @@ export const Detalhes = () => {
                 </ul>
               </div>
 
-              {!inativo && (<ButtonStyle onClick={reserva}>Reservar</ButtonStyle>)}
+              {!inativo && (<ButtonStyle onClick={reserva} disabled={!token}>Reservar</ButtonStyle>)}
 
               <ToastContainer />
               {inativo && (
@@ -338,18 +333,21 @@ export const Detalhes = () => {
               </IconButton>
             </Stack>
           </DialogTitle>
-          <DialogContent dividers style={{ textAlign: 'center', backgroundColor: '#FFFFFF' }} sx={{width: '500px'}}>
+          <DialogContent dividers style={{ textAlign: 'center', backgroundColor: '#FFFFFF' }} sx={{ width: '500px' }}>
 
             <Box component='form' noValidate onSubmit={editaTelefone}>
               <DialogContent sx={{ paddingTop: 1 }}>
-                <Grid container columnSpacing={2} rowSpacing={2} marginTop={0.5}>
-                  <p>  <b>Departamento</b>: {departamentoQueReservou}</p>
-                </Grid>
-                <Grid container columnSpacing={2} rowSpacing={2} marginTop={0.5}>
-                  <p><b>Usuário</b>: {usuarioQueReservou}</p>
-                </Grid>
+                {dataReserva && dataReserva.length && dataReserva.map(reserva => (
+                  <div key={reserva.id}>
+                    <Grid container columnSpacing={2} rowSpacing={2} marginTop={0.5}>
+                      <p>Nome do Usuário: {reserva.usuario.nome}</p>
+                    </Grid>
+                    <Grid container columnSpacing={2} rowSpacing={2} marginTop={0.5}>
+                      <p>Departamento: {reserva.usuario.departamento.nome}</p>
+                    </Grid>
+                  </div>
+                ))}
               </DialogContent>
-
             </Box>
           </DialogContent>
         </Dialog>
