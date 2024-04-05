@@ -34,10 +34,10 @@ export const Detalhes = () => {
   // const [status, setStatus] = React.useState('');
 
   const { data, loadingData, refetchData } = useApiRequestGet(`/listar-produto/${id}`);
-  console.log(data)
+  // console.log(data)
 
   const { data: dataReserva } = useApiRequestGet(`/listar-reserva/${id}`);
-  // console.log("dataReserva", dataReserva)
+  console.log("dataReserva", dataReserva)
 
   // React.useEffect(() => {
   //   if (id) {
@@ -83,6 +83,7 @@ export const Detalhes = () => {
   };
   const statusBem = data?.situacao || '';
   const inativo = statusBem === 'INATIVO';
+  const ativo = statusBem === 'ATIVO'
 
 
   const editaTelefone = (e) => {
@@ -193,10 +194,10 @@ export const Detalhes = () => {
                     {data.criadoEm.slice(8, 10)}-{data.criadoEm.slice(5, 7)}-{data.criadoEm.slice(0, 4)}
                   </Subtitle>
                 </Title>
-                {/* {} */}
-                <Tooltip title='Editar' arrow>
+              
+             { ativo &&  <Tooltip title='Editar' arrow>
                   <Button variant='outlined' onClick={handleModalOpen} sx={{ marginTop: '-30px' }} disabled={!token}> <EditIcon fontSize='20' /> </Button>
-                </Tooltip>
+                </Tooltip>}
               </Stack>
 
 
@@ -212,17 +213,17 @@ export const Detalhes = () => {
                 <ul>
                   <li>Tipo</li>
                   <li>Local onde encontrar: {data.localOndeEncontra}</li>
-                  <li>Situação: {data.situacao}</li>
+                  {/* <li>Situação: {data.situacao}</li> */}
                   <li>Número de Série: {data.numeroSerie}</li>
                   <li>Status: {data.status.nome}</li>
                   <li>Usuário: {data.usuario.nome}</li>
                 </ul>
               </div>
 
-              {!inativo && (<ButtonStyle onClick={reserva} disabled={!token}>Reservar</ButtonStyle>)}
+              {(!inativo && token) && (<ButtonStyle onClick={reserva} disabled={!token}>Reservar</ButtonStyle>)}
 
               <ToastContainer />
-              {inativo && (
+              {(inativo && token) && (
                 <div>
                   <CustomAlertError severity="error">Bem reservado por {usuarioQueReservou}
                   </CustomAlertError>
@@ -347,6 +348,9 @@ export const Detalhes = () => {
                     </Grid>
                     <Grid container columnSpacing={2} rowSpacing={2} marginTop={0.5}>
                       <p>Departamento: {reserva.usuario.departamento.nome}</p>
+                    </Grid>
+                    <Grid container columnSpacing={2} rowSpacing={2} marginTop={0.5}>
+                      <p>Telefone: {reserva.usuario.telefone}</p>
                     </Grid>
                   </div>
                 ))}

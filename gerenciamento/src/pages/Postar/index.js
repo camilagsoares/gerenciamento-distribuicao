@@ -12,6 +12,7 @@ import { InputData, Underline } from '../Cadastro/style';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
+import { toast, ToastContainer } from 'react-toastify';
 
 function Postar() {
 
@@ -63,6 +64,9 @@ function Postar() {
           'Content-Type': 'multipart/form-data',
           'Authorization': `Bearer ${tokenInStorage}`
         },
+      });
+      toast.success('Bem criado com sucesso!', {
+        autoClose: 2000
       });
       console.log('Produto criado com sucesso');
     } catch (error) {
@@ -163,6 +167,9 @@ function Postar() {
           <ContainerButton>
             <Button variant="outlined" type="submit" fullWidth style={{ height: '50px' }}>Postar</Button>
           </ContainerButton>
+
+        <ToastContainer />
+
         </form>
       </Card>
     </Container>

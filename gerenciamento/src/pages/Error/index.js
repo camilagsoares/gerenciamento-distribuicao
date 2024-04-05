@@ -19,9 +19,7 @@ function Error() {
             <Container>
                 <Grid container >
                     <Grid>
-                        <h1>
-                            404
-                        </h1>
+                        <h1>404</h1>
                         <Typography variant="h6">
                             A página que você procura não existe.
                         </Typography>
