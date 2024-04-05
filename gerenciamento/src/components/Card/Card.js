@@ -89,6 +89,10 @@ export const Cartao = () => {
         setTipoProdutoFilter(e.target.value);
     };
 
+    //
+
+
+
     return (
 
         <ContainerCards>
@@ -153,13 +157,16 @@ export const Cartao = () => {
                     return (
                         <Grid item key={index} xs={12} sm={6} md={3}>
                             <Link to={`/detalhes/${produto.id}`} style={{ textDecoration: 'none' }}>
-                                <Card sx={{ width: '100%', height: '400px', '&:hover': { boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)' } }}>
+                                <Card sx={{ width: '100%', height: '500px', '&:hover': { boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)' } }}>
 
                                     <CardMedia
                                         component="img"
-                                        height="140"
+                                        height="340"
                                         image={produto.imagem} />
-
+                                    {/* <img
+                                        height="320"
+                                        width="100%"
+                                        src={produto.imagem} /> */}
                                     <CardContent sx={{ backgroundColor: 'white', maxHeight: '200px', overflowY: 'auto' }}>
 
                                         <Typography gutterBottom variant="h5" component="div">
@@ -167,7 +174,10 @@ export const Cartao = () => {
                                         </Typography>
 
                                         <Typography variant="body2" color="text.secondary">
-                                            {produto.descricao}
+                                            {/* {produto.descricao} */}
+                                            {produto.descricao.substring(0, 100)}
+
+
                                         </Typography>
 
                                     </CardContent>
