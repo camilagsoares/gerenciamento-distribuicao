@@ -6,22 +6,24 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Box, Grid, Pagination, TextField } from '@mui/material';
 import Stack from '@mui/material/Stack';
-import { ContainerCards } from './style'
+import { ContainerCards, BolinhaVerde, BolinhaVermelha, StatusProduct } from './style'
 import { Link } from 'react-router-dom';
 import { useApiRequestGet } from "../../services/api";
 import SearchIcon from '@mui/icons-material/Search';
 import CardMedia from '@mui/material/CardMedia';
 import { MenuItem } from '@mui/material';
+import styled from 'styled-components';
 
 
 export const Cartao = () => {
+    //280 - 335
+    // 900 - 1040
     const sessionUser = JSON.parse(localStorage.getItem('session'))
-    // console.log(sessionUser)
-    // const { data } = useApiRequestGet(sessionUser ? "/listar-produtos-permissao" : "/listar-produtos");
+    const [token, setToken] = React.useState(localStorage.getItem('token') || null);
 
-    const { data } = useApiRequestGet("/listar-produtos");
 
-    // console.log(data)
+    const { data } = useApiRequestGet(sessionUser && token ? "/listar-produtos-permissao" : "/listar-produtos");
+
 
     const [filteredData, setFilteredData] = useState([]);
     const [statusFilter, setStatusFilter] = useState('todos');
@@ -89,10 +91,15 @@ export const Cartao = () => {
         setTipoProdutoFilter(e.target.value);
     };
 
-    //
+    const getBackgroundColor = (cor) => {
+        return cor === 'green' ? '#dff5df' : '#fae9e3';
+    };
 
 
-
+    const TextoComCorDeFundo = styled.p`
+  background-color: ${(props) => getBackgroundColor(props.cor)};
+  border-radius: 4px;
+`;
     return (
 
         <ContainerCards>
@@ -168,18 +175,28 @@ export const Cartao = () => {
                                         width="100%"
                                         src={produto.imagem} /> */}
                                     <CardContent sx={{ backgroundColor: 'white', maxHeight: '200px', overflowY: 'auto' }}>
-
                                         <Typography gutterBottom variant="h5" component="div">
                                             {produto.nome}
                                         </Typography>
 
-                                        <Typography variant="body2" color="text.secondary">
-                                            {/* {produto.descricao} */}
+                                        {/* <Typography variant="body2" color="text.secondary">
+                                            {produto.descricao}
                                             {produto.descricao.substring(0, 100)}
 
 
-                                        </Typography>
+                                        </Typography> */}
+                                        <Typography variant="body2" color="text.secondary">
+                                            <TextoComCorDeFundo cor={produto.situacaoDeReserva === 'DISPONIVEL' ? 'green' : 'red'}>
+                                                {produto.situacaoDeReserva === 'DISPONIVEL' ? (
+                                                    <BolinhaVerde className="BolinhaVerde" />
+                                                ) : (
+                                                    <BolinhaVermelha className="BolinhaVerde" />
+                                                )}{' '}
+                                                {produto.situacaoDeReserva}
+                                            </TextoComCorDeFundo>
+                                            <span> {produto.descricao}</span>
 
+                                        </Typography>
                                     </CardContent>
                                 </Card>
                             </Link>
