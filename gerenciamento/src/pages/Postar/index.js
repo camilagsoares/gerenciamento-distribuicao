@@ -19,13 +19,16 @@ function Postar() {
   const { data } = useApiRequestGet("/listar-status");
   const { data: dataProduto } = useApiRequestGet("/listar-tipoproduto");
 
+  const { data: dadoUsuario } = useApiRequestGet("/auth");
+  // console.log("dadoUsuario",dadoUsuario[0].id)
   const tokenInStorage = localStorage.getItem('token');
 
   const [formData, setFormData] = useState({
     nome: '',
     descricao: '',
-    localOndeEncontra: '',
+    // localOndeEncontra: '',
     tipoProdutoId: null,
+    usuarioMandarProduto_id: null,
     // statusId: null,
     numeroPatrimonio: '',
     imagem: null,
@@ -36,6 +39,7 @@ function Postar() {
       setFormData(prevState => ({
         ...prevState,
         tipoProdutoId: dataProduto[0].id,
+        usuarioMandarProduto_id: dadoUsuario.id
         // statusId: data[0].id,
       }));
     }
@@ -96,14 +100,14 @@ function Postar() {
               </InputField>
             </Grid>
 
-            <Grid item xs={6}>
+            {/* <Grid item xs={6}>
               <InputField>
                 <label>Local onde Encontra</label> <br />
 
                 <Input type="text" name="localOndeEncontra" placeholder='Local onde encontra' value={formData.localOndeEncontra} onChange={handleChange} />
 
               </InputField>
-            </Grid>
+            </Grid> */}
             <Grid item xs={6}>
               <InputField>
                 <label>Descrição</label> <br />
@@ -119,6 +123,22 @@ function Postar() {
                 <Select name="tipoProdutoId" value={formData.tipoProdutoId} onChange={handleChange}>
                   {dataProduto && dataProduto.map(item => (
                     <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>
+                  ))}
+                </Select>
+              </InputField>
+
+
+
+            </Grid>
+
+
+            <Grid item xs={6}>
+
+              <InputField>
+                <label>Reservar para Usuario</label> <br />
+                <Select name="usuarioMandarProduto_id" value={formData.usuarioMandarProduto_id} onChange={handleChange}>
+                  {dadoUsuario && dadoUsuario.map(user => (
+                    <MenuItem key={user.id} value={user.id}>{user.nome}</MenuItem>
                   ))}
                 </Select>
               </InputField>
@@ -144,7 +164,7 @@ function Postar() {
           <Grid container spacing={1}>
             <Grid item xs={6}>
               <ContainerSelect>
-                <label>Nome</label> <br />
+                <label>Número Patrimônio</label> <br />
 
                 <Input type="text" placeholder='Número Patrimônio' name="numeroPatrimonio" value={formData.numeroPatrimonio} onChange={handleChange} />
 
@@ -168,7 +188,7 @@ function Postar() {
             <Button variant="outlined" type="submit" fullWidth style={{ height: '50px' }}>Postar</Button>
           </ContainerButton>
 
-        <ToastContainer />
+          <ToastContainer />
 
         </form>
       </Card>

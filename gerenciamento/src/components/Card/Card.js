@@ -24,7 +24,6 @@ export const Cartao = () => {
 
     const { data } = useApiRequestGet(sessionUser && token ? "/listar-produtos-permissao" : "/listar-produtos");
 
-
     const [filteredData, setFilteredData] = useState([]);
     const [statusFilter, setStatusFilter] = useState('todos');
     const [tipoProdutoFilter, setTipoProdutoFilter] = useState('todos');
