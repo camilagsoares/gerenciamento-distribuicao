@@ -26,5 +26,3 @@ width: 10px;
 background-color: red;
 `
 
-export const StatusProduct = styled.div`
-`

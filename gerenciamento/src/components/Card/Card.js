@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Box, Grid, Pagination, TextField } from '@mui/material';
 import Stack from '@mui/material/Stack';
-import { ContainerCards, BolinhaVerde, BolinhaVermelha, StatusProduct } from './style'
+import { ContainerCards, BolinhaVerde, BolinhaVermelha } from './style'
 import { Link } from 'react-router-dom';
 import { useApiRequestGet } from "../../services/api";
 import SearchIcon from '@mui/icons-material/Search';
