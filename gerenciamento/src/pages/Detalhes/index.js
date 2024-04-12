@@ -29,15 +29,16 @@ export const Detalhes = () => {
   const [numeroPatrimonio, setNumeroPatrimonio] = React.useState('');
   const [tipoProdutoId, setTipoProdutoId] = React.useState('');
   const [localOndeEncontra, setLocalOndeEncontra] = React.useState('')
+  const [tipoProduto, setTipoProduto] = React.useState('');
   const [token, setToken] = React.useState(localStorage.getItem('token') || null);
   // const [numeroSerie, setNumeroSerie] = React.useState('')
   // const [status, setStatus] = React.useState('');
 
+  const sessionUser = JSON.parse(localStorage.getItem('session'))
   const { data, loadingData, refetchData } = useApiRequestGet(`/listar-produto/${id}`);
-  // console.log(data)
+  console.log(data)
 
   const { data: dataReserva } = useApiRequestGet(`/listar-reserva/${id}`);
-  console.log("dataReserva", dataReserva)
 
   // React.useEffect(() => {
   //   if (id) {
@@ -54,6 +55,7 @@ export const Detalhes = () => {
       setNumeroPatrimonio(data?.numeroPatrimonio || '')
       setTipoProdutoId(data?.tipoProdutoId || '')
       setLocalOndeEncontra(data?.localOndeEncontra || '')
+      setTipoProduto(data?.tipoProduto?.nome || '');
       // setNumeroSerie(data?.numeroSerie || '')
       // setStatus(data?.status.nome || '')
     }
@@ -93,7 +95,7 @@ export const Detalhes = () => {
       nome: nome,
       descricao: descricao,
       numeroPatrimonio: numeroPatrimonio,
-     
+
       tipoProdutoId: tipoProdutoId,
       localOndeEncontra: localOndeEncontra
       // numeroSerie: numeroSerie
@@ -122,11 +124,11 @@ export const Detalhes = () => {
       //   setLoading(false);
       // })
       .catch((error) => {
-        console.log(error); 
-      
+        console.log(error);
+
         setLoading(false);
       });
-      console.log(data)
+    console.log(data)
 
   };
 
@@ -145,9 +147,12 @@ export const Detalhes = () => {
       .post(`criar-reserva/${data.id}`, data)
       .then(() => {
         toast.success('Bem reservado com sucesso!', {
-          autoClose: 2000
+          autoClose: 1000
         });
-      })
+        setTimeout(function() {
+          window.location.reload();
+        }, 1000); 
+       })
       .catch((error) => {
         console.log(error)
       });
@@ -194,8 +199,11 @@ export const Detalhes = () => {
                     {data.criadoEm.slice(8, 10)}-{data.criadoEm.slice(5, 7)}-{data.criadoEm.slice(0, 4)}
                   </Subtitle>
                 </Title>
-              
-             { ativo &&  <Tooltip title='Editar' arrow>
+                {/* console.log("sessionUser", sessionUser.id)
+  const { data, loadingData, refetchData } = useApiRequestGet(`/listar-produto/${id}`);
+  console.log(data.usuarioId) */}
+
+                {(ativo && sessionUser.id === data?.usuarioId)  && <Tooltip title='Editar' arrow>
                   <Button variant='outlined' onClick={handleModalOpen} sx={{ marginTop: '-30px' }} disabled={!token}> <EditIcon fontSize='20' /> </Button>
                 </Tooltip>}
               </Stack>
@@ -215,22 +223,22 @@ export const Detalhes = () => {
                   <li>Local onde encontrar: {data.localOndeEncontra}</li>
                   {/* <li>Situação: {data.situacao}</li> */}
                   <li>Número de Série: {data.numeroSerie}</li>
-                  <li>Status: {data.status.nome}</li>
+                  {/* <li>Status: {data.status.nome}</li> */}
                   <li>Usuário: {data.usuario.nome}</li>
                 </ul>
               </div>
 
-              {(!inativo && token) && (<ButtonStyle onClick={reserva} disabled={!token}>Reservar</ButtonStyle>)}
+              {/* {(!inativo && token) && (<ButtonStyle onClick={reserva} disabled={!token}>Reservar</ButtonStyle>)} */}
 
               <ToastContainer />
-              {(inativo && token) && (
+              {/* {(inativo && token) && (
                 <div>
                   <CustomAlertError severity="error">Bem reservado por {usuarioQueReservou}
                   </CustomAlertError>
                   <Button sx={{ marginTop: '20px' }} variant="outlined" onClick={handleModalDetailsOpen}>Visualizar Detalhes Reserva</Button>
 
                 </div>
-              )}
+              )} */}
             </Content>
           </Details>
         </InnerContainer>
@@ -274,10 +282,10 @@ export const Detalhes = () => {
                       type='number'
                     />
                   </Grid>
-                
+
                   <Grid item xs={12} sm={12} md={12}>
                     <TextField
-                      value={tipoProdutoId}
+                      value={tipoProduto}
                       onChange={(e) => setTipoProdutoId(e.target.value)}
                       fullWidth
                       required
@@ -316,7 +324,7 @@ export const Detalhes = () => {
                   color='success'
                   sx={{ minWidth: 156, height: '100%' }}
                 >
-                  {!loading ? 'Editar' : <CircularProgress color='success' size={23} />}
+                  {!loading ? 'Salvar' : <CircularProgress color='success' size={23} />}
                 </Button>
               </DialogActions>
             </Box>
