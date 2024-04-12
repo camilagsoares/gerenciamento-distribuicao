@@ -13,14 +13,14 @@ import SearchIcon from '@mui/icons-material/Search';
 import CardMedia from '@mui/material/CardMedia';
 import { MenuItem } from '@mui/material';
 import styled from 'styled-components';
+import { api } from "../../services/api";
+import { toast, ToastContainer } from 'react-toastify';
 
 
 export const Cartao = () => {
-    //280 - 335
-    // 900 - 1040
+
     const sessionUser = JSON.parse(localStorage.getItem('session'))
     const [token, setToken] = React.useState(localStorage.getItem('token') || null);
-
 
     const { data } = useApiRequestGet(sessionUser && token ? "/listar-produtos-permissao" : "/listar-produtos");
 
@@ -100,6 +100,33 @@ export const Cartao = () => {
   background-color: ${(props) => getBackgroundColor(props.cor)};
   border-radius: 4px;
 `;
+
+    //atualizar-produto/id METODO PATCH
+    // alterar valor situacao para ATIVO
+
+    const changeSituacao = (data, id) => {
+
+        if (data && data.length > 0) {
+            const produto = data[0];
+            produto.situacao = 'ATIVO';
+
+            api.patch(`/atualizar-produto/${produto.id}`, produto)
+                .then(() => {
+                    toast.success('Bem aprovado com sucesso!', {
+                        autoClose: 2000
+                    });
+                    console.log("aprovado com sucesso");
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        } else {
+            console.log("Nenhum dado encontrado para atualizar");
+        }
+    }
+
+
+
     return (
 
         <ContainerCards>
@@ -164,16 +191,17 @@ export const Cartao = () => {
                     return (
                         <Grid item key={index} xs={12} sm={6} md={3}>
                             <Link to={`/detalhes/${produto.id}`} style={{ textDecoration: 'none' }}>
-                                <Card sx={{ width: '100%', height: '500px', '&:hover': { boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)' } }}>
-
+                                <Card
+                                    sx={{
+                                        width: '100%', height: '500px',
+                                        '&:hover': { boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)' }
+                                    }}
+                                >
                                     <CardMedia
                                         component="img"
                                         height="340"
                                         image={produto.imagem} />
-                                    {/* <img
-                                        height="320"
-                                        width="100%"
-                                        src={produto.imagem} /> */}
+
                                     <CardContent sx={{ backgroundColor: 'white', maxHeight: '200px', overflowY: 'auto' }}>
                                         <Typography gutterBottom variant="h5" component="div">
                                             {produto.nome}
@@ -185,6 +213,7 @@ export const Cartao = () => {
 
 
                                         </Typography> */}
+
                                         <Typography variant="body2" color="text.secondary">
                                             <TextoComCorDeFundo cor={produto.situacaoDeReserva === 'DISPONIVEL' ? 'green' : 'red'}>
                                                 {produto.situacaoDeReserva === 'DISPONIVEL' ? (
@@ -194,7 +223,11 @@ export const Cartao = () => {
                                                 )}{' '}
                                                 {produto.situacaoDeReserva}
                                             </TextoComCorDeFundo>
-                                            <span> {produto.descricao}</span>
+
+
+                                            <Typography variant="body2" color="text.secondary" sx={{ marginTop: '-10px' }}>
+                                                {produto.descricao}
+                                            </Typography>
 
                                         </Typography>
                                     </CardContent>
@@ -202,18 +235,34 @@ export const Cartao = () => {
                             </Link>
 
 
-                            <Box sx={{
-                                backgroundColor: 'transparent',
-                                marginTop: '-64px',
-                            }}>
+                            <Box
+                                sx={{
+                                    backgroundColor: 'transparent',
+                                    marginTop: '-64px',
+                                }}>
 
                                 <Link to={`/detalhes/${produto.id}`} >
                                     <Button size="small" variant="outlined" sx={{ fontFamily: 'Poppins', margin: '20px' }}>Detalhes</Button>
                                 </Link>
+
+                                {(token && sessionUser.permissaoId === 'e6d935c0-fc71-4918-b609-8785773d02f2') &&
+                                    <Button size="small"
+                                        variant="contained"
+                                        color="success"
+                                        sx={{ fontFamily: 'Poppins', }}
+                                        onClick={() => changeSituacao(data)}
+                                        disabled={produto.situacao === 'INATIVO'}
+                                    >
+                                        {produto.situacao === 'ATIVO' ? 'Aprovar' : 'Aprovado'}
+                                    </Button>
+                                }
                             </Box>
+
+
                         </Grid>
                     );
                 })}
+                <ToastContainer />
 
             </Grid>
 
