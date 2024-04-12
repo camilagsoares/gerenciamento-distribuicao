@@ -250,9 +250,9 @@ export const Cartao = () => {
                                         color="success"
                                         sx={{ fontFamily: 'Poppins', }}
                                         onClick={() => changeSituacao(data)}
-                                        disabled={produto.situacao === 'INATIVO'}
+                                        disabled={produto.situacao === 'ATIVO'}
                                     >
-                                        {produto.situacao === 'ATIVO' ? 'Aprovar' : 'Aprovado'}
+                                        {produto.situacao === 'INATIVO' ? 'Aprovar' : 'Aprovado'}
                                     </Button>
                                 }
                             </Box>

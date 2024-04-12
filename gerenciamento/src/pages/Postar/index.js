@@ -56,12 +56,14 @@ function Postar() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+  
     const formPayload = new FormData();
     Object.entries(formData).forEach(([key, value]) => {
-      formPayload.append(key, value);
+      if (value !== null) { 
+        formPayload.append(key, value);
+      }
     });
-
+  
     try {
       await axios.post('http://10.1.0.187:3000/api/criar-produto', formPayload, {
         headers: {
@@ -78,7 +80,7 @@ function Postar() {
     }
     console.log(formPayload)
   };
-
+  
   return (
     <Container>
 
@@ -133,16 +135,15 @@ function Postar() {
 
 
             <Grid item xs={6}>
+            <InputField>
+            <Select name="usuarioMandarProduto_id" value={formData.usuarioMandarProduto_id || ''} onChange={handleChange}>
+  <MenuItem value="">Selecione um usuário (opcional)</MenuItem>
+  {dadoUsuario && dadoUsuario.map(user => (
+    <MenuItem key={user.id} value={user.id}>{user.nome}</MenuItem>
+  ))}
+</Select>
 
-              <InputField>
-                <label>Reservar para Usuario</label> <br />
-                <Select name="usuarioMandarProduto_id" value={formData.usuarioMandarProduto_id} onChange={handleChange}>
-                  {dadoUsuario && dadoUsuario.map(user => (
-                    <MenuItem key={user.id} value={user.id}>{user.nome}</MenuItem>
-                  ))}
-                </Select>
-              </InputField>
-
+  </InputField>
 
 
             </Grid>
