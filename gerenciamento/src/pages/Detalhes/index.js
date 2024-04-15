@@ -36,7 +36,6 @@ export const Detalhes = () => {
 
   const sessionUser = JSON.parse(localStorage.getItem('session'))
   const { data, loadingData, refetchData } = useApiRequestGet(`/listar-produto/${id}`);
-  console.log(data)
 
   const { data: dataReserva } = useApiRequestGet(`/listar-reserva/${id}`);
 
@@ -45,8 +44,6 @@ export const Detalhes = () => {
   //     refetchData();
   //   }
   // }, [id]);
-
-
 
   React.useEffect(() => {
     if (!loadingData && data) {
@@ -133,13 +130,10 @@ export const Detalhes = () => {
   };
 
 
-
-
   const [currentColor, setCurrentColor] = React.useState('#000');
   const [background, setBackground] = React.useState('#212121');
 
   const reserva = () => {
-
     //id do usuario
     //produtoId
 
@@ -149,17 +143,15 @@ export const Detalhes = () => {
         toast.success('Bem reservado com sucesso!', {
           autoClose: 1000
         });
-        setTimeout(function() {
+        setTimeout(function () {
           window.location.reload();
-        }, 1000); 
-       })
+        }, 1000);
+      })
       .catch((error) => {
         console.log(error)
       });
   }
-  const usuarioQueReservou = dataReserva && dataReserva.length && dataReserva.map(reserva => (
-    reserva.usuario.nome
-  ));
+
   return (
     <div>
 
@@ -203,9 +195,18 @@ export const Detalhes = () => {
   const { data, loadingData, refetchData } = useApiRequestGet(`/listar-produto/${id}`);
   console.log(data.usuarioId) */}
 
-                {(ativo && sessionUser.id === data?.usuarioId)  && <Tooltip title='Editar' arrow>
-                  <Button variant='outlined' onClick={handleModalOpen} sx={{ marginTop: '-30px' }} disabled={!token}> <EditIcon fontSize='20' /> </Button>
-                </Tooltip>}
+                {/**  sessionUser.id
+ * "4f2bf500-4b18-4cc1-97f2-7cd716347cea"
+
+ * 
+ * 
+*/}
+
+                {sessionUser && sessionUser.id === data.usuarioId && token &&
+                  <Tooltip title='Editar' arrow>
+                    <Button variant='outlined' onClick={handleModalOpen} sx={{ marginTop: '-30px' }}> <EditIcon fontSize='20' /> </Button>
+                  </Tooltip>
+                }
               </Stack>
 
 
@@ -228,17 +229,22 @@ export const Detalhes = () => {
                 </ul>
               </div>
 
-              {/* {(!inativo && token) && (<ButtonStyle onClick={reserva} disabled={!token}>Reservar</ButtonStyle>)} */}
+              {data.situacaoDeReserva === "DISPONIVEL" && <ButtonStyle onClick={reserva} disabled={!token}>
+                Reservar
+              </ButtonStyle>}
 
               <ToastContainer />
-              {/* {(inativo && token) && (
-                <div>
-                  <CustomAlertError severity="error">Bem reservado por {usuarioQueReservou}
-                  </CustomAlertError>
-                  <Button sx={{ marginTop: '20px' }} variant="outlined" onClick={handleModalDetailsOpen}>Visualizar Detalhes Reserva</Button>
-
-                </div>
-              )} */}
+              {data.situacaoDeReserva === "RESERVADO" && <div>
+                <CustomAlertError severity="error">
+                  {dataReserva && dataReserva.map(reserva => (
+                    <div key={reserva.id}>
+                      Bem reservado por  {reserva.usuario.nome}
+                    </div>
+                  ))}
+                </CustomAlertError>
+                <Button sx={{ marginTop: '20px' }} variant="outlined" onClick={handleModalDetailsOpen}>Visualizar Detalhes Reserva</Button>
+              </div>
+              }
             </Content>
           </Details>
         </InnerContainer>
@@ -349,7 +355,7 @@ export const Detalhes = () => {
 
             <Box component='form' noValidate onSubmit={editaTelefone}>
               <DialogContent sx={{ paddingTop: 1 }}>
-                {dataReserva && dataReserva.length && dataReserva.map(reserva => (
+                {dataReserva && dataReserva.map(reserva => (
                   <div key={reserva.id}>
                     <Grid container columnSpacing={2} rowSpacing={2} marginTop={0.5}>
                       <p>Nome do Usuário: {reserva.usuario.nome}</p>
