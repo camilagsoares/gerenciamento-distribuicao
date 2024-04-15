@@ -23,7 +23,6 @@ export const Cartao = () => {
     const [token, setToken] = React.useState(localStorage.getItem('token') || null);
 
     const { data } = useApiRequestGet(sessionUser && token ? "/listar-produtos-permissao" : "/listar-produtos");
-
     const [filteredData, setFilteredData] = useState([]);
     const [statusFilter, setStatusFilter] = useState('todos');
     const [tipoProdutoFilter, setTipoProdutoFilter] = useState('todos');
@@ -100,30 +99,29 @@ export const Cartao = () => {
   border-radius: 4px;
 `;
 
-    //atualizar-produto/id METODO PATCH
-    // alterar valor situacao para ATIVO
 
-    const changeSituacao = (data, id) => {
-
-        if (data && data.length > 0) {
-            const produto = data[0];
+    const changeSituacao = (id) => {
+        const produto = filteredData.find(item => item.id === id);
+        if (produto) {
             produto.situacao = 'ATIVO';
 
-            api.patch(`/atualizar-produto/${produto.id}`, produto)
+            api.patch(`/atualizar-produto/${id}`, produto)
                 .then(() => {
                     toast.success('Bem aprovado com sucesso!', {
                         autoClose: 2000
                     });
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000)
                     console.log("aprovado com sucesso");
                 })
                 .catch((error) => {
                     console.log(error);
                 });
         } else {
-            console.log("Nenhum dado encontrado para atualizar");
+            console.log("Produto não encontrado para atualizar");
         }
     }
-
 
 
     return (
@@ -249,7 +247,7 @@ export const Cartao = () => {
                                         variant="contained"
                                         color="success"
                                         sx={{ fontFamily: 'Poppins', }}
-                                        onClick={() => changeSituacao(data)}
+                                        onClick={() => changeSituacao(produto.id)}
                                         disabled={produto.situacao === 'ATIVO'}
                                     >
                                         {produto.situacao === 'INATIVO' ? 'Aprovar' : 'Aprovado'}
