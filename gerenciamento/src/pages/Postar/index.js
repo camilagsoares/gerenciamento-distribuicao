@@ -34,20 +34,25 @@ function Postar() {
     imagem: null,
   });
 
+
   useEffect(() => {
-    if (data && dataProduto) {
+    if (dataProduto && dataProduto.length > 0 && dadoUsuario && dadoUsuario.length > 0) {
       setFormData(prevState => ({
         ...prevState,
         tipoProdutoId: dataProduto[0].id,
-        usuarioMandarProduto_id: dadoUsuario.id
-        // statusId: data[0].id,
+        usuarioMandarProduto_id: dadoUsuario[0].id
       }));
     }
-  }, [data, dataProduto]);
+  }, [dataProduto, dadoUsuario]);
+
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
+    const newValue = value === 'Nenhum' ? null : value;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: newValue
+    }));
   };
 
   const handleFileChange = (event) => {
@@ -56,14 +61,14 @@ function Postar() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
+
     const formPayload = new FormData();
     Object.entries(formData).forEach(([key, value]) => {
-      if (value !== null) { 
+      if (value !== null) {
         formPayload.append(key, value);
       }
     });
-  
+
     try {
       await axios.post('http://10.1.0.187:3000/api/criar-produto', formPayload, {
         headers: {
@@ -80,7 +85,7 @@ function Postar() {
     }
     console.log(formPayload)
   };
-  
+
   return (
     <Container>
 
@@ -119,35 +124,28 @@ function Postar() {
             </Grid>
 
             <Grid item xs={6}>
-
               <InputField>
                 <label>Tipo Produto</label> <br />
-                <Select name="tipoProdutoId" value={formData.tipoProdutoId} onChange={handleChange}>
+                <Select name="tipoProdutoId" value={formData.tipoProdutoId || ''} onChange={handleChange}>
                   {dataProduto && dataProduto.map(item => (
                     <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>
                   ))}
                 </Select>
               </InputField>
-
-
-
             </Grid>
-
 
             <Grid item xs={6}>
-            <InputField>
-            <Select name="usuarioMandarProduto_id" value={formData.usuarioMandarProduto_id || ''} onChange={handleChange}>
-  <MenuItem value="">Selecione um usuário (opcional)</MenuItem>
-  {dadoUsuario && dadoUsuario.map(user => (
-    <MenuItem key={user.id} value={user.id}>{user.nome}</MenuItem>
-  ))}
-</Select>
-
-  </InputField>
-
-
+              <InputField>
+                <label>Enviar a um usuário específico</label>  <br />
+                <Select name="usuarioMandarProduto_id" value={formData.usuarioMandarProduto_id || 'Nenhum'} onChange={handleChange}>
+                  <MenuItem value="">Por favor selecione</MenuItem>
+                  <MenuItem value="Nenhum">Nenhum</MenuItem>
+                  {dadoUsuario && dadoUsuario.map(user => (
+                    <MenuItem key={user.id} value={user.id}>{user.nome}</MenuItem>
+                  ))}
+                </Select>
+              </InputField>
             </Grid>
-
 
           </Grid>
 
@@ -166,11 +164,8 @@ function Postar() {
             <Grid item xs={6}>
               <ContainerSelect>
                 <label>Número Patrimônio</label> <br />
-
                 <Input type="text" placeholder='Número Patrimônio' name="numeroPatrimonio" value={formData.numeroPatrimonio} onChange={handleChange} />
-
               </ContainerSelect>
-
 
             </Grid>
 
