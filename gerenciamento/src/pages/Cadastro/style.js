@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import TextField from '@mui/material/TextField';
 
-
 export const AlignContainer = styled.div`
 display: flex;
 align-items: center;
