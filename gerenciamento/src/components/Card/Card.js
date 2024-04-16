@@ -123,6 +123,29 @@ export const Cartao = () => {
         }
     }
 
+    const changeSituacaoAtivo = (id) => {
+        const produto = filteredData.find(item => item.id === id);
+        if (produto) {
+            produto.situacao = 'INATIVO';
+
+            api.patch(`/atualizar-produto/${id}`, produto)
+                .then(() => {
+                    toast.success('Bem desaprovado com sucesso!', {
+                        autoClose: 2000
+                    });
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000)
+                    console.log("desaprovado com sucesso");
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        } else {
+            console.log("Produto não encontrado para atualizar");
+        }
+    }
+
 
     return (
 
@@ -249,12 +272,19 @@ export const Cartao = () => {
                                     &&
                                     <Button size="small"
                                         variant="contained"
-                                        color="success"
+                                        color={produto.situacao === 'INATIVO' ? 'success' : 'error'}
                                         sx={{ fontFamily: 'Poppins', }}
-                                        onClick={() => changeSituacao(produto.id)}
-                                        disabled={produto.situacao === 'ATIVO'}
+                                        // onClick={() => changeSituacao(produto.id)}
+                                        onClick={() => {
+                                            if (produto.situacao === 'INATIVO') {
+                                                changeSituacao(produto.id);
+                                            } else {
+                                                changeSituacaoAtivo(produto.id);
+                                            }
+                                        }}
+                                        // disabled={produto.situacao === 'ATIVO'}
                                     >
-                                        {produto.situacao === 'INATIVO' ? 'Aprovar' : 'Aprovado'}
+                                        {produto.situacao === 'INATIVO' ? 'Aprovar' : 'Desaprovar'}
                                     </Button>
                                 }
                             </Box>
