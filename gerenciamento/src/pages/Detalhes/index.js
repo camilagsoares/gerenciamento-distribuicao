@@ -37,6 +37,12 @@ export const Detalhes = () => {
   const sessionUser = JSON.parse(localStorage.getItem('session'))
   const { data, loadingData, refetchData } = useApiRequestGet(`/listar-produto/${id}`);
 
+  if (data && data.usuarioId) {
+    console.log("data.usuarioId", data.usuarioId);
+  } else {
+    console.log("Data é nulo ou não possui a propriedade 'usuarioId'");
+  }
+
   const { data: dataReserva } = useApiRequestGet(`/listar-reserva/${id}`);
 
   // React.useEffect(() => {
@@ -191,22 +197,15 @@ export const Detalhes = () => {
                     {data.criadoEm.slice(8, 10)}-{data.criadoEm.slice(5, 7)}-{data.criadoEm.slice(0, 4)}
                   </Subtitle>
                 </Title>
-                {/* console.log("sessionUser", sessionUser.id)
-  const { data, loadingData, refetchData } = useApiRequestGet(`/listar-produto/${id}`);
-  console.log(data.usuarioId) */}
 
-                {/**  sessionUser.id
- * "4f2bf500-4b18-4cc1-97f2-7cd716347cea"
-
- * 
- * 
-*/}
-
-                {sessionUser && sessionUser.id === data.usuarioId && token &&
+                {data?.usuarioId === sessionUser?.id ? (
                   <Tooltip title='Editar' arrow>
                     <Button variant='outlined' onClick={handleModalOpen} sx={{ marginTop: '-30px' }}> <EditIcon fontSize='20' /> </Button>
                   </Tooltip>
-                }
+                ) : (
+                  null
+                )}
+
               </Stack>
 
 

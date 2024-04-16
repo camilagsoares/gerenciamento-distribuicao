@@ -26,6 +26,7 @@ export default function Profile() {
     const [modalOpenProfile, setModalOpenProfile] = useState(false)
     const [loading, setLoading] = useState(false);
     const [session, setSession] = React.useState(JSON.parse(localStorage.getItem('session')) || null);
+    const [token, setToken] = React.useState(localStorage.getItem('token') || null);
 
     const navigate = useNavigate()
 
@@ -117,12 +118,12 @@ export default function Profile() {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-                <MenuItem onClick={handleClickOpenModalProfile}>
+                {token && <MenuItem onClick={handleClickOpenModalProfile}>
                     <ListItemIcon>
                         <PermContactCalendarIcon fontSize="small" />
                     </ListItemIcon>
                     Minha conta
-                </MenuItem>
+                </MenuItem>}
 
                 {/* <MenuItem onClick={handleClickOpenModal}>
                     <ListItemIcon>
