@@ -15,7 +15,7 @@ import InputLabel from '@mui/material/InputLabel';
 import { toast, ToastContainer } from 'react-toastify';
 
 function Postar() {
-
+  const sessionUser = JSON.parse(localStorage.getItem('session'))
   const { data } = useApiRequestGet("/listar-status");
   const { data: dataProduto } = useApiRequestGet("/listar-tipoproduto");
 
@@ -134,7 +134,8 @@ function Postar() {
               </InputField>
             </Grid>
 
-            <Grid item xs={6}>
+        { sessionUser.permissaoId === "e6d935c0-fc71-4918-b609-8785773d02f2" &&
+          <Grid item xs={6}>
               <InputField>
                 <label>Enviar a um usuário específico</label>  <br />
                 <Select name="usuarioMandarProduto_id" value={formData.usuarioMandarProduto_id || 'Nenhum'} onChange={handleChange}>
@@ -146,7 +147,7 @@ function Postar() {
                 </Select>
               </InputField>
             </Grid>
-
+}
           </Grid>
 
           {/* <InputField>

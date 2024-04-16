@@ -242,7 +242,11 @@ export const Cartao = () => {
                                     <Button size="small" variant="outlined" sx={{ fontFamily: 'Poppins', margin: '20px' }}>Detalhes</Button>
                                 </Link>
 
-                                {(token && sessionUser.permissaoId === 'e6d935c0-fc71-4918-b609-8785773d02f2') &&
+                                {
+                                    (token && sessionUser.permissaoId === 'e6d935c0-fc71-4918-b609-8785773d02f2')
+
+                                    && (produto.usuarioMandarProduto_id === null)
+                                    &&
                                     <Button size="small"
                                         variant="contained"
                                         color="success"
