@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Modal, Dialog, DialogContent, DialogTitle, Stack, IconButton, } from '@mui/material';
+import { Button, Modal, Dialog, DialogContent, DialogTitle, Stack, IconButton, InputLabel, } from '@mui/material';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { Link } from 'react-router-dom';
 import { Container, InnerContainer, ImgBox, Image, Details, Content, Title, Subtitle, Description, ButtonStyle } from './style';
@@ -17,6 +17,8 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import { Box } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
+import { Select, MenuItem } from '@mui/material';
+import FormControl from '@mui/material/FormControl';
 
 
 export const Detalhes = () => {
@@ -33,6 +35,9 @@ export const Detalhes = () => {
   const [token, setToken] = React.useState(localStorage.getItem('token') || null);
   // const [numeroSerie, setNumeroSerie] = React.useState('')
   // const [status, setStatus] = React.useState('');
+
+  const { data: dataProduto } = useApiRequestGet("/listar-tipoproduto");
+
 
   const sessionUser = JSON.parse(localStorage.getItem('session'))
   const { data, loadingData, refetchData } = useApiRequestGet(`/listar-produto/${id}`);
@@ -90,6 +95,9 @@ export const Detalhes = () => {
   const inativo = statusBem === 'INATIVO';
   const ativo = statusBem === 'ATIVO'
 
+  const handleChange = (event) => {
+    setTipoProdutoId(event.target.value);
+  };
 
   const editaTelefone = (e) => {
     e.preventDefault();
@@ -289,15 +297,25 @@ export const Detalhes = () => {
                   </Grid>
 
                   <Grid item xs={12} sm={12} md={12}>
-                    <TextField
-                      value={tipoProduto}
-                      onChange={(e) => setTipoProdutoId(e.target.value)}
-                      fullWidth
-                      required
-                      label='Tipo produto'
-                      type='text'
+                    <Box sx={{ minWidth: 120 }}>
+                      <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-label">Tipo Produto</InputLabel>
+                        <Select
+                          labelId="demo-simple-select-label"
+                          id="demo-simple-select"
+                          // value={age}
+                          label="Tipo Produto"
+                          onChange={handleChange}
+                        >
+                          {dataProduto && dataProduto.map(item => (
+                            <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    </Box>
 
-                    />
+
+
                   </Grid>
                   <Grid item xs={12} sm={12} md={12}>
                     <TextField
