@@ -23,8 +23,10 @@ export const Cartao = () => {
     const [token, setToken] = React.useState(localStorage.getItem('token') || null);
 
     const { data } = useApiRequestGet(sessionUser && token ? "/listar-produtos-permissao" : "/listar-produtos");
+    console.log(data)
     const [filteredData, setFilteredData] = useState([]);
     const [statusFilter, setStatusFilter] = useState('todos');
+    const [reserveStatusFilter, setReserveStatusFilter] = useState('todos');
     const [tipoProdutoFilter, setTipoProdutoFilter] = useState('todos');
     const [tipoProdutos, setTipoProdutos] = useState([]);
 
@@ -49,16 +51,16 @@ export const Cartao = () => {
     //     produto.descricao.toLowerCase().includes(searchTerm.trim().toLowerCase())
     // ) : [];
 
-    useEffect(() => {
-        if (data) {
-            const newData = data.filter(produto =>
-                (produto.nome.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
-                    produto.descricao.toLowerCase().includes(searchTerm.trim().toLowerCase())) &&
-                (statusFilter === 'todos' || produto.status.nome.toLowerCase() === statusFilter.toLowerCase())
-            );
-            setFilteredData(newData);
-        }
-    }, [data, searchTerm, statusFilter]);
+    // useEffect(() => {
+    //     if (data) {
+    //         const newData = data.filter(produto =>
+    //             (produto.nome.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
+    //                 produto.descricao.toLowerCase().includes(searchTerm.trim().toLowerCase())) &&
+    //             (statusFilter === 'todos' || produto.status.nome.toLowerCase() === statusFilter.toLowerCase())
+    //         );
+    //         setFilteredData(newData);
+    //     }
+    // }, [data, searchTerm, statusFilter]);
 
     const handleStatusFilterChange = (e) => {
         setStatusFilter(e.target.value);
@@ -72,12 +74,16 @@ export const Cartao = () => {
         }
     }, [data]);
 
+
     useEffect(() => {
         if (data) {
             const newData = data.filter(produto =>
                 (produto.nome.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
                     produto.descricao.toLowerCase().includes(searchTerm.trim().toLowerCase())) &&
-                (statusFilter === 'todos' || produto.status.nome.toLowerCase() === statusFilter.toLowerCase()) &&
+                (statusFilter === 'todos' || 
+                    (statusFilter === 'disponível' && produto.situacaoDeReserva.toLowerCase() === 'disponivel') ||
+                    (statusFilter === 'reservado' && produto.situacaoDeReserva.toLowerCase() === 'reservado')
+                ) &&
                 (tipoProdutoFilter === 'todos' || produto.tipoProduto.nome.toLowerCase() === tipoProdutoFilter.toLowerCase())
             );
             setFilteredData(newData);
