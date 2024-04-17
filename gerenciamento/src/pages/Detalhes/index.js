@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Modal, Dialog, DialogContent, DialogTitle, Stack, IconButton, InputLabel, } from '@mui/material';
+import { Button, Modal, Dialog, DialogContent, DialogTitle, Stack, IconButton, InputLabel, Drawer, Divider, } from '@mui/material';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { Link } from 'react-router-dom';
 import { Container, InnerContainer, ImgBox, Image, Details, Content, Title, Subtitle, Description, ButtonStyle } from './style';
@@ -19,7 +19,10 @@ import { Box } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Select, MenuItem } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
-
+import { Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
+import { tableCellClasses } from '@mui/material/TableCell';
+import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
+import { ModalCriarEtapa } from './ModalCriarEtapa';
 
 export const Detalhes = () => {
 
@@ -41,6 +44,7 @@ export const Detalhes = () => {
 
   const sessionUser = JSON.parse(localStorage.getItem('session'))
   const { data, loadingData, refetchData } = useApiRequestGet(`/listar-produto/${id}`);
+  console.log("data", data)
 
   if (data && data.usuarioId) {
     console.log("data.usuarioId", data.usuarioId);
@@ -49,6 +53,10 @@ export const Detalhes = () => {
   }
 
   const { data: dataReserva } = useApiRequestGet(`/listar-reserva/${id}`);
+
+  // const { data: listarEtapas } = useApiRequestGet(`/listar-etapa/${id}`);
+  // console.log(listarEtapas)
+
 
   // React.useEffect(() => {
   //   if (id) {
@@ -74,23 +82,40 @@ export const Detalhes = () => {
   }));
 
   const [modalOpen, setModalOpen] = React.useState(false);
+  const [modalEtapaOpen, setModalEtapaOpen] = React.useState(false)
   const [detailsOpen, setDetailsOpen] = React.useState(false)
+
+
+
+
+  const handleEtapaOpen = () => {
+    setModalEtapaOpen(true);
+  };
+
+  const handleEtapaClose = () => {
+    setModalEtapaOpen(false);
+  };
+
 
   const handleModalDetailsOpen = () => {
     setDetailsOpen(true);
-  };
-
-  const handleModalOpen = () => {
-    setModalOpen(true);
   };
 
   const handleModalDetailsClose = () => {
     setDetailsOpen(false);
   };
 
+
+  const handleModalOpen = () => {
+    setModalOpen(true);
+  };
+
   const handleModalClose = () => {
     setModalOpen(false);
   };
+
+
+
   const statusBem = data?.situacao || '';
   const inativo = statusBem === 'INATIVO';
   const ativo = statusBem === 'ATIVO'
@@ -143,6 +168,18 @@ export const Detalhes = () => {
 
   };
 
+  const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const [drawerZIndex, setDrawerZIndex] = React.useState(-1);
+
+  const handleDrawerOpen = () => {
+    setDrawerOpen(true);
+    setDrawerZIndex(1);
+  };
+
+  const handleDrawerClose = () => {
+    setDrawerOpen(false);
+    setDrawerZIndex(-1);
+  };
 
   const [currentColor, setCurrentColor] = React.useState('#000');
   const [background, setBackground] = React.useState('#212121');
@@ -165,6 +202,8 @@ export const Detalhes = () => {
         console.log(error)
       });
   }
+
+
 
   return (
     <div>
@@ -213,6 +252,10 @@ export const Detalhes = () => {
                 ) : (
                   null
                 )}
+
+                <Tooltip title='Detalhes Etapa' arrow>
+                  <Button variant='outlined' onClick={handleDrawerOpen} sx={{ marginTop: '-30px', marginLeft: '7px', }}> <AddToPhotosIcon fontSize='20' /> </Button>
+                </Tooltip>
 
               </Stack>
 
@@ -389,6 +432,11 @@ export const Detalhes = () => {
             </Box>
           </DialogContent>
         </Dialog>
+
+
+        <ModalCriarEtapa drawerOpen={drawerOpen} handleDrawerClose={handleDrawerClose}
+        
+        />
       </Container>
       }
     </div>
