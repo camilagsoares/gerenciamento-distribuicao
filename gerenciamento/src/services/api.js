@@ -69,9 +69,9 @@ const useApiRequestGet = (path, payload) => {
         });
         setData(response.data.content);
       } catch (error) {
-        toast(error.response.data.message, {
-          type: 'error',
-        });
+        // toast(error.response.data.message, {
+        //   type: 'error',
+        // });
         setError(error.message);
       } finally {
         setLoading(false);

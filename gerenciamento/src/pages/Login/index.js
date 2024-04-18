@@ -45,7 +45,6 @@ const Login = () => {
         navigate("/")
       }, 2000);
    
-    
     } catch (error) {
       console.error('Erro ao fazer login:', error);
     }
