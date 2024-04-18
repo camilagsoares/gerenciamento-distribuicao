@@ -24,6 +24,7 @@ import { tableCellClasses } from '@mui/material/TableCell';
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
 import AddCircle from '@mui/icons-material/AddCircleOutline';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
+import { format } from 'date-fns';
 
 export function ModalCriarEtapa({ handleDrawerOpen, handleDrawerClose, drawerOpen }) {
 
@@ -32,10 +33,19 @@ export function ModalCriarEtapa({ handleDrawerOpen, handleDrawerClose, drawerOpe
 
     const [loading, setLoading] = React.useState(false);
     const [descricao, setDescricao] = React.useState('');
+    const [produtoConcluido, setProdutoConcluido] = React.useState('');
+    const [ concluidoEm,setConcluidoEm] = React.useState(null)
 
     const { data, loadingData, refetchData } = useApiRequestGet(`/listar-produto/${id}`);
-    console.log("data", data)
 
+    const situacao = data?.produtoConcluido || '';
+
+    React.useEffect(() => {
+        if (!loadingData && data) {
+            setProdutoConcluido(data?.produtoConcluido || '');
+
+        }
+    }, [loadingData, data]);
 
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -72,9 +82,20 @@ export function ModalCriarEtapa({ handleDrawerOpen, handleDrawerClose, drawerOpe
         setModalConcluirOpen(false);
     };
 
+    const CustomAlert = styled(Alert)(({ theme }) => ({
+        backgroundColor: '#b9dab9',
+    }));
 
 
     const criarEtapa = (e) => {
+
+        const newData = {
+            ...data,
+            produtoConcluido: true,
+            concluidoEm: new Date() 
+        };
+
+        
         e.preventDefault();
         setLoading(true);
         const data = {
@@ -83,7 +104,7 @@ export function ModalCriarEtapa({ handleDrawerOpen, handleDrawerClose, drawerOpe
         };
 
         api
-            .post(`/criar-etapa/${id}`, data)
+            .post(`/criar-etapa/${id}`, newData)
             .then(() => {
                 toast('Etapa criada com sucesso', {
                     type: 'success',
@@ -105,15 +126,53 @@ export function ModalCriarEtapa({ handleDrawerOpen, handleDrawerClose, drawerOpe
 
                 setLoading(false);
             });
-        console.log(data)
 
     };
 
 
-    const concluirEtapa = () => {
 
-    }
 
+    const concluirEtapa = (e) => {
+        // produtoConcluido para true
+
+        e.preventDefault();
+        setLoading(true);
+
+        data.produtoConcluido = true;
+        data.concluidoEm = new Date()
+        // const data = {
+        //     produtoConcluido: produtoConcluido
+        // };
+
+        api
+            .put(`/atualizar-produto/${id}`, data)
+            .then(() => {
+                toast('Bem concluído com sucesso', {
+                    type: 'success',
+                    autoClose: 1000,
+                });
+                // setTimeout(() => {
+                //     setLoading(false);
+                //     window.location.reload();
+                // }, 3000);
+            })
+
+            .catch((error) => {
+                console.log(error);
+
+                setLoading(false);
+            });
+        console.log(data)
+
+    };
+
+    const formatDateToDDMMYYYY = (date) => {
+        if (!date) return '';
+        return format(new Date(date), 'dd-MM-yyyy');
+      };
+      const concluidoEmData = data?.concluidoEm || '';
+
+      const formattedConcluidoEm = formatDateToDDMMYYYY(concluidoEmData);
 
     return (
         <Drawer
@@ -147,16 +206,28 @@ export function ModalCriarEtapa({ handleDrawerOpen, handleDrawerClose, drawerOpe
                 paddingY={1.5}
             >
 
-                <Button
-                    startIcon={<AddCircle />}
-                    variant='outlined'
-                    color='success'
-                    sx={{ marginLeft: 'auto', marginRight: '10px' }}
-                    onClick={handleEtapaOpen}
-                >
-                    Nova etapa
-                </Button>
-                <Button variant='outlined' onClick={handleConcluirOpen} sx={{ marginRight: '10px' }}>Concluir</Button>
+                {situacao !== true && (
+                    <><Button
+                        startIcon={<AddCircle />}
+                        variant='outlined'
+                        color='success'
+                        sx={{ marginLeft: 'auto', marginRight: '10px' }}
+                        onClick={handleEtapaOpen}
+                    >
+                        Nova etapa
+                    </Button><Button variant='outlined' onClick={concluirEtapa} sx={{ marginRight: '10px' }}>Concluir</Button></>
+                )}
+
+
+
+                {/* //atualizadoEm */}
+
+                {situacao === true && (
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '20px', marginLeft: '10px' }}>
+                        <CustomAlert severity="success" >Bem concluído em: {formattedConcluidoEm}</CustomAlert>
+                    </div>
+                )}
+
             </Stack>
 
             <Box sx={{ width: 800 }} padding={1.5}>
@@ -238,7 +309,7 @@ export function ModalCriarEtapa({ handleDrawerOpen, handleDrawerClose, drawerOpe
                     </DialogContent>
                 </Dialog>
 
-                <Dialog open={modalConcluirOpen} onClose={handleConcluirClose} style={{ zIndex: 10000 }}>
+                {/* <Dialog open={modalConcluirOpen} onClose={handleConcluirClose} style={{ zIndex: 10000 }}>
                     <DialogTitle>
                         <Stack direction='row' sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                             <h2>Concluir Etapa</h2>
@@ -254,7 +325,10 @@ export function ModalCriarEtapa({ handleDrawerOpen, handleDrawerClose, drawerOpe
                             </DialogContent>
                         </Box>
                     </DialogContent>
-                </Dialog>
+                </Dialog> */}
+
+                <ToastContainer />
+
 
             </Box>
         </Drawer>
