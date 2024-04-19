@@ -43,7 +43,8 @@ const Login = () => {
 
       setTimeout(() => {
         navigate("/")
-      }, 2000);
+        window.location.reload()
+      }, 1000);
    
     } catch (error) {
       console.error('Erro ao fazer login:', error);
