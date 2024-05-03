@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { Container, InnerContainer, ImgBox, Image, Details, Content, Title, Subtitle, Description, ButtonStyle } from './style';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
-import { useApiRequestGet, api } from "../../services/api"; 
+import { useApiRequestGet, api } from "../../services/api";
 import { toast, ToastContainer } from 'react-toastify';
 import Alert from '@mui/material/Alert';
 import EditIcon from '@mui/icons-material/Edit';

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useApiRequestGet } from '../../services/api';
-import { InputField, Input, ContainerSelect, CardInput, ContainerButton, Container, Card, ArrowIcon, Title, Label, } from './style'
+import { InputField, Input, ContainerSelect, CardInput, ContainerButton, Container, Card, ArrowIcon, Title, Label, FileImage, FileInput, LabelUpload } from './style'
 import { Box, Grid, Button } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import TextField from '@mui/material/TextField';
@@ -13,8 +13,11 @@ import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import { toast, ToastContainer } from 'react-toastify';
+import styled from 'styled-components';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 function Postar() {
+
   const sessionUser = JSON.parse(localStorage.getItem('session'))
   const { data } = useApiRequestGet("/listar-status");
   const { data: dataProduto } = useApiRequestGet("/listar-tipoproduto");
@@ -28,7 +31,7 @@ function Postar() {
     descricao: '',
     // localOndeEncontra: '',
     tipoProdutoId: null,
-    usuarioMandarProduto_id: null,
+    usuarioMandarProduto_id: 'Nenhum',
     // statusId: null,
     numeroPatrimonio: '',
     imagem: null,
@@ -47,16 +50,32 @@ function Postar() {
 
 
   const handleChange = (event) => {
-    const { name, value } = event.target;
-    const newValue = value === 'Nenhum' ? null : value;
+    const value = event.target.value;
+    // Se o valor for "Nenhum", definir como null
+    const newValue = value === "Nenhum" ? null : value;
     setFormData(prevState => ({
       ...prevState,
-      [name]: newValue
+      usuarioMandarProduto_id: newValue
     }));
   };
 
+  // const handleChange = (event) => {
+  //   const { name, value } = event.target;
+  //   const newValue = value === 'Nenhum' ? null : value;
+  //   setFormData(prevState => ({
+  //     ...prevState,
+  //     [name]: newValue
+  //   }));
+  // };
+
+  const [preview, setPreview] = useState(false);
+  const [file, setFile] = useState(null);
+
   const handleFileChange = (event) => {
     setFormData({ ...formData, imagem: event.target.files[0] });
+    const selectedFile = event.target.files[0];
+    setFile(selectedFile);
+    setPreview(true);
   };
 
   const handleSubmit = async (event) => {
@@ -85,6 +104,9 @@ function Postar() {
     }
     console.log(formPayload)
   };
+
+
+
 
   return (
     <Container>
@@ -126,7 +148,7 @@ function Postar() {
             <Grid item xs={6}>
               <InputField>
                 <label>Tipo Produto</label> <br />
-                <Select name="tipoProdutoId" value={formData.tipoProdutoId || ''} onChange={handleChange}>
+                <Select fullWidth name="tipoProdutoId" value={formData.tipoProdutoId || ''} onChange={handleChange}>
                   {dataProduto && dataProduto.map(item => (
                     <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>
                   ))}
@@ -134,20 +156,28 @@ function Postar() {
               </InputField>
             </Grid>
 
-        { sessionUser.permissaoId === "e6d935c0-fc71-4918-b609-8785773d02f2" &&
-          <Grid item xs={6}>
-              <InputField>
-                <label>Enviar a um usuário específico</label>  <br />
-                <Select name="usuarioMandarProduto_id" value={formData.usuarioMandarProduto_id || 'Nenhum'} onChange={handleChange}>
-                  <MenuItem value="">Por favor selecione</MenuItem>
-                  <MenuItem value="Nenhum">Nenhum</MenuItem>
-                  {dadoUsuario && dadoUsuario.map(user => (
-                    <MenuItem key={user.id} value={user.id}>{user.nome}</MenuItem>
-                  ))}
-                </Select>
-              </InputField>
-            </Grid>
-}
+            {sessionUser.permissaoId === "e6d935c0-fc71-4918-b609-8785773d02f2" &&
+              <Grid item xs={6}>
+                <InputField>
+                  <label>Enviar a um usuário específico</label>  <br />
+                  <Select fullWidth name="usuarioMandarProduto_id" value={formData.usuarioMandarProduto_id} onChange={handleChange}>
+                    <MenuItem value="Nenhum">Nenhum</MenuItem> {/* Renderize 'Nenhum' antes do mapeamento */}
+                    <MenuItem value="">Por favor selecione</MenuItem>
+                    {dadoUsuario && dadoUsuario.map(user => (
+                      <MenuItem key={user.id} value={user.id}>{user.nome}</MenuItem>
+                    ))}
+                  </Select>
+
+                  {/* <Select fullWidth name="usuarioMandarProduto_id" value={formData.usuarioMandarProduto_id || 'Nenhum'} onChange={handleChange}>
+                    <MenuItem value="">Por favor selecione</MenuItem>
+                    <MenuItem value="Nenhum">Nenhum</MenuItem>
+                    {dadoUsuario && dadoUsuario.map(user => (
+                      <MenuItem key={user.id} value={user.id}>{user.nome}</MenuItem>
+                    ))}
+                  </Select> */}
+                </InputField>
+              </Grid>
+            }
           </Grid>
 
           {/* <InputField>
@@ -172,9 +202,14 @@ function Postar() {
 
             <Grid item xs={6}>
               <ContainerSelect>
-                <br />
-                <input type="file" name="imagem" onChange={handleFileChange} />
+                {/* <input type="file" name="imagem" onChange={handleFileChange} /> */}
+                <LabelUpload htmlFor="file-upload">
+                  {!preview && <CloudUploadIcon fontSize="large" sx={{ color: '#318ce7' }} />}
+                  <FileImage src={preview && URL.createObjectURL(file)} preview={preview} alt="Preview" />
+                  {!preview && <div>Selecione um arquivo ou arraste aqui</div>}
+                </LabelUpload>
 
+                <FileInput id="file-upload" type="file" name="fileUpload" accept="image/*" onChange={handleFileChange} />
               </ContainerSelect>
 
             </Grid>

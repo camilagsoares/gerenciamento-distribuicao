@@ -6,7 +6,7 @@ export const Container = styled.div`
   position: relative;
   width: 60%; 
   margin: auto ;
-  margin-top: 100px;
+  margin-top: 10px;
 `;
 
 export const Card = styled.div`
@@ -143,3 +143,39 @@ label {
     cursor: pointer;
 }
 `
+
+export const FileInput = styled.input`
+display: none;
+`;
+
+export const LabelUpload = styled.label`
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+padding: 1rem;
+background: #fff;
+border-radius: 7px;
+border: 3px solid #eee;
+cursor: pointer;
+width: 100%;
+margin-top: 32px;
+
+&:hover {
+  border-color: #c1d8ee;
+  transition: border-color 0.3s ease-in-out; 
+}
+
+.MuiSvgIcon-root {
+  margin-bottom: 0.5rem;
+}
+`;
+
+export const FileImage = styled.img`
+display: ${({ preview }) => preview ? 'inline' : 'none'};
+margin: 0 auto .5rem auto;
+width: auto;
+height: auto;
+max-width: 180px;
+
+`;
