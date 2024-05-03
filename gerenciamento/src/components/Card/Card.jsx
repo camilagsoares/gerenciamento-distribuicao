@@ -80,7 +80,7 @@ export const Cartao = () => {
             const newData = data.filter(produto =>
                 (produto.nome.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
                     produto.descricao.toLowerCase().includes(searchTerm.trim().toLowerCase())) &&
-                (statusFilter === 'todos' ||
+                (statusFilter === 'todos' || 
                     (statusFilter === 'disponível' && produto.situacaoDeReserva.toLowerCase() === 'disponivel') ||
                     (statusFilter === 'reservado' && produto.situacaoDeReserva.toLowerCase() === 'reservado')
                 ) &&
@@ -273,8 +273,8 @@ export const Cartao = () => {
 
                                 {
                                     (token && sessionUser.permissaoId === 'e6d935c0-fc71-4918-b609-8785773d02f2')
-                                    &&
-                                    (produto.usuarioMandarProduto_id === null)
+
+                                    && (produto.usuarioMandarProduto_id === null)
                                     &&
                                     <Button size="small"
                                         variant="contained"
@@ -288,7 +288,7 @@ export const Cartao = () => {
                                                 changeSituacaoAtivo(produto.id);
                                             }
                                         }}
-                                    // disabled={produto.situacao === 'ATIVO'}
+                                        // disabled={produto.situacao === 'ATIVO'}
                                     >
                                         {produto.situacao === 'INATIVO' ? 'Aprovar' : 'Desaprovar'}
                                     </Button>

@@ -1,71 +1,78 @@
-import {
-  createContext,
-  useContext,
-  useState,
-  useEffect
-} from 'react';
-import { axiosApi } from '../services/api';
+import { createContext, useState } from 'react';
+import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
+import { api } from '../services/api';
 
+export const AuthContext = createContext();
 
-const AuthContext = createContext({});
+export const AuthContextProvider = ({ children }) => {
+  const navigate = useNavigate();
+  const [token, setToken] = useState(localStorage.getItem('token') || null);
+   const [session, setSession] = useState(JSON.parse(localStorage.getItem('session')) || null);
+  const [profileLoaded, setProfileLoaded] = useState(false);
 
-function AuthProvider({ children }) {
-  const [data, setData] = useState({});
+  // console.log("token authContext", session?.permissao.id)
+  // console.log("session", session);
+  // console.log("session", session)
 
-  async function signIn({ email, password }) {
-    try {
-      const response = await axiosApi.post(
-        "/auth/login",
-        { email, password },
-        { withCredentials: true }
-      );
-      const { session } = response.data;
-
-      localStorage.setItem("@estock:user", JSON.stringify(session));
-
-      setData({ session });
-
-    } catch (error) {
-      if (error.response) {
-        alert(error.response.data.message);
-      } else {
-        alert("Não foi possível entrar.");
-      }
-    }
+  const criarPerfil = (objectUser) => {
+    localStorage.setItem('session', JSON.stringify(objectUser.content.session));
+    setSession(objectUser.content.session);
+    setProfileLoaded(true);
   };
 
-  function signOut() {
-    localStorage.removeItem("@estock:user");
+  const criarSessao = (objectSessionUser) => {
+    // const { content } = objectSessionUser;
+    // localStorage.setItem('token', content.token);
+    // setSession(content.session);
+    // setToken(content.token);
+    // navigate('/');
 
-    setData({});
-  }
+    // const { content } = objectSessionUser;
+    // localStorage.setItem('token', content.token);
+    // localStorage.setItem('session', JSON.stringify(content.session)); // Armazena os dados da sessão como uma string JSON
+    // setSession(content.session);
+    // setToken(content.token);
+    // navigate('/');
 
 
-  useEffect(() => {
-    const user = localStorage.getItem("@estock:user");
+    const { content } = objectSessionUser;
+    localStorage.setItem('token', content.token);
+    localStorage.setItem('session', JSON.stringify(content.session));
+    setSession(content.session);
+    setToken(content.token);
+    setProfileLoaded(true);
+    navigate('/');
+    window.location.reload(); 
+  };
 
-    if (user) {
-      setData({
-        user: JSON.parse(user)
-      });
-    }
-  }, []);
+  const functionLogout = (data) => {
+    api
+      .patch(`/auth/usuario/${session.id}`)
+      .then(() => {
+
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+
+  };
+  
+
+  const encerrarSessao = () => {
+    functionLogout()
+    localStorage.clear();
+
+    setToken(null);
+    setSession(null);
+    navigate('/login');
+  };
 
   return (
-    <AuthContext.Provider value={{
-      signIn,
-      signOut,
-      user: data.session
-    }}>
+    <AuthContext.Provider value={{ token, criarSessao, criarPerfil, session, encerrarSessao }}>
       {children}
     </AuthContext.Provider>
-  )
-}
+  );
+};
 
-function useAuth() {
-  const context = useContext(AuthContext);
-
-  return context;
-}
-
-export { AuthProvider, useAuth };
+AuthContextProvider.propTypes = { children: PropTypes.element };
