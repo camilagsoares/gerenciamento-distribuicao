@@ -1,4 +1,3 @@
-
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, LeftPanel, Container, RightPanel, LoginForm, FormRow, InputData, Input, Underline, Label, BoxButton } from './styles';
 import * as yup from 'yup';
@@ -51,6 +50,17 @@ const Login = () => {
     }
   };
 
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+    handleLogin();
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      handleLogin();
+    }
+  };
+
     return (
       <Container>
         <LeftPanel />
@@ -64,7 +74,7 @@ const Login = () => {
           <ToastContainer />
 
         </div> */}
-          <LoginForm>
+          <LoginForm  onSubmit={handleFormSubmit}>
             <h1>Login</h1>
             <FormRow>
               <InputData>
@@ -74,7 +84,8 @@ const Login = () => {
               </InputData>
               <br /> <br />
               <InputData>
-                <Input type="password" required value={senha} onChange={(e) => setSenha(e.target.value)} />
+                <Input type="password" required value={senha} onChange={(e) => setSenha(e.target.value)}           onKeyDown={handleKeyPress}
+ />
                 <Underline />
                 <Label>Senha</Label>
               </InputData>
