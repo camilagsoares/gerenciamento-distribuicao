@@ -1,19 +1,17 @@
-// POSTAR
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useApiRequestGet } from '../../services/api';
-import { InputField, Input, ContainerSelect, CardInput, ContainerButton, Container, Card, ArrowIcon, Title, Label, FileImage, FileInput, LabelUpload } from './style'
-import { Box, Grid, Button } from '@mui/material';
+import { InputField, Input, ContainerSelect,  ContainerButton, Container, Card, ArrowIcon, Title,  FileImage, FileInput, LabelUpload } from './style'
+import { Grid, Button } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
-import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { InputData, Underline } from '../Cadastro/style';
-import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
+// import { InputData, Underline } from '../Cadastro/style';
+// import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
+// import FormControl from '@mui/material/FormControl';
+// import InputLabel from '@mui/material/InputLabel';
 import { toast, ToastContainer } from 'react-toastify';
-import styled from 'styled-components';
+// import styled from 'styled-components';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 function Postar() {
@@ -31,7 +29,7 @@ function Postar() {
     descricao: '',
     // localOndeEncontra: '',
     tipoProdutoId: null,
-    usuarioMandarProduto_id: 'Nenhum',
+    usuarioMandarProduto_id: null,
     // statusId: null,
     numeroPatrimonio: '',
     imagem: null,
@@ -50,12 +48,12 @@ function Postar() {
 
 
   const handleChange = (event) => {
-    const value = event.target.value;
-    // Se o valor for "Nenhum", definir como null
-    const newValue = value === "Nenhum" ? null : value;
+    const { name, value } = event.target;
+    const newValue = value === 'Nenhum' ? null : value;
     setFormData(prevState => ({
       ...prevState,
-      usuarioMandarProduto_id: newValue
+      [name]: newValue,
+      // usuarioMandarProduto_id: newValue
     }));
   };
 
@@ -100,12 +98,13 @@ function Postar() {
       });
       console.log('Produto criado com sucesso');
     } catch (error) {
+      toast(error.response.data.message, {
+        type: 'error',
+      });
       console.error('Erro ao criar o produto:', error);
     }
     console.log(formPayload)
   };
-
-
 
 
   return (
@@ -129,14 +128,6 @@ function Postar() {
               </InputField>
             </Grid>
 
-            {/* <Grid item xs={6}>
-              <InputField>
-                <label>Local onde Encontra</label> <br />
-
-                <Input type="text" name="localOndeEncontra" placeholder='Local onde encontra' value={formData.localOndeEncontra} onChange={handleChange} />
-
-              </InputField>
-            </Grid> */}
             <Grid item xs={6}>
               <InputField>
                 <label>Descrição</label> <br />
@@ -156,40 +147,25 @@ function Postar() {
               </InputField>
             </Grid>
 
+            
+
             {sessionUser.permissaoId === "e6d935c0-fc71-4918-b609-8785773d02f2" &&
               <Grid item xs={6}>
                 <InputField>
                   <label>Enviar a um usuário específico</label>  <br />
                   <Select fullWidth name="usuarioMandarProduto_id" value={formData.usuarioMandarProduto_id} onChange={handleChange}>
-                    <MenuItem value="Nenhum">Nenhum</MenuItem> {/* Renderize 'Nenhum' antes do mapeamento */}
+                    <MenuItem value="Nenhum">Nenhum</MenuItem> 
                     <MenuItem value="">Por favor selecione</MenuItem>
                     {dadoUsuario && dadoUsuario.map(user => (
                       <MenuItem key={user.id} value={user.id}>{user.nome}</MenuItem>
                     ))}
                   </Select>
 
-                  {/* <Select fullWidth name="usuarioMandarProduto_id" value={formData.usuarioMandarProduto_id || 'Nenhum'} onChange={handleChange}>
-                    <MenuItem value="">Por favor selecione</MenuItem>
-                    <MenuItem value="Nenhum">Nenhum</MenuItem>
-                    {dadoUsuario && dadoUsuario.map(user => (
-                      <MenuItem key={user.id} value={user.id}>{user.nome}</MenuItem>
-                    ))}
-                  </Select> */}
+
                 </InputField>
               </Grid>
             }
           </Grid>
-
-          {/* <InputField>
-
-            <label>Status ID</label>
-            <select name="statusId" value={formData.statusId} onChange={handleChange}>
-              {data && data.map(item => (
-                <option key={item.id} value={item.id}>{item.nome}</option>
-              ))}
-            </select>
-          </InputField> 
- */}
 
           <Grid container spacing={1}>
             <Grid item xs={6}>
@@ -202,7 +178,6 @@ function Postar() {
 
             <Grid item xs={6}>
               <ContainerSelect>
-                {/* <input type="file" name="imagem" onChange={handleFileChange} /> */}
                 <LabelUpload htmlFor="file-upload">
                   {!preview && <CloudUploadIcon fontSize="large" sx={{ color: '#318ce7' }} />}
                   <FileImage src={preview && URL.createObjectURL(file)} preview={preview} alt="Preview" />
